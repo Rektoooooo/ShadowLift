@@ -219,14 +219,14 @@ struct TodayWorkoutView: View {
             }) {
                 SplitsView(viewModel: viewModel)
             }
-            /// Sheet for showing setting and profile view
+            /// Sheet for showing profile view
             .sheet(isPresented: $showProfileView, onDismiss: {
                 Task { @MainActor in
                     await loadProfileImage()
                     await refreshMuscleGroups()
                 }
             }) {
-                SettingsView(viewModel: viewModel)
+                ProfileView(viewModel: viewModel)
             }
             /// Sheet for adding exercises
             .sheet(isPresented: $viewModel.addExercise, onDismiss: {

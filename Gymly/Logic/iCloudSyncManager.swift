@@ -42,17 +42,27 @@ class iCloudSyncManager: ObservableObject {
 
     /// Sync profile to iCloud (non-blocking)
     func syncToiCloud() {
+        // Capture values to avoid Sendable issues
+        let hasCompleted = config.hasCompletedFitnessProfile
+        let goal = config.fitnessGoal
+        let equipment = config.equipmentAccess
+        let experience = config.experienceLevel
+        let days = config.trainingDaysPerWeek
+        let keyCompleted = kHasCompletedProfile
+        let keyGoal = kFitnessGoal
+        let keyEquipment = kEquipmentAccess
+        let keyExperience = kExperienceLevel
+        let keyDays = kTrainingDaysPerWeek
+
         // Run on background thread to avoid blocking UI
         Task.detached(priority: .utility) {
             let store = NSUbiquitousKeyValueStore.default
 
-            await MainActor.run {
-                store.set(self.config.hasCompletedFitnessProfile, forKey: self.kHasCompletedProfile)
-                store.set(self.config.fitnessGoal, forKey: self.kFitnessGoal)
-                store.set(self.config.equipmentAccess, forKey: self.kEquipmentAccess)
-                store.set(self.config.experienceLevel, forKey: self.kExperienceLevel)
-                store.set(self.config.trainingDaysPerWeek, forKey: self.kTrainingDaysPerWeek)
-            }
+            store.set(hasCompleted, forKey: keyCompleted)
+            store.set(goal, forKey: keyGoal)
+            store.set(equipment, forKey: keyEquipment)
+            store.set(experience, forKey: keyExperience)
+            store.set(days, forKey: keyDays)
 
             // Synchronize happens in background
             let synced = store.synchronize()
@@ -93,8 +103,7 @@ class iCloudSyncManager: ObservableObject {
         debugPrint("☁️ 🔍 Fetching fitness profile from iCloud with \(timeout)s timeout...")
 
         await withCheckedContinuation { continuation in
-            let timeoutTask = DispatchWorkItem { [weak self] in
-                guard let self = self else { return }
+            let timeoutTask = DispatchWorkItem {
                 debugPrint("☁️ ⏱️ iCloud fetch timed out, using local data")
                 continuation.resume()
             }
