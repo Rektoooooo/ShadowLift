@@ -78,9 +78,7 @@ struct NewSettingsView: View {
 
                     // Premium Section
                     Section("Premium") {
-                        Button(action: {
-                            // TODO: Show premium upgrade flow
-                        }) {
+                        NavigationLink(destination: PremiumSubscriptionView()) {
                             HStack {
                                 Image(systemName: "star.fill")
                                     .foregroundColor(.yellow)
@@ -93,9 +91,6 @@ struct NewSettingsView: View {
                                         .font(.caption)
                                 }
                                 Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.secondary)
-                                    .font(.caption)
                             }
                         }
                         .frame(width: 300)
