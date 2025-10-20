@@ -141,6 +141,35 @@ struct CloudsTheme {
             bottomTrailing: Color(red: 0.3, green: 0.7, blue: 1.0, opacity: 0.75)
         )
     }
+
+    static func premium(_ scheme: ColorScheme) -> CloudsTheme {
+        CloudsTheme(
+            // Deep indigo/purple-black background for sophisticated luxury
+            background: scheme == .dark
+                ? Color(red: 0.05, green: 0.03, blue: 0.10)              // Deep indigo black
+                : Color(red: 0.08, green: 0.06, blue: 0.12),             // Dark purple charcoal
+
+            // Royal purple shimmer - top left
+            topLeading: scheme == .dark
+                ? Color(red: 0.45, green: 0.20, blue: 0.75, opacity: 0.80)  // Royal purple
+                : Color(red: 0.50, green: 0.25, blue: 0.70, opacity: 0.70),
+
+            // Deep violet glow - top right
+            topTrailing: scheme == .dark
+                ? Color(red: 0.60, green: 0.30, blue: 0.85, opacity: 0.70)  // Deep violet
+                : Color(red: 0.55, green: 0.30, blue: 0.75, opacity: 0.60),
+
+            // Rich plum warmth - bottom left
+            bottomLeading: scheme == .dark
+                ? Color(red: 0.35, green: 0.15, blue: 0.55, opacity: 0.65)  // Rich plum
+                : Color(red: 0.40, green: 0.20, blue: 0.55, opacity: 0.55),
+
+            // Lavender/light purple - bottom right
+            bottomTrailing: scheme == .dark
+                ? Color(red: 0.65, green: 0.45, blue: 0.90, opacity: 0.75)  // Lavender purple
+                : Color(red: 0.60, green: 0.40, blue: 0.80, opacity: 0.65)
+        )
+    }
 }
     
 class CloudProvider: ObservableObject {
