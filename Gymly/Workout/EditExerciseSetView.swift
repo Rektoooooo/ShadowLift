@@ -12,6 +12,7 @@ struct EditExerciseSetView: View {
     /// Environment and observed objects
     @Environment(\.modelContext) private var context
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var scheme
     @EnvironmentObject var userProfileManager: UserProfileManager
@@ -149,7 +150,7 @@ struct EditExerciseSetView: View {
                         saveAllChanges()
                     } label: {
                         Text("Done")
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(appearanceManager.accentColor.color)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(Color.white.opacity(0.1))

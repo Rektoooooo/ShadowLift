@@ -21,6 +21,7 @@ struct TodayWorkoutView: View {
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject var config: Config
     @EnvironmentObject var userProfileManager: UserProfileManager
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.modelContext) var context: ModelContext
     @Environment(\.colorScheme) var scheme
     @State var showProfileView: Bool = false
@@ -85,7 +86,7 @@ struct TodayWorkoutView: View {
                                                 NavigationLink(destination: ExerciseDetailView(viewModel: viewModel, exercise: exercise)) {
                                                     HStack {
                                                         Text("\(globalOrderMap[exercise.id] ?? 0)")
-                                                            .foregroundStyle(exercise.done ? Color.green.opacity(0.8) : Color.red.opacity(0.8))
+                                                            .foregroundStyle(exercise.done ? Color.green.opacity(0.8) : appearanceManager.accentColor.color.opacity(0.8))
                                                         Text(exercise.name)
                                                     }
                                                 }
@@ -133,7 +134,7 @@ struct TodayWorkoutView: View {
                                     .scrollContentBackground(.hidden)
                                     .background(Color.clear)
                                     .listRowBackground(Color.black.opacity(0.1))
-                                    .foregroundStyle(Color.accentColor)
+                                    .foregroundStyle(appearanceManager.accentColor.color)
                                 }
                             }
                             .scrollContentBackground(.hidden)

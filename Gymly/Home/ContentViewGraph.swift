@@ -11,6 +11,7 @@ import SwiftData
 struct ContentViewGraph: View {
     @EnvironmentObject var config: Config
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var appearanceManager: AppearanceManager
     var range: TimeRange
     @State private var chartValues: [Double] = []
     @State private var chartMax: Double = 1.0
@@ -141,10 +142,10 @@ struct ContentViewGraph: View {
                 // Only show red radar chart if there's actual data
                 if chartValues.contains(where: { $0 > 0 }) {
                     RadarChart(values: chartValues, maxValue: chartMax)
-                        .fill(Color.red.opacity(0.4))
+                        .fill(appearanceManager.accentColor.color.opacity(0.4))
                         .overlay(
                             RadarChart(values: chartValues, maxValue: chartMax)
-                                .stroke(Color.red, lineWidth: 2)
+                                .stroke(appearanceManager.accentColor.color, lineWidth: 2)
                         )
                 }
             }

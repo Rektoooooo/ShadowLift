@@ -12,6 +12,7 @@ import SwiftData
 struct WeightChart: View {
     @EnvironmentObject var config: Config
     @EnvironmentObject var userProfileManager: UserProfileManager
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Query(sort: \WeightPoint.date, order: .forward) var weightPoints: [WeightPoint]
 
     private var weightConversionFactor: Double {
@@ -27,10 +28,10 @@ struct WeightChart: View {
                     y: .value("Weight", weightPoint.weight * weightConversionFactor)
                 )
                 .interpolationMethod(.catmullRom)
-                .foregroundStyle(.red)
+                .foregroundStyle(appearanceManager.accentColor.color)
                 .symbol {
                     Circle()
-                        .fill(.red)
+                        .fill(appearanceManager.accentColor.color)
                         .frame(width: 10, height: 10)
                 }
 

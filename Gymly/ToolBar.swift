@@ -14,6 +14,7 @@ struct ToolBar: View {
     @Environment(\.modelContext) private var context
     @State private var loginRefreshTrigger = false
     @StateObject private var userProfileManager = UserProfileManager.shared
+    @StateObject private var appearanceManager = AppearanceManager.shared
     @State private var todayViewModel: WorkoutViewModel?
     @State private var settingsViewModel: WorkoutViewModel?
     @State private var signInViewModel: WorkoutViewModel?
@@ -36,10 +37,10 @@ struct ToolBar: View {
                                 Label("Settings", systemImage: "gearshape")
                             }
                             .tag(2)
-
                             .toolbar(.visible, for: .tabBar)
                             .toolbarBackground(.black, for: .tabBar)
                     }
+                    .tint(appearanceManager.accentColor.color)
                     .fullScreenCover(isPresented: $showFitnessProfileSetup) {
                         FitnessProfileSetupView(config: config)
                     }
@@ -65,6 +66,7 @@ struct ToolBar: View {
         }
         .environmentObject(config)
         .environmentObject(userProfileManager)
+        .environmentObject(appearanceManager)
         .task {
             // Initialize UserProfileManager with SwiftData context
             userProfileManager.setup(modelContext: context)

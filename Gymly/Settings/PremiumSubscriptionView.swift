@@ -10,6 +10,7 @@ import SwiftUI
 struct PremiumSubscriptionView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) private var scheme
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @State private var selectedPlan: SubscriptionPlan = .monthly
 
     enum SubscriptionPlan {
@@ -167,7 +168,7 @@ struct PremiumSubscriptionView: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.red)
+                            .background(appearanceManager.accentColor.color)
                             .cornerRadius(12)
                         }
                         .padding(.horizontal, 24)
@@ -210,6 +211,7 @@ struct PremiumSubscriptionView: View {
 
 // MARK: - Feature Row Component
 struct FeatureRow: View {
+    @EnvironmentObject var appearanceManager: AppearanceManager
     let icon: String
     let title: String
     let description: String
@@ -218,7 +220,7 @@ struct FeatureRow: View {
         HStack(spacing: 16) {
             Image(systemName: icon)
                 .font(.system(size: 28))
-                .foregroundColor(.red)
+                .foregroundColor(appearanceManager.accentColor.color)
                 .frame(width: 40)
 
             VStack(alignment: .leading, spacing: 4) {
@@ -239,6 +241,7 @@ struct FeatureRow: View {
 
 // MARK: - Plan Card Component
 struct PlanCard: View {
+    @EnvironmentObject var appearanceManager: AppearanceManager
     let plan: PremiumSubscriptionView.SubscriptionPlan
     let isSelected: Bool
     let action: () -> Void
@@ -275,7 +278,7 @@ struct PlanCard: View {
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 24))
-                        .foregroundColor(.red)
+                        .foregroundColor(appearanceManager.accentColor.color)
                 }
             }
             .padding()
@@ -284,7 +287,7 @@ struct PlanCard: View {
                     .fill(Color.black.opacity(0.3))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(isSelected ? Color.red : Color.clear, lineWidth: 2)
+                            .stroke(isSelected ? appearanceManager.accentColor.color : Color.clear, lineWidth: 2)
                     )
             )
         }

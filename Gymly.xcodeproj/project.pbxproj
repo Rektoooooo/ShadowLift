@@ -13,6 +13,7 @@
 		EC06F1672E7CA3C100E42CCF /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC06F1652E7CA3C100E42CCF /* UserProfile.swift */; };
 		EC06F16A2E7CA3DA00E42CCF /* UserProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC06F1682E7CA3DA00E42CCF /* UserProfileManager.swift */; };
 		EC317F392EA2473D000DFB1E /* FitnessProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC317F382EA2473D000DFB1E /* FitnessProfile.swift */; };
+		EC317F4B2EA63235000DFB1E /* AppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC317F4A2EA63235000DFB1E /* AppearanceManager.swift */; };
 		EC3BEC3D2C76624600C9DF0B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BEC3C2C76624600C9DF0B /* Config.swift */; };
 		EC4FD1532C4ED88300D1A4A6 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4FD1522C4ED88300D1A4A6 /* Day.swift */; };
 		EC4FD1572C4EE0A600D1A4A6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4FD1552C4EE0A600D1A4A6 /* Color.swift */; };
@@ -68,6 +69,7 @@
 		EC06F1652E7CA3C100E42CCF /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		EC06F1682E7CA3DA00E42CCF /* UserProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileManager.swift; sourceTree = "<group>"; };
 		EC317F382EA2473D000DFB1E /* FitnessProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessProfile.swift; sourceTree = "<group>"; };
+		EC317F4A2EA63235000DFB1E /* AppearanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceManager.swift; sourceTree = "<group>"; };
 		EC3BEC3C2C76624600C9DF0B /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		EC4FD1522C4ED88300D1A4A6 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		EC4FD1542C4EE0A600D1A4A6 /* onFirstAppear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onFirstAppear.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				EC06F1682E7CA3DA00E42CCF /* UserProfileManager.swift */,
+				EC317F4A2EA63235000DFB1E /* AppearanceManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				EC59224A2D7A3BF200EB39B2 /* SetRepetitionsCell.swift in Sources */,
 				EC5922502D7A414F00EB39B2 /* SetNoteCell.swift in Sources */,
 				EC8C15112C80A94D008E4152 /* DayStorage.swift in Sources */,
+				EC317F4B2EA63235000DFB1E /* AppearanceManager.swift in Sources */,
 				EC66F6A12D94213D0086D625 /* BMIGaugeView.swift in Sources */,
 				EC9A6A602E716FC20081E390 /* GraphEntry.swift in Sources */,
 				EC66F69B2D92FD750086D625 /* WhatsNewManager.swift in Sources */,

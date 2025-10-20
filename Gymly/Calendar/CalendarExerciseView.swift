@@ -12,6 +12,7 @@ struct CalendarExerciseView: View {
     
     @Environment(\.modelContext) private var context
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject var userProfileManager: UserProfileManager
@@ -42,12 +43,12 @@ struct CalendarExerciseView: View {
         VStack {
             HStack {
                 Text("\(exercise.sets?.count ?? 0) Sets")
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(appearanceManager.accentColor.color)
                     .padding()
                     .bold()
                 Spacer()
                 Text("\(exercise.repGoal) Reps")
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(appearanceManager.accentColor.color)
                     .padding()
                     .bold()
             }

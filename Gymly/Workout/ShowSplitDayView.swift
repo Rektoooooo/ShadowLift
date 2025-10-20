@@ -25,6 +25,7 @@ struct ShowSplitDayView: View {
     /// Environment and observed objects
     @Environment(\.modelContext) private var context
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @ObservedObject var viewModel: WorkoutViewModel
     @Environment(\.colorScheme) var scheme
     
@@ -52,7 +53,7 @@ struct ShowSplitDayView: View {
                         ForEach(reorderingBufferExercises, id: \.id) { exercise in
                             HStack {
                                 Text("\(orderNumber(for: exercise))")
-                                    .foregroundStyle(.accent)
+                                    .foregroundStyle(appearanceManager.accentColor.color)
                                     .bold()
                                 Text(exercise.name)
                                 Spacer()

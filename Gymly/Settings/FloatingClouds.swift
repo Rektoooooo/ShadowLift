@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreFoundation
+import Combine
 
 struct CloudsTheme {
     var background: Color
@@ -26,6 +27,63 @@ struct CloudsTheme {
             bottomLeading: scheme == .dark ? Color(red: 0.70, green: 0.20, blue: 0.20, opacity: 0.45)
                                            : Color(red: 0.90, green: 0.30, blue: 0.30, opacity: 0.55),
             bottomTrailing: Color(red: 0.90, green: 0.50, blue: 0.50, opacity: 0.7)
+        )
+    }
+
+    // Dynamic accent color theme (replaces red theme based on user selection)
+    static func accent(_ scheme: ColorScheme, accentColor: AccentColorOption) -> CloudsTheme {
+        switch accentColor {
+        case .red:
+            return red(scheme)
+        case .purple:
+            return purple(scheme)
+        case .blue:
+            return blueAccent(scheme)
+        case .green:
+            return green(scheme)
+        case .orange:
+            return orange(scheme)
+        case .pink:
+            return pink(scheme)
+        }
+    }
+
+    static func purple(_ scheme: ColorScheme) -> CloudsTheme {
+        CloudsTheme(
+            background: Color(red: 0.25, green: 0.00, blue: 0.35),
+            topLeading: scheme == .dark ? Color(red: 0.40, green: 0.15, blue: 0.55, opacity: 0.8)
+                                        : Color(red: 0.60, green: 0.30, blue: 0.75, opacity: 0.8),
+            topTrailing: scheme == .dark ? Color(red: 0.55, green: 0.25, blue: 0.70, opacity: 0.6)
+                                         : Color(red: 0.70, green: 0.40, blue: 0.85, opacity: 0.5),
+            bottomLeading: scheme == .dark ? Color(red: 0.50, green: 0.20, blue: 0.65, opacity: 0.45)
+                                           : Color(red: 0.65, green: 0.35, blue: 0.80, opacity: 0.55),
+            bottomTrailing: Color(red: 0.75, green: 0.50, blue: 0.90, opacity: 0.7)
+        )
+    }
+
+    static func blueAccent(_ scheme: ColorScheme) -> CloudsTheme {
+        CloudsTheme(
+            background: Color(red: 0.00, green: 0.15, blue: 0.40),
+            topLeading: scheme == .dark ? Color(red: 0.00, green: 0.30, blue: 0.60, opacity: 0.8)
+                                        : Color(red: 0.20, green: 0.45, blue: 0.80, opacity: 0.8),
+            topTrailing: scheme == .dark ? Color(red: 0.10, green: 0.40, blue: 0.75, opacity: 0.6)
+                                         : Color(red: 0.30, green: 0.55, blue: 0.90, opacity: 0.5),
+            bottomLeading: scheme == .dark ? Color(red: 0.05, green: 0.35, blue: 0.70, opacity: 0.45)
+                                           : Color(red: 0.25, green: 0.50, blue: 0.85, opacity: 0.55),
+            bottomTrailing: Color(red: 0.40, green: 0.65, blue: 1.00, opacity: 0.7)
+        )
+    }
+
+    static func pink(_ scheme: ColorScheme) -> CloudsTheme {
+        CloudsTheme(
+            background: Color(red: 0.40, green: 0.00, blue: 0.30),
+            topLeading: scheme == .dark ? Color(red: 0.60, green: 0.05, blue: 0.45, opacity: 0.8)
+                                        : Color(red: 0.90, green: 0.20, blue: 0.70, opacity: 0.8),
+            topTrailing: scheme == .dark ? Color(red: 0.75, green: 0.10, blue: 0.55, opacity: 0.6)
+                                         : Color(red: 1.00, green: 0.30, blue: 0.75, opacity: 0.5),
+            bottomLeading: scheme == .dark ? Color(red: 0.70, green: 0.08, blue: 0.50, opacity: 0.45)
+                                           : Color(red: 0.95, green: 0.25, blue: 0.65, opacity: 0.55),
+            bottomTrailing: Color(red: 1.00, green: 0.40, blue: 0.80, opacity: 0.7)
         )
     }
     

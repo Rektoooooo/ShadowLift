@@ -58,7 +58,7 @@ struct NewSettingsView: View {
                         }
                         .frame(width: 300)
 
-                        NavigationLink(destination: Text("Appearance (Coming Soon)")) {
+                        NavigationLink(destination: AppearanceView()) {
                             Image(systemName: "paintbrush.fill")
                             Text("Appearance")
                         }

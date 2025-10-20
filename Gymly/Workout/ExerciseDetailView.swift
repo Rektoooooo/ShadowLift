@@ -9,10 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct ExerciseDetailView: View {
-    
+
     /// Environment and observed objects
     @Environment(\.modelContext) private var context
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: WorkoutViewModel
     @State var exercise: Exercise
@@ -32,12 +33,12 @@ struct ExerciseDetailView: View {
                 /// Displays set and rep count
                 HStack {
                     Text("\(exercise.sets?.count ?? 0) Sets")
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(appearanceManager.accentColor.color)
                         .padding()
                         .bold()
                     Spacer()
                     Text("\(exercise.repGoal) Reps")
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(appearanceManager.accentColor.color)
                         .padding()
                         .bold()
                 }
@@ -90,6 +91,7 @@ struct ExerciseDetailView: View {
                         .scrollContentBackground(.hidden)
                         .background(Color.clear)
                         .listRowBackground(Color.black.opacity(0.1))
+                        .foregroundStyle(appearanceManager.accentColor.color)
                     }
                 }
                 .toolbar {

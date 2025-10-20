@@ -10,6 +10,7 @@ import SwiftUI
 struct FitnessProfileSetupView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.colorScheme) var scheme
     @StateObject private var iCloudSync: iCloudSyncManager
 
@@ -45,7 +46,7 @@ struct FitnessProfileSetupView: View {
 
                 // Progress Bar
                 ProgressView(value: Double(currentStep), total: 4)
-                    .tint(.red)
+                    .tint(appearanceManager.accentColor.color)
                     .padding(.horizontal, 40)
 
                 Spacer()
@@ -121,7 +122,7 @@ struct FitnessProfileSetupView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(isNextButtonEnabled ? Color.red : Color.secondary.opacity(0.3))
+                        .background(isNextButtonEnabled ? appearanceManager.accentColor.color : Color.secondary.opacity(0.3))
                         .foregroundColor(.white)
                         .cornerRadius(12)
                     }
@@ -280,6 +281,7 @@ struct ExperienceSelectionView: View {
 
 // MARK: - Step 4: Days Per Week Selection
 struct DaysPerWeekSelectionView: View {
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Binding var selectedDays: Int
 
     var body: some View {
@@ -297,7 +299,7 @@ struct DaysPerWeekSelectionView: View {
             // Large number display
             Text("\(selectedDays)")
                 .font(.system(size: 80, weight: .bold))
-                .foregroundColor(.red)
+                .foregroundColor(appearanceManager.accentColor.color)
 
             Text(selectedDays == 1 ? "day per week" : "days per week")
                 .font(.title3)
@@ -314,7 +316,7 @@ struct DaysPerWeekSelectionView: View {
                 }) {
                     Image(systemName: "minus.circle.fill")
                         .font(.system(size: 50))
-                        .foregroundColor(selectedDays > 1 ? .red : .secondary.opacity(0.3))
+                        .foregroundColor(selectedDays > 1 ? appearanceManager.accentColor.color : .secondary.opacity(0.3))
                 }
                 .disabled(selectedDays <= 1)
 
@@ -327,7 +329,7 @@ struct DaysPerWeekSelectionView: View {
                 }) {
                     Image(systemName: "plus.circle.fill")
                         .font(.system(size: 50))
-                        .foregroundColor(selectedDays < 7 ? .red : .secondary.opacity(0.3))
+                        .foregroundColor(selectedDays < 7 ? appearanceManager.accentColor.color : .secondary.opacity(0.3))
                 }
                 .disabled(selectedDays >= 7)
             }
@@ -364,6 +366,7 @@ struct DaysPerWeekSelectionView: View {
 
 // MARK: - Reusable Selection Card
 struct SelectionCard: View {
+    @EnvironmentObject var appearanceManager: AppearanceManager
     let icon: String
     let title: String
     let description: String
@@ -375,7 +378,7 @@ struct SelectionCard: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .font(.system(size: 32))
-                    .foregroundColor(isSelected ? .red : .white)
+                    .foregroundColor(isSelected ? appearanceManager.accentColor.color : .white)
                     .frame(width: 50)
 
                 VStack(alignment: .leading, spacing: 4) {
@@ -394,7 +397,7 @@ struct SelectionCard: View {
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 24))
-                        .foregroundColor(.red)
+                        .foregroundColor(appearanceManager.accentColor.color)
                 }
             }
             .padding()
@@ -403,7 +406,7 @@ struct SelectionCard: View {
                     .fill(Color.black.opacity(0.3))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(isSelected ? Color.red : Color.clear, lineWidth: 2)
+                            .stroke(isSelected ? appearanceManager.accentColor.color : Color.clear, lineWidth: 2)
                     )
             )
         }

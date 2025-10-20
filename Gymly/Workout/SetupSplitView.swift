@@ -19,6 +19,7 @@ struct SetupSplitView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @ObservedObject var viewModel: WorkoutViewModel
     @Environment(\.colorScheme) var scheme
 
@@ -58,7 +59,7 @@ struct SetupSplitView: View {
                         dismiss()
                     } label: {
                         Text("Start")
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(appearanceManager.accentColor.color)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(Color.white.opacity(0.1))
