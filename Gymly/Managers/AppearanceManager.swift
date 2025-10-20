@@ -60,6 +60,8 @@ public class AppearanceManager: ObservableObject {
     @Published public var accentColor: AccentColorOption {
         didSet {
             saveAccentColor()
+            // Note: App icon is NOT updated here automatically
+            // Only updated when explicitly calling updateAccentColor()
         }
     }
 

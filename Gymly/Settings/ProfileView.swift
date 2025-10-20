@@ -27,15 +27,15 @@ struct ProfileView: View {
     @State private var weightUpdatedTrigger = false
     @State private var showCalendar: Bool = false
 
-    @State var graphSorting: [String] = ["Today","Week","Month","All Time"]
+    @State var graphSorting: [String] = ["Today","Week ⭐","Month ⭐","All Time ⭐"]
     @State var graphSortingSelected: String = "Today"
 
     private var selectedTimeRange: ContentViewGraph.TimeRange {
         switch graphSortingSelected {
         case "Today": return .day
-        case "Week": return .week
-        case "Month": return .month
-        case "All Time": return .all
+        case "Week ⭐": return .week
+        case "Month ⭐": return .month
+        case "All Time ⭐": return .all
         default: return .month
         }
     }
@@ -177,12 +177,16 @@ struct ProfileView: View {
                                 }
                             }
                             .pickerStyle(.segmented)
+                            .frame(width: 350)
 
                             ZStack {
                                 ContentViewGraph(range: selectedTimeRange)
+                                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                                    .id(selectedTimeRange)
                                 RadarLabels()
                             }
                             .frame(width: 300, height: 300)
+                            .animation(.easeInOut(duration: 0.3), value: selectedTimeRange)
                         }
                     }
                     .listRowBackground(Color.clear)

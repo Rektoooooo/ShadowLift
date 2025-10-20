@@ -11,12 +11,18 @@ struct AppearanceView: View {
     @StateObject private var appearanceManager = AppearanceManager.shared
     @Environment(\.colorScheme) private var scheme
     @State private var showColorChangeAnimation = false
+    @State private var selectedColor: AccentColorOption
+    @State private var showSaveButton = false
+
+    init() {
+        _selectedColor = State(initialValue: AppearanceManager.shared.accentColor)
+    }
 
     var body: some View {
         ZStack {
-            FloatingClouds(theme: CloudsTheme.accent(scheme, accentColor: appearanceManager.accentColor))
+            FloatingClouds(theme: CloudsTheme.accent(scheme, accentColor: selectedColor))
                 .ignoresSafeArea()
-                .animation(.easeInOut(duration: 0.5), value: appearanceManager.accentColor)
+                .animation(.easeInOut(duration: 0.5), value: selectedColor)
 
             ScrollView {
                 VStack(spacing: 32) {
@@ -24,7 +30,7 @@ struct AppearanceView: View {
                     VStack(spacing: 8) {
                         Image(systemName: "paintbrush.fill")
                             .font(.system(size: 50))
-                            .foregroundColor(appearanceManager.accentColor.color)
+                            .foregroundColor(selectedColor.color)
 
                         Text("App Appearance")
                             .font(.largeTitle)
@@ -37,7 +43,7 @@ struct AppearanceView: View {
                     .padding(.top, 40)
 
                     // Live Preview Card
-                    LivePreviewCard(accentColor: appearanceManager.accentColor)
+                    LivePreviewCard(accentColor: selectedColor)
                         .padding(.horizontal, 24)
 
                     // Accent Color Picker
@@ -54,7 +60,7 @@ struct AppearanceView: View {
                         HStack(spacing: 8) {
                             Image(systemName: "app.badge")
                                 .foregroundStyle(.secondary)
-                            Text("App icon will update to match your chosen color")
+                            Text("Preview your color choice, then save to update the app icon")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -70,19 +76,40 @@ struct AppearanceView: View {
                             ForEach(AccentColorOption.allCases) { colorOption in
                                 ColorPickerButton(
                                     colorOption: colorOption,
-                                    isSelected: appearanceManager.accentColor == colorOption
+                                    isSelected: selectedColor == colorOption
                                 ) {
-                                    appearanceManager.updateAccentColor(colorOption)
                                     withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                                        showColorChangeAnimation = true
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        showColorChangeAnimation = false
+                                        selectedColor = colorOption
+                                        showSaveButton = selectedColor != appearanceManager.accentColor
                                     }
                                 }
                             }
                         }
                         .padding(.horizontal, 24)
+
+                        // Save Button (only shows when color is different)
+                        if showSaveButton {
+                            Button(action: {
+                                appearanceManager.updateAccentColor(selectedColor)
+                                withAnimation {
+                                    showSaveButton = false
+                                }
+                            }) {
+                                HStack {
+                                    Image(systemName: "checkmark.circle.fill")
+                                    Text("Save Changes")
+                                        .fontWeight(.semibold)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(selectedColor.color)
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                            }
+                            .padding(.horizontal, 24)
+                            .padding(.top, 8)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                        }
                     }
 
                     // Coming Soon Section
