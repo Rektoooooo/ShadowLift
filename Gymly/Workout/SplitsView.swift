@@ -11,6 +11,7 @@ import SwiftData
 struct SplitsView: View {
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.modelContext) var context: ModelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) var scheme
@@ -131,7 +132,7 @@ struct SplitsView: View {
                     configuration.label
                 } icon: {
                     Image(systemName: configuration.isOn ? "checkmark.circle.fill" : "circle")
-                        .foregroundStyle(configuration.isOn ? Color.accentColor : .secondary)
+                        .foregroundStyle(configuration.isOn ? AppearanceManager.shared.accentColor.color : .secondary)
                         .accessibility(label: Text(configuration.isOn ? "Checked" : "Unchecked"))
                         .imageScale(.large)
                 }

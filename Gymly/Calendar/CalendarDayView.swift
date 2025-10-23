@@ -14,15 +14,19 @@ struct CalendarDayView: View {
     /// Environment and observed objects
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.modelContext) var context: ModelContext
-    
+    @Environment(\.colorScheme) var scheme
+
     /// Bindings for exercise data
     @State var date: String
     @State var day: Day = Day(name: "", dayOfSplit: 0, exercises: [], date: "")
     @State var muscleGroups:[MuscleGroup] = []
-    
+
     var body: some View {
         ZStack {
+            FloatingClouds(theme: CloudsTheme.graphite(scheme))
+                .ignoresSafeArea()
             if muscleGroups.isEmpty {
                 /// If there is no recorded day display text
                 VStack {
@@ -52,9 +56,15 @@ struct CalendarDayView: View {
                                     }
                                 }
                             }
+                            .scrollContentBackground(.hidden)
+                            .background(Color.clear)
+                            .listRowBackground(Color.black.opacity(0.1))
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color.clear)
+                .listRowBackground(Color.clear)
                 .id(UUID())
                 .navigationTitle("\(date)")
                 .navigationBarTitleDisplayMode(.inline)

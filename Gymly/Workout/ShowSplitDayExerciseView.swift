@@ -10,10 +10,11 @@ import SwiftUI
 import SwiftData
 
 struct ShowSplitDayExerciseView: View {
-    
+
     /// Environment and observed objects
     @Environment(\.modelContext) private var context
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: WorkoutViewModel
     @State var exercise: Exercise
@@ -38,12 +39,12 @@ struct ShowSplitDayExerciseView: View {
             /// Displays set and rep count
             HStack {
                 Text("\((exercise.sets ?? []).count) Sets")
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(appearanceManager.accentColor.color)
                     .padding()
                     .bold()
                 Spacer()
                 Text("\(exercise.repGoal) Reps")
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(appearanceManager.accentColor.color)
                     .padding()
                     .bold()
             }

@@ -929,18 +929,17 @@ final class WorkoutViewModel: ObservableObject {
         debugPrint("[Graph] updateMuscleGroupDataValues called with \(exercises.count) exercises")
         var muscleCounts: [MuscleGroupEnum: Double] = [:]
 
-        // Start from existing values
-        for (index, group) in MuscleGroupEnum.allCases.enumerated() {
-            muscleCounts[group] = config.graphDataValues.indices.contains(index)
-                ? config.graphDataValues[index]
-                : 0.0
+        // Initialize all muscle groups to 0
+        for group in MuscleGroupEnum.allCases {
+            muscleCounts[group] = 0.0
         }
 
-        // Filter out already-used exercises
-        let newExercises = exercises.filter { $0.done && !config.graphUpdatedExerciseIDs.contains($0.id) }
+        // Filter only done exercises (no need to track IDs - we recalculate from database)
+        let doneExercises = exercises.filter { $0.done }
+        debugPrint("[Graph] Processing \(doneExercises.count) completed exercises")
 
-        // Add new exercise contributions
-        for exercise in newExercises {
+        // Count sets for each muscle group
+        for exercise in doneExercises {
             if let group = MuscleGroupEnum(rawValue: exercise.muscleGroup.lowercased()) {
                 muscleCounts[group, default: 0] += Double(exercise.sets?.count ?? 0)
             }
@@ -948,18 +947,17 @@ final class WorkoutViewModel: ObservableObject {
 
         let orderedGroups = MuscleGroupEnum.allCases
 
+        // Use raw values without artificial minimum
         let computedMax = muscleCounts.values.max() ?? 1.0
         let safeMax = max(computedMax, 1.0)
-        let dynamicMin = max(1.0, safeMax * 0.2)
 
-        let rawValues = orderedGroups.map { max(dynamicMin, muscleCounts[$0] ?? 0) }
+        let rawValues = orderedGroups.map { muscleCounts[$0] ?? 0 }
 
-        // Update in-memory config for immediate UI update
+        // Update in-memory config for immediate UI feedback
         config.graphDataValues = rawValues
         config.graphMaxValue = safeMax
 
-        // Record these exercise IDs as "used"
-        config.graphUpdatedExerciseIDs.formUnion(newExercises.map { $0.id })
+        debugPrint("[Graph] Updated values: \(rawValues), max: \(safeMax)")
 
         // ---- Persist to SwiftData: one entry per day ----
         let cal = Calendar.current

@@ -222,9 +222,19 @@ struct ProfileView: View {
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
-                .navigationTitle("Profile")
+                .navigationTitle("Progress")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            showCalendar = true
+                        }) {
+                            Image(systemName: "calendar")
+                                .font(.body)
+                                .foregroundStyle(Color.white)
+                        }
+                    }
+
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Done") {
                             dismiss()

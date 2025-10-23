@@ -13,6 +13,7 @@ struct CreateExerciseView: View {
     /// Environment objects for managing state and dismissal
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @ObservedObject var viewModel: WorkoutViewModel
     @Environment(\.colorScheme) var scheme
     @State var day: Day
@@ -56,7 +57,7 @@ struct CreateExerciseView: View {
                                 dismiss()
                         } label: {
                             Text("Create")
-                                .foregroundStyle(Color.accentColor)
+                                .foregroundStyle(appearanceManager.accentColor.color)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
                                 .background(Color.white.opacity(0.1))

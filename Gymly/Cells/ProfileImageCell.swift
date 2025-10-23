@@ -19,12 +19,13 @@ struct ProfileImageCell: View {
                 .scaledToFill()
                 .frame(width: frameSize, height: frameSize)
                 .clipShape(Circle())
+                .shadow(color: Color.black.opacity(0.6), radius: 15, x: 0, y: 5)
         } else {
             Image("defaultProfileImage")
                 .resizable()
                 .frame(width: frameSize, height: frameSize)
                 .clipShape(Circle())
-                .shadow(color: Color.black.opacity(0.6), radius: 15, x: 0, y: 0)
+                .shadow(color: Color.black.opacity(0.6), radius: 15, x: 0, y: 5)
         }
     }
 }

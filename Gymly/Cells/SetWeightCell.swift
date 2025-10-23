@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SetWeightCell: View {
     @Environment(\.modelContext) private var context
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Binding var bodyWeight: Bool
     var displayedWeight: String
     var setNumber: Int
@@ -97,7 +98,7 @@ struct SetWeightCell: View {
                     configuration.label
                 } icon: {
                     Image(systemName: configuration.isOn ? "checkmark.circle.fill" : "circle")
-                        .foregroundStyle(configuration.isOn ? Color.accentColor : .secondary)
+                        .foregroundStyle(configuration.isOn ? AppearanceManager.shared.accentColor.color : .secondary)
                         .accessibility(label: Text(configuration.isOn ? "Checked" : "Unchecked"))
                         .imageScale(.large)
                 }

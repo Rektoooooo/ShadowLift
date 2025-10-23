@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FitnessProfileDetailView: View {
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.colorScheme) var scheme
     @Environment(\.dismiss) var dismiss
     @StateObject private var iCloudSync: iCloudSyncManager
@@ -31,7 +32,7 @@ struct FitnessProfileDetailView: View {
                         VStack(spacing: 16) {
                             Image(systemName: "figure.strengthtraining.traditional")
                                 .font(.system(size: 60))
-                                .foregroundColor(.red)
+                                .foregroundColor(appearanceManager.accentColor.color)
                                 .padding(.top, 20)
 
                             Text("Your Fitness Profile")
@@ -57,7 +58,7 @@ struct FitnessProfileDetailView: View {
                             title: "Fitness Goal",
                             value: profile.goal.displayName,
                             description: profile.goal.description,
-                            color: .red
+                            color: appearanceManager.accentColor.color
                         )
 
                         // Equipment Access Section
@@ -66,7 +67,7 @@ struct FitnessProfileDetailView: View {
                             title: "Equipment Access",
                             value: profile.equipment.displayName,
                             description: profile.equipment.description,
-                            color: .red
+                            color: appearanceManager.accentColor.color
                         )
 
                         // Experience Level Section
@@ -75,7 +76,7 @@ struct FitnessProfileDetailView: View {
                             title: "Experience Level",
                             value: profile.experience.displayName,
                             description: profile.experience.description,
-                            color: .red
+                            color: appearanceManager.accentColor.color
                         )
 
                         // Training Days Section
@@ -84,7 +85,7 @@ struct FitnessProfileDetailView: View {
                             title: "Training Days",
                             value: "\(profile.daysPerWeek) days per week",
                             description: getDaysRecommendation(days: profile.daysPerWeek),
-                            color: .red
+                            color: appearanceManager.accentColor.color
                         )
 
                         // Action Buttons
@@ -98,7 +99,7 @@ struct FitnessProfileDetailView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.red)
+                                .background(appearanceManager.accentColor.color)
                                 .foregroundColor(.white)
                                 .cornerRadius(12)
                             }
@@ -112,8 +113,8 @@ struct FitnessProfileDetailView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.red.opacity(0.2))
-                                .foregroundColor(.red)
+                                .background(appearanceManager.accentColor.color.opacity(0.2))
+                                .foregroundColor(appearanceManager.accentColor.color)
                                 .cornerRadius(12)
                             }
                         }
@@ -146,7 +147,7 @@ struct FitnessProfileDetailView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.red)
+                                .background(appearanceManager.accentColor.color)
                                 .foregroundColor(.white)
                                 .cornerRadius(12)
                             }

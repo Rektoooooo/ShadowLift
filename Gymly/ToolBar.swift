@@ -16,7 +16,6 @@ struct ToolBar: View {
     @StateObject private var userProfileManager = UserProfileManager.shared
     @StateObject private var appearanceManager = AppearanceManager.shared
     @State private var todayViewModel: WorkoutViewModel?
-    @State private var calendarViewModel: WorkoutViewModel?
     @State private var settingsViewModel: WorkoutViewModel?
     @State private var signInViewModel: WorkoutViewModel?
     @State private var showFitnessProfileSetup = false
@@ -25,23 +24,19 @@ struct ToolBar: View {
         Group {
             if config.isUserLoggedIn {
                 // Only show TabView when user is logged in
-                if let todayVM = todayViewModel, let settingsVM = settingsViewModel, let calendarVM = calendarViewModel {
+                if let todayVM = todayViewModel, let settingsVM = settingsViewModel {
                     TabView {
                         TodayWorkoutView(viewModel: todayVM, loginRefreshTrigger: loginRefreshTrigger)
                             .tabItem {
                                 Label("Routine", systemImage: "dumbbell")
                             }
                             .tag(1)
-                        CalendarView(viewModel: calendarVM)
-                            .tabItem {
-                                Label("Calendar", systemImage: "calendar")
-                            }
-                            .tag(2)
+
                         NewSettingsView(viewModel: settingsVM)
                             .tabItem {
                                 Label("Settings", systemImage: "gearshape")
                             }
-                            .tag(3)
+                            .tag(2)
                             .toolbar(.visible, for: .tabBar)
                             .toolbarBackground(.black, for: .tabBar)
                     }
@@ -80,16 +75,13 @@ struct ToolBar: View {
             let todayVM = WorkoutViewModel(config: config, context: context)
             let settingsVM = WorkoutViewModel(config: config, context: context)
             let signInVM = WorkoutViewModel(config: config, context: context)
-            let calendarVM = WorkoutViewModel(config: config, context: context)
 
             todayVM.setUserProfileManager(userProfileManager)
             settingsVM.setUserProfileManager(userProfileManager)
             signInVM.setUserProfileManager(userProfileManager)
-            calendarVM.setUserProfileManager(userProfileManager)
-            
+
             todayViewModel = todayVM
             settingsViewModel = settingsVM
-            calendarViewModel = calendarVM
             signInViewModel = signInVM
 
             print("✅ TOOLBAR: Connected userProfileManager to all ViewModels")

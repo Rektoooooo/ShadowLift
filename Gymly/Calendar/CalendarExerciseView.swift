@@ -9,10 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct CalendarExerciseView: View {
-    
+
     @Environment(\.modelContext) private var context
     @EnvironmentObject var config: Config
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var scheme
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject var userProfileManager: UserProfileManager
 
@@ -28,7 +30,7 @@ struct CalendarExerciseView: View {
     @State var bodyWeight: Bool = false
     @State var setNumber: Int = 0
     @State var note: String = ""
-    
+
     /// Converts weight to correct unit (Kg/Lbs)
     var convertedWeight: Double {
         if userProfileManager.currentProfile?.weightUnit ?? "Kg" == "Kg" {
@@ -39,15 +41,18 @@ struct CalendarExerciseView: View {
     }
 
     var body: some View {
-        VStack {
+        ZStack {
+            FloatingClouds(theme: CloudsTheme.graphite(scheme))
+                .ignoresSafeArea()
+            VStack {
             HStack {
                 Text("\(exercise.sets?.count ?? 0) Sets")
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(appearanceManager.accentColor.color)
                     .padding()
                     .bold()
                 Spacer()
                 Text("\(exercise.repGoal) Reps")
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(appearanceManager.accentColor.color)
                     .padding()
                     .bold()
             }
@@ -62,7 +67,14 @@ struct CalendarExerciseView: View {
                         exercise: exercise,
                         setForCalendar: true
                     )
+                    .scrollContentBackground(.hidden)
+                    .background(Color.clear)
+                    .listRowBackground(Color.black.opacity(0.1))
                 }
+            }
+            .scrollContentBackground(.hidden)
+            .background(Color.clear)
+            .listRowBackground(Color.clear)
             }
         }
         .navigationTitle("\(exercise.name)")

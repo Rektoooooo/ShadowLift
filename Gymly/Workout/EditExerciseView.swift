@@ -13,6 +13,7 @@ struct EditExerciseView: View {
     @EnvironmentObject var config: Config
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: WorkoutViewModel
+    @EnvironmentObject var appearanceManager: AppearanceManager
     @State var exercise: Exercise
     @State private var name: String = ""
     @State private var repetitions: String = ""
@@ -70,6 +71,7 @@ struct EditExerciseView: View {
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
                 .listRowBackground(Color.black.opacity(0.1))
+                .foregroundStyle(appearanceManager.accentColor.color)
             }
             .scrollContentBackground(.hidden)
             .background(Color.clear)

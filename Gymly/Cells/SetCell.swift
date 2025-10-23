@@ -11,6 +11,7 @@ import SwiftUI
 struct SetCell: View {
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject var userProfileManager: UserProfileManager
+    @EnvironmentObject var appearanceManager: AppearanceManager
     var index: Int
     var set: Exercise.Set
     var config: Config
@@ -50,14 +51,14 @@ struct SetCell: View {
                     HStack {
                         if set.bodyWeight {
                             Text("BW  +")
-                                .foregroundStyle(.accent)
+                                .foregroundStyle(appearanceManager.accentColor.color)
                                 .bold()
                         }
                         Text("\(Int(round(Double(set.weight) * weightConversionFactor)))")
-                            .foregroundStyle(.accent)
+                            .foregroundStyle(appearanceManager.accentColor.color)
                             .bold()
                         Text("\(weightUnit)")
-                            .foregroundStyle(.accent)
+                            .foregroundStyle(appearanceManager.accentColor.color)
                             .opacity(0.6)
                             .offset(x: -5)
                     }

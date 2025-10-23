@@ -49,6 +49,15 @@ final class WorkoutSummarizer: ObservableObject {
         )
     }
 
+    /// Format number with thousands separator (comma)
+    private func formatNumberWithCommas(_ number: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
+        formatter.groupingSeparator = ","
+        return formatter.string(from: NSNumber(value: number)) ?? String(format: "%.0f", number)
+    }
+
     func generateWeeklySummary(thisWeek: [CompletedWorkout], lastWeek: [CompletedWorkout]) async throws {
         isGenerating = true
         defer { isGenerating = false }
@@ -127,7 +136,7 @@ final class WorkoutSummarizer: ObservableObject {
             }
 
             "IMPORTANT: Use these EXACT pre-calculated statistics in your keyStats section (ONLY these three):"
-            "- Total Volume: \(String(format: "%.0f", manualStats.totalVolume))kg" + (manualStats.volumeDelta != nil ? " (delta: \(manualStats.volumeDelta!))" : "")
+            "- Total Volume: \(formatNumberWithCommas(manualStats.totalVolume)) kg" + (manualStats.volumeDelta != nil ? " (delta: \(manualStats.volumeDelta!))" : "")
             "- Total Sessions: \(manualStats.totalSessions)" + (manualStats.sessionsDelta != nil ? " (delta: \(manualStats.sessionsDelta!))" : "")
             "- PRs Achieved: \(manualStats.prsAchieved)"
             "DO NOT add current/previous PR weights to keyStats - that belongs in the Personal Records section only."
@@ -154,6 +163,11 @@ final class WorkoutSummarizer: ObservableObject {
             "- Exercise-by-exercise breakdown"
             if hasThisWeekData && hasLastWeekData {
                 "- 3-4 Short-term trends (comparing to previous weeks) covering volume, sessions, strength gains, etc."
+                ""
+                "  ⚠️ TREND DIRECTION RULES: Set the 'direction' field correctly:"
+                "  - Use 'up' for improvements/increases (volume increased, strength gains, etc.) → will show green arrow pointing up-right"
+                "  - Use 'down' for decreases/declines (volume decreased, fewer sessions, etc.) → will show red arrow pointing down-right"
+                "  - Use 'flat' for consistency/no change (maintained same level) → will show gray arrow pointing right"
                 ""
                 "  ⚠️ CRITICAL RULE FOR TRENDS: NEVER show raw numbers like 'Volume: Week 1: 16204kg, Week 2: 11000kg' or 'Sessions: Week 1: 4, Week 2: 2'."
                 "  ALWAYS provide ONLY analysis and interpretation in natural language."
