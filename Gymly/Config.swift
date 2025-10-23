@@ -184,7 +184,7 @@ class Config:ObservableObject {
         self.equipmentAccess = UserDefaults.standard.object(forKey: "equipmentAccess") as? String ?? ""
         self.experienceLevel = UserDefaults.standard.object(forKey: "experienceLevel") as? String ?? ""
         self.trainingDaysPerWeek = UserDefaults.standard.object(forKey: "trainingDaysPerWeek") as? Int ?? 4
-1
+
     }
 
 }
