@@ -31,6 +31,10 @@ struct EditExerciseSetView: View {
     @State private var dropSet: Bool
     @State private var bodyWeight: Bool
 
+    /// Error handling
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
+
     /// Unit binding from config
     @Binding var unit: String
 
@@ -55,7 +59,7 @@ struct EditExerciseSetView: View {
     var selectedSetTypes: [String] {
         var selected = [String]()
         if failure { selected.append("Failure") }
-        if warmup{ selected.append("Warm Up") }
+        if warmup { selected.append("Warm Up") }
         if restPause { selected.append("Rest Pause") }
         if dropSet { selected.append("Drop Set") }
         return selected
@@ -164,6 +168,11 @@ struct EditExerciseSetView: View {
             .scrollContentBackground(.hidden)
             .background(Color.clear)
             .listRowBackground(Color.clear)
+            .alert("Error Saving Changes", isPresented: $showErrorAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(errorMessage)
+            }
         }
     }
     
@@ -197,41 +206,58 @@ struct EditExerciseSetView: View {
     private func saveAllChanges() {
         debugPrint("💾 [OPTIMIZED] Batch saving all changes to set ID: \(targetSet.id)")
 
-        // Validate that the target set still exists in the exercise
-        guard let setIndex = (exercise.sets ?? []).firstIndex(where: { $0.id == targetSet.id }) else {
-            debugPrint("❌ Error: Target set no longer exists in exercise")
-            dismiss()
+        // Validate input data first
+        guard weight >= 0 else {
+            errorMessage = "Weight cannot be negative. Please enter a valid weight."
+            showErrorAlert = true
+            debugPrint("❌ Error: Invalid weight (\(weight))")
             return
         }
 
-        // Validate input data
-        guard weight >= 0, reps >= 0 else {
-            debugPrint("❌ Error: Invalid weight (\(weight)) or reps (\(reps))")
+        guard reps > 0 else {
+            errorMessage = "Repetitions must be at least 1. Please enter a valid number of reps."
+            showErrorAlert = true
+            debugPrint("❌ Error: Invalid reps (\(reps))")
+            return
+        }
+
+        // Fetch fresh data from SwiftData context to avoid staleness
+        // Find the current exercise in the context
+        guard let freshExerciseSets = exercise.sets,
+              let setIndex = freshExerciseSets.firstIndex(where: { $0.id == targetSet.id }),
+              setIndex < freshExerciseSets.count else {
+            errorMessage = "This set no longer exists. It may have been deleted."
+            showErrorAlert = true
+            debugPrint("❌ Error: Target set no longer exists in exercise")
             return
         }
 
         debugPrint("✅ Set validation passed - found at index \(setIndex)")
 
-        // Update the target set directly with ALL changes at once
-        targetSet.weight = weight
-        targetSet.reps = reps
-        targetSet.failure = failure
-        targetSet.warmUp = warmup
-        targetSet.restPause = restPause
-        targetSet.dropSet = dropSet
-        targetSet.time = getCurrentTime()
-        targetSet.note = note
-        targetSet.bodyWeight = bodyWeight
+        // Get the fresh set reference from the exercise
+        let freshSet = freshExerciseSets[setIndex]
+
+        // Update the fresh set directly with ALL changes at once
+        freshSet.weight = weight
+        freshSet.reps = reps
+        freshSet.failure = failure
+        freshSet.warmUp = warmup
+        freshSet.restPause = restPause
+        freshSet.dropSet = dropSet
+        freshSet.time = getCurrentTime()
+        freshSet.note = note
+        freshSet.bodyWeight = bodyWeight
 
         // SINGLE database write for all changes
         do {
             try context.save()
             debugPrint("✅ [OPTIMIZED] Successfully batch saved set changes - Weight: \(weight), Reps: \(reps)")
+            dismiss()
         } catch {
+            errorMessage = "Failed to save changes. Please try again."
+            showErrorAlert = true
             debugPrint("❌ Error saving set changes: \(error)")
         }
-
-        dismiss()
     }
 
     // REMOVED: saveWeight() and saveReps() incremental saves

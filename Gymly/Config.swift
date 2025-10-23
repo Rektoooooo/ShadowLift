@@ -32,9 +32,9 @@ class Config:ObservableObject {
         }
     }
     
-    @Published var splitLenght: Int {
+    @Published var splitLength: Int {
         didSet {
-            UserDefaults.standard.set(splitLenght, forKey: "splitLenght")
+            UserDefaults.standard.set(splitLength, forKey: "splitLength")
         }
     }
     
@@ -165,7 +165,14 @@ class Config:ObservableObject {
         self.daysRecorded = UserDefaults.standard.object(forKey: "daysRecorded") as? [String] ?? []
         self.splitStarted = UserDefaults.standard.object(forKey: "splitStarted") as? Bool ?? false
         self.dayInSplit = UserDefaults.standard.object(forKey: "dayInSplit") as? Int ?? 1
-        self.splitLenght = UserDefaults.standard.object(forKey: "splitLenght") as? Int ?? 1
+        // Migration: Check old key first for backward compatibility
+        if let oldValue = UserDefaults.standard.object(forKey: "splitLenght") as? Int {
+            self.splitLength = oldValue
+            UserDefaults.standard.removeObject(forKey: "splitLenght")
+            UserDefaults.standard.set(oldValue, forKey: "splitLength")
+        } else {
+            self.splitLength = UserDefaults.standard.object(forKey: "splitLength") as? Int ?? 1
+        }
         self.lastUpdateDate = UserDefaults.standard.object(forKey: "lastUpdateDate")  as? Date ?? Date()
         self.isUserLoggedIn = UserDefaults.standard.object(forKey: "isUserLoggedIn") as? Bool ?? false
         self.firstSplitEdit = UserDefaults.standard.object(forKey: "firstSplitEdit") as? Bool ?? true
