@@ -64,6 +64,14 @@ struct ExerciseDetailView: View {
                         .scrollContentBackground(.hidden)
                         .background(Color.clear)
                         .listRowBackground(Color.black.opacity(0.1))
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                markSetAsDone(item.set)
+                            } label: {
+                                Label("Done", systemImage: "checkmark.circle.fill")
+                            }
+                            .tint(.green)
+                        }
                         .swipeActions(edge: .trailing) {
                             /// Swipe-to-delete action for a set
                             Button(role: .destructive) {
@@ -155,6 +163,44 @@ struct ExerciseDetailView: View {
         let sortedSets = (exercise.sets ?? []).sorted(by: { $0.createdAt < $1.createdAt })
         cachedSortedSets = sortedSets.enumerated().map { (index: $0.offset, set: $0.element) }
         debugPrint("[OPTIMIZATION] Cached \(cachedSortedSets.count) sorted sets for exercise '\(exercise.name)'")
+    }
+
+    /// Quick mark set as done via swipe action
+    private func markSetAsDone(_ targetSet: Exercise.Set) {
+        Task { @MainActor in
+            do {
+                // Fetch fresh exercise to ensure we have latest data
+                let exerciseId = exercise.id
+                let freshExercise = await viewModel.fetchExercise(id: exerciseId)
+
+                guard let freshSets = freshExercise.sets,
+                      let setIndex = freshSets.firstIndex(where: { $0.id == targetSet.id }) else {
+                    debugPrint("❌ Set not found in exercise")
+                    return
+                }
+
+                // Get fresh set reference
+                let freshSet = freshSets[setIndex]
+
+                // Mark as done by setting timestamp
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "H:mm"
+                freshSet.time = dateFormatter.string(from: Date()).lowercased()
+
+                // Save to database
+                try context.save()
+
+                debugPrint("✅ Quick marked set as done - Weight: \(freshSet.weight), Reps: \(freshSet.reps), Time: \(freshSet.time)")
+
+                // Update local exercise reference
+                exercise = freshExercise
+
+                // Update cache to reflect changes
+                updateCachedSortedSets()
+            } catch {
+                debugPrint("❌ Error marking set as done: \(error)")
+            }
+        }
     }
 }
 
