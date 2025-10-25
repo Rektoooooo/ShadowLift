@@ -43,6 +43,9 @@
 		EC71CA8A2D705986003EAB09 /* Split.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC71CA892D705986003EAB09 /* Split.swift */; };
 		EC8C15112C80A94D008E4152 /* DayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8C15102C80A94D008E4152 /* DayStorage.swift */; };
 		EC9A6A602E716FC20081E390 /* GraphEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9A6A5F2E716FC20081E390 /* GraphEntry.swift */; };
+		EC9BE76A2EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE7692EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift */; };
+		EC9BE76C2EAD3F5F00EBEA0B /* GymWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE76B2EAD3F5F00EBEA0B /* GymWorkflowTests.swift */; };
+		EC9BE76E2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE76D2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift */; };
 		ECA5D1442BF20CF100DCC9F8 /* GymlyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D1432BF20CF100DCC9F8 /* GymlyApp.swift */; };
 		ECA5D1482BF20CF500DCC9F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA5D1472BF20CF500DCC9F8 /* Assets.xcassets */; };
 		ECA5D14B2BF20CF500DCC9F8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA5D14A2BF20CF500DCC9F8 /* Preview Assets.xcassets */; };
@@ -108,6 +111,9 @@
 		EC71CA892D705986003EAB09 /* Split.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Split.swift; sourceTree = "<group>"; };
 		EC8C15102C80A94D008E4152 /* DayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayStorage.swift; sourceTree = "<group>"; };
 		EC9A6A5F2E716FC20081E390 /* GraphEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphEntry.swift; sourceTree = "<group>"; };
+		EC9BE7692EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPerformanceTests.swift; sourceTree = "<group>"; };
+		EC9BE76B2EAD3F5F00EBEA0B /* GymWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymWorkflowTests.swift; sourceTree = "<group>"; };
+		EC9BE76D2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPerformanceTests.swift; sourceTree = "<group>"; };
 		ECA5D1402BF20CF100DCC9F8 /* Gymly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA5D1432BF20CF100DCC9F8 /* GymlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymlyApp.swift; sourceTree = "<group>"; };
 		ECA5D1472BF20CF500DCC9F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -285,6 +291,8 @@
 			isa = PBXGroup;
 			children = (
 				ECA5D1542BF20CF500DCC9F8 /* GymlyTests.swift */,
+				EC9BE7692EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift */,
+				EC9BE76D2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift */,
 			);
 			path = GymlyTests;
 			sourceTree = "<group>";
@@ -294,6 +302,7 @@
 			children = (
 				ECA5D15E2BF20CF500DCC9F8 /* GymlyUITests.swift */,
 				ECA5D1602BF20CF500DCC9F8 /* GymlyUITestsLaunchTests.swift */,
+				EC9BE76B2EAD3F5F00EBEA0B /* GymWorkflowTests.swift */,
 			);
 			path = GymlyUITests;
 			sourceTree = "<group>";
@@ -482,6 +491,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC9BE76E2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift in Sources */,
+				EC9BE76A2EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift in Sources */,
 				ECA5D1552BF20CF500DCC9F8 /* GymlyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,6 +501,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC9BE76C2EAD3F5F00EBEA0B /* GymWorkflowTests.swift in Sources */,
 				ECA5D15F2BF20CF500DCC9F8 /* GymlyUITests.swift in Sources */,
 				ECA5D1612BF20CF500DCC9F8 /* GymlyUITestsLaunchTests.swift in Sources */,
 			);
