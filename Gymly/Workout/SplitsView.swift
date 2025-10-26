@@ -18,6 +18,8 @@ struct SplitsView: View {
 
     @State var splits: [Split] = []
     @State var createSplit: Bool = false
+    @State var showTemplates: Bool = false
+
     var body: some View {
         NavigationView {
             // TODO: Make switching between split possible
@@ -25,63 +27,96 @@ struct SplitsView: View {
                 FloatingClouds(theme: CloudsTheme.graphite(scheme))
                     .ignoresSafeArea()
                 List {
-                    /// Show all splits
-                    ForEach($splits.sorted(by: { $0.wrappedValue.isActive && !$1.wrappedValue.isActive })) { $split in
-                        NavigationLink(destination: SplitDetailView(split: split, viewModel: viewModel)) {
-                            VStack {
-                                HStack {
+                    // Browse Templates Button
+                    Section {
+                        Button(action: {
+                            showTemplates = true
+                        }) {
+                            HStack {
+                                Image(systemName: "star.circle.fill")
+                                    .foregroundColor(appearanceManager.accentColor.color)
+                                    .font(.title2)
+
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Workout Templates")
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+
+                                    Text("5 pro-designed splits")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        .listRowBackground(Color.black.opacity(0.1))
+                    }
+
+                    Section("My Splits") {
+                        /// Show all splits
+                        ForEach($splits.sorted(by: { $0.wrappedValue.isActive && !$1.wrappedValue.isActive })) { $split in
+                            NavigationLink(destination: SplitDetailView(split: split, viewModel: viewModel)) {
+                                VStack {
                                     HStack {
-                                        Toggle("", isOn: $split.isActive)
-                                            .toggleStyle(CheckToggleStyle())
-                                            .onChange(of: split.isActive) {
+                                        HStack {
+                                            Toggle("", isOn: $split.isActive)
+                                                .toggleStyle(CheckToggleStyle())
+                                                .onChange(of: split.isActive) {
+                                                    if split.isActive {
+                                                        viewModel.switchActiveSplit(split: split, context: context)
+                                                    }
+                                                }
+                                            
+                                        }
+                                        VStack {
+                                            /// Display split name
+                                            HStack {
+                                                Text(split.name)
+                                                    .bold()
+                                            }
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                                            /// Display graphic if split is active or not
+                                            HStack {
                                                 if split.isActive {
-                                                    viewModel.switchActiveSplit(split: split, context: context)
+                                                    Circle()
+                                                        .fill(Color.green)
+                                                        .frame(width: 8, height: 8)
+                                                    Text("Active")
+                                                        .foregroundStyle(Color.green)
+                                                        .multilineTextAlignment(.leading)
+                                                } else {
+                                                    Circle()
+                                                        .fill(Color.red)
+                                                        .frame(width: 8, height: 8)
+                                                    Text("Inactive")
+                                                        .foregroundStyle(Color.red)
+                                                        .multilineTextAlignment(.leading)
                                                 }
                                             }
-
-                                    }
-                                    VStack {
-                                        /// Display split name
-                                        HStack {
-                                            Text(split.name)
-                                                .bold()
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                                         }
-                                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                                        /// Display graphic if split is active or not
-                                        HStack {
-                                            if split.isActive {
-                                                Circle()
-                                                    .fill(Color.green)
-                                                    .frame(width: 8, height: 8)
-                                                Text("Active")
-                                                    .foregroundStyle(Color.green)
-                                                    .multilineTextAlignment(.leading)
-                                            } else {
-                                                Circle()
-                                                    .fill(Color.red)
-                                                    .frame(width: 8, height: 8)
-                                                Text("Inactive")
-                                                    .foregroundStyle(Color.red)
-                                                    .multilineTextAlignment(.leading)
-                                            }
-                                        }
-                                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                                     }
                                 }
                             }
-                        }
-                        .swipeActions(edge: .trailing) {
-                            /// Swipe-to-delete action
-                            Button(role: .destructive) {
-                                viewModel.deleteSplit(split: split)
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+                            .swipeActions(edge: .trailing) {
+                                /// Swipe-to-delete action
+                                Button(role: .destructive) {
+                                    viewModel.deleteSplit(split: split)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
                             }
                         }
+                        .scrollContentBackground(.hidden)
+                        .background(Color.clear)
+                        .listRowBackground(Color.black.opacity(0.1))
                     }
-                    .scrollContentBackground(.hidden)
-                    .background(Color.clear)
-                    .listRowBackground(Color.black.opacity(0.1))
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
@@ -116,10 +151,15 @@ struct SplitsView: View {
             }
         }
         .sheet(isPresented: $createSplit, onDismiss: {
-
+            splits = viewModel.getAllSplits()
         }) {
             SetupSplitView(viewModel: viewModel)
                 .presentationDetents([.medium])
+        }
+        .sheet(isPresented: $showTemplates, onDismiss: {
+            splits = viewModel.getAllSplits()
+        }) {
+            SplitTemplatesView(viewModel: viewModel)
         }
     }
     /// Toggles set type and saves changes

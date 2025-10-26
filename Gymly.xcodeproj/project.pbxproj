@@ -43,9 +43,8 @@
 		EC71CA8A2D705986003EAB09 /* Split.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC71CA892D705986003EAB09 /* Split.swift */; };
 		EC8C15112C80A94D008E4152 /* DayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8C15102C80A94D008E4152 /* DayStorage.swift */; };
 		EC9A6A602E716FC20081E390 /* GraphEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9A6A5F2E716FC20081E390 /* GraphEntry.swift */; };
-		EC9BE76A2EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE7692EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift */; };
 		EC9BE76C2EAD3F5F00EBEA0B /* GymWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE76B2EAD3F5F00EBEA0B /* GymWorkflowTests.swift */; };
-		EC9BE76E2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE76D2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift */; };
+		EC9BE9A72EAEA7FC00EBEA0B /* SplitTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE9A62EAEA7FC00EBEA0B /* SplitTemplate.swift */; };
 		ECA5D1442BF20CF100DCC9F8 /* GymlyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D1432BF20CF100DCC9F8 /* GymlyApp.swift */; };
 		ECA5D1482BF20CF500DCC9F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA5D1472BF20CF500DCC9F8 /* Assets.xcassets */; };
 		ECA5D14B2BF20CF500DCC9F8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA5D14A2BF20CF500DCC9F8 /* Preview Assets.xcassets */; };
@@ -55,6 +54,7 @@
 		ECA5D16E2BF20D0F00DCC9F8 /* ToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D16D2BF20D0F00DCC9F8 /* ToolBar.swift */; };
 		ECA5D1762BF22C2000DCC9F8 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D1752BF22C2000DCC9F8 /* Exercise.swift */; };
 		ECDE63112D48D27B00C2DA94 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDE63102D48D27B00C2DA94 /* SignInView.swift */; };
+		FFAC563B3E4B4FC19EA8D17921266CFA /* WorkoutFlowPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347803F01A594112B3ABC56EE5F6566C /* WorkoutFlowPerformanceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +75,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		347803F01A594112B3ABC56EE5F6566C /* WorkoutFlowPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowPerformanceTests.swift; sourceTree = "<group>"; };
 		EC06F15C2E7BC4FE00E42CCF /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		EC06F15D2E7BC4FE00E42CCF /* CloudKitSyncStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSyncStatus.swift; sourceTree = "<group>"; };
 		EC06F1612E7BCCC900E42CCF /* ExerciseExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseExtensions.swift; sourceTree = "<group>"; };
@@ -111,9 +112,8 @@
 		EC71CA892D705986003EAB09 /* Split.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Split.swift; sourceTree = "<group>"; };
 		EC8C15102C80A94D008E4152 /* DayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayStorage.swift; sourceTree = "<group>"; };
 		EC9A6A5F2E716FC20081E390 /* GraphEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphEntry.swift; sourceTree = "<group>"; };
-		EC9BE7692EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPerformanceTests.swift; sourceTree = "<group>"; };
 		EC9BE76B2EAD3F5F00EBEA0B /* GymWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymWorkflowTests.swift; sourceTree = "<group>"; };
-		EC9BE76D2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPerformanceTests.swift; sourceTree = "<group>"; };
+		EC9BE9A62EAEA7FC00EBEA0B /* SplitTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitTemplate.swift; sourceTree = "<group>"; };
 		ECA5D1402BF20CF100DCC9F8 /* Gymly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA5D1432BF20CF100DCC9F8 /* GymlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymlyApp.swift; sourceTree = "<group>"; };
 		ECA5D1472BF20CF500DCC9F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -184,6 +184,7 @@
 				EC8C15102C80A94D008E4152 /* DayStorage.swift */,
 				EC629C652C9CAE2300009902 /* MuscleGroup.swift */,
 				EC317F382EA2473D000DFB1E /* FitnessProfile.swift */,
+				EC9BE9A62EAEA7FC00EBEA0B /* SplitTemplate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -291,8 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				ECA5D1542BF20CF500DCC9F8 /* GymlyTests.swift */,
-				EC9BE7692EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift */,
-				EC9BE76D2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift */,
+				347803F01A594112B3ABC56EE5F6566C /* WorkoutFlowPerformanceTests.swift */,
 			);
 			path = GymlyTests;
 			sourceTree = "<group>";
@@ -463,6 +463,7 @@
 				EC71CA8A2D705986003EAB09 /* Split.swift in Sources */,
 				EC66F6992D92CF380086D625 /* SettingUserInfoCell.swift in Sources */,
 				EC66F6A72D949DBB0086D625 /* WeightPoint.swift in Sources */,
+				EC9BE9A72EAEA7FC00EBEA0B /* SplitTemplate.swift in Sources */,
 				EC06F16A2E7CA3DA00E42CCF /* UserProfileManager.swift in Sources */,
 				EC66F6A52D949D410086D625 /* WeightChart.swift in Sources */,
 				EC4FD1582C4EE0A600D1A4A6 /* onFirstAppear.swift in Sources */,
@@ -491,9 +492,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC9BE76E2EAD3F6E00EBEA0B /* NetworkPerformanceTests.swift in Sources */,
-				EC9BE76A2EAD3F4000EBEA0B /* WorkoutPerformanceTests.swift in Sources */,
 				ECA5D1552BF20CF500DCC9F8 /* GymlyTests.swift in Sources */,
+				FFAC563B3E4B4FC19EA8D17921266CFA /* WorkoutFlowPerformanceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -635,7 +635,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -723,7 +723,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ic-servis.com.GymlyTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -741,7 +741,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ic-servis.com.GymlyTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -758,7 +758,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ic-servis.com.GymlyUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -775,7 +775,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ic-servis.com.GymlyUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
