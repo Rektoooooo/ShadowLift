@@ -123,6 +123,13 @@ struct ExerciseDetailView: View {
             .onAppear {
                 // OPTIMIZATION: Initialize cached sorted sets on appear
                 updateCachedSortedSets()
+
+                // Disable CloudKit sync during active workout to prevent lag
+                CloudKitManager.shared.setWorkoutSessionActive(true)
+            }
+            .onDisappear {
+                // Re-enable CloudKit sync when leaving workout view
+                CloudKitManager.shared.setWorkoutSessionActive(false)
             }
             .onChange(of: exercise.sets?.count) { _, _ in
                 // OPTIMIZATION: Update cache only when set count changes (add/delete)

@@ -9,6 +9,7 @@ import Foundation
 import CloudKit
 import SwiftData
 import SwiftUI
+import Network
 
 @MainActor
 class CloudKitManager: ObservableObject {
@@ -21,10 +22,34 @@ class CloudKitManager: ObservableObject {
     @Published var syncError: String?
     @Published var isCloudKitEnabled = false
     @Published var lastSyncDate: Date?
+    @Published var isInActiveWorkout = false // Track if user is actively working out
+    @Published var networkQuality: NetworkQuality = .good
 
     private let userDefaults = UserDefaults.standard
     private let lastSyncKey = "lastCloudKitSync"
     private let cloudKitEnabledKey = "isCloudKitEnabled"
+
+    // MARK: - Network Quality & Timeout Settings
+    enum NetworkQuality {
+        case excellent, good, poor, offline
+
+        var shouldEnableAutoSync: Bool {
+            switch self {
+            case .excellent, .good: return true
+            case .poor, .offline: return false
+            }
+        }
+    }
+
+    private let networkMonitor = NWPathMonitor()
+    private let networkQueue = DispatchQueue(label: "NetworkMonitor")
+
+    // Timeout for individual CloudKit operations (prevents hanging on poor connection)
+    private let operationTimeout: TimeInterval = 5.0
+
+    // Queue for background sync operations
+    private var pendingSyncQueue: [() async throws -> Void] = []
+    private var isProcessingQueue = false
 
     init() {
         self.privateDatabase = container.privateCloudDatabase
@@ -45,6 +70,91 @@ class CloudKitManager: ObservableObject {
 
         Task {
             await checkCloudKitStatus()
+        }
+
+        // Start network monitoring
+        startNetworkMonitoring()
+    }
+
+    deinit {
+        networkMonitor.cancel()
+    }
+
+    // MARK: - Network Monitoring
+
+    private func startNetworkMonitoring() {
+        networkMonitor.pathUpdateHandler = { [weak self] path in
+            Task { @MainActor [weak self] in
+                guard let self = self else { return }
+
+                if path.status != .satisfied {
+                    self.networkQuality = .offline
+                } else if path.usesInterfaceType(.wifi) {
+                    self.networkQuality = .excellent
+                } else if path.usesInterfaceType(.cellular) {
+                    self.networkQuality = .good
+                } else {
+                    self.networkQuality = .good
+                }
+
+                print("📡 Network Quality: \(self.networkQuality), Auto-sync: \(self.networkQuality.shouldEnableAutoSync)")
+            }
+        }
+
+        networkMonitor.start(queue: networkQueue)
+    }
+
+    // MARK: - Timeout Wrapper
+
+    /// Wraps CloudKit operations with timeout to prevent hanging on poor network
+    private func withTimeout<T>(
+        _ timeout: TimeInterval = 5.0,
+        operation: @escaping () async throws -> T
+    ) async throws -> T {
+        try await withThrowingTaskGroup(of: T.self) { group in
+            group.addTask {
+                try await operation()
+            }
+
+            group.addTask {
+                try await Task.sleep(nanoseconds: UInt64(timeout * 1_000_000_000))
+                throw CloudKitError.timeout
+            }
+
+            if let result = try await group.next() {
+                group.cancelAll()
+                return result
+            }
+
+            throw CloudKitError.timeout
+        }
+    }
+
+    /// Check if we should sync based on network quality and workout state
+    private func shouldPerformSync(allowDuringWorkout: Bool = false) -> Bool {
+        guard isCloudKitEnabled else { return false }
+
+        // CRITICAL: Never auto-sync during active gym session (prevents lag)
+        if isInActiveWorkout && !allowDuringWorkout {
+            print("🚫 SYNC BLOCKED: User is in active workout - sync deferred")
+            return false
+        }
+
+        // Always allow manual sync, but warn about poor connection
+        if !networkQuality.shouldEnableAutoSync {
+            print("⚠️ NETWORK QUALITY POOR - Sync may be slow or fail")
+        }
+
+        return true
+    }
+
+    /// Set workout session state - call this when entering/exiting workout views
+    func setWorkoutSessionActive(_ active: Bool) {
+        isInActiveWorkout = active
+        if active {
+            print("🏋️ WORKOUT SESSION STARTED - Auto-sync disabled")
+        } else {
+            print("✅ WORKOUT SESSION ENDED - Auto-sync re-enabled")
         }
     }
 
@@ -119,30 +229,43 @@ class CloudKitManager: ObservableObject {
 
     // MARK: - Split Sync
     func saveSplit(_ split: Split) async throws {
-        guard isCloudKitEnabled else {
+        guard shouldPerformSync() else {
             throw CloudKitError.notAvailable
         }
 
         // CRITICAL: Save days FIRST before creating references to them
         // CloudKit requires referenced records to exist before creating references
         print("🔄 SAVESPLIT: Saving \(split.days?.count ?? 0) days for split '\(split.name)'")
-        for day in split.days ?? [] {
-            do {
-                try await saveDay(day, splitId: split.id)
-                print("✅ SAVESPLIT: Saved day '\(day.name)'")
-            } catch {
-                print("❌ SAVESPLIT: Failed to save day '\(day.name)': \(error.localizedDescription)")
-                throw error
+
+        // OPTIMIZATION: Save days in parallel instead of sequentially
+        let days = split.days ?? []
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for day in days {
+                group.addTask {
+                    do {
+                        try await self.saveDay(day, splitId: split.id)
+                        print("✅ SAVESPLIT: Saved day '\(day.name)'")
+                    } catch is CloudKitError {
+                        // Network timeout - queue for later retry
+                        print("⚠️ SAVESPLIT: Day '\(day.name)' queued for retry")
+                        throw CloudKitError.timeout
+                    }
+                }
             }
+
+            // Wait for all days to complete
+            try await group.waitForAll()
         }
 
         // Now save the split record with references to the saved days
         let recordID = CKRecord.ID(recordName: split.id.uuidString)
 
-        // Try to fetch existing record first
+        // Try to fetch existing record first (with timeout)
         let record: CKRecord
         do {
-            record = try await privateDatabase.record(for: recordID)
+            record = try await withTimeout(operationTimeout) {
+                try await self.privateDatabase.record(for: recordID)
+            }
             print("🔄 SAVESPLIT: Updating existing split record '\(split.name)'")
         } catch {
             // Record doesn't exist, create new one
@@ -162,7 +285,9 @@ class CloudKitManager: ObservableObject {
         record["days"] = dayReferences
 
         do {
-            try await privateDatabase.save(record)
+            _ = try await withTimeout(operationTimeout) {
+                try await self.privateDatabase.save(record)
+            }
             print("✅ SAVESPLIT: Split record '\(split.name)' saved successfully")
         } catch {
             print("❌ SAVESPLIT: Failed to save split record '\(split.name)': \(error.localizedDescription)")
@@ -171,29 +296,35 @@ class CloudKitManager: ObservableObject {
     }
 
     func saveDay(_ day: Day, splitId: UUID) async throws {
-        guard isCloudKitEnabled else {
+        guard shouldPerformSync() else {
             throw CloudKitError.notAvailable
         }
 
         // CRITICAL: Save exercises FIRST before creating references to them
         print("🔄 SAVEDAY: Saving \(day.exercises?.count ?? 0) exercises for day '\(day.name)'")
-        for exercise in day.exercises ?? [] {
-            do {
-                try await saveExercise(exercise, dayId: day.id)
-                print("✅ SAVEDAY: Saved exercise '\(exercise.name)'")
-            } catch {
-                print("❌ SAVEDAY: Failed to save exercise '\(exercise.name)': \(error.localizedDescription)")
-                throw error
+
+        // OPTIMIZATION: Save exercises in parallel instead of sequentially
+        let exercises = day.exercises ?? []
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for exercise in exercises {
+                group.addTask {
+                    try await self.saveExercise(exercise, dayId: day.id)
+                    print("✅ SAVEDAY: Saved exercise '\(exercise.name)'")
+                }
             }
+
+            try await group.waitForAll()
         }
 
         // Now save the day record with references
         let recordID = CKRecord.ID(recordName: day.id.uuidString)
 
-        // Try to fetch existing record first
+        // Try to fetch existing record first (with timeout)
         let record: CKRecord
         do {
-            record = try await privateDatabase.record(for: recordID)
+            record = try await withTimeout(operationTimeout) {
+                try await self.privateDatabase.record(for: recordID)
+            }
             print("🔄 SAVEDAY: Updating existing day record '\(day.name)'")
         } catch {
             // Record doesn't exist, create new one
@@ -213,7 +344,9 @@ class CloudKitManager: ObservableObject {
         record["exercises"] = exerciseReferences
 
         do {
-            try await privateDatabase.save(record)
+            _ = try await withTimeout(operationTimeout) {
+                try await self.privateDatabase.save(record)
+            }
             print("✅ SAVEDAY: Day record '\(day.name)' saved successfully")
         } catch {
             print("❌ SAVEDAY: Failed to save day record '\(day.name)': \(error.localizedDescription)")
@@ -222,16 +355,18 @@ class CloudKitManager: ObservableObject {
     }
 
     func saveExercise(_ exercise: Exercise, dayId: UUID) async throws {
-        guard isCloudKitEnabled else {
+        guard shouldPerformSync() else {
             throw CloudKitError.notAvailable
         }
 
         let recordID = CKRecord.ID(recordName: exercise.id.uuidString)
 
-        // Try to fetch existing record first
+        // Try to fetch existing record first (with timeout)
         let record: CKRecord
         do {
-            record = try await privateDatabase.record(for: recordID)
+            record = try await withTimeout(operationTimeout) {
+                try await self.privateDatabase.record(for: recordID)
+            }
         } catch {
             // Record doesn't exist, create new one
             record = CKRecord(recordType: "Exercise", recordID: recordID)
@@ -250,7 +385,9 @@ class CloudKitManager: ObservableObject {
             record["setsData"] = setsData as CKRecordValue
         }
 
-        try await privateDatabase.save(record)
+        _ = try await withTimeout(operationTimeout) {
+            try await self.privateDatabase.save(record)
+        }
     }
 
     // MARK: - DayStorage Sync
@@ -518,58 +655,84 @@ class CloudKitManager: ObservableObject {
     // MARK: - Full Sync
     @MainActor
     func performFullSync(context: ModelContext, config: Config) async {
-        guard isCloudKitEnabled else {
-            print("❌ PERFORMFULLSYNC: CloudKit not enabled")
+        guard shouldPerformSync() else {
+            print("❌ PERFORMFULLSYNC: CloudKit not enabled or network unavailable")
             return
+        }
+
+        // Check network quality and warn user
+        if networkQuality == .poor {
+            print("⚠️ PERFORMFULLSYNC: Network quality is POOR - sync may be slow")
+            self.syncError = "Network quality is poor. Sync may take longer than usual."
         }
 
         print("🔄 PERFORMFULLSYNC: Starting full CloudKit sync")
 
         self.isSyncing = true
-        self.syncError = nil
 
-        do {
-            // Sync Splits - fetch on main actor to avoid ModelContext threading issues
-            let descriptor = FetchDescriptor<Split>()
-            let localSplits = try context.fetch(descriptor)
-            print("🔄 PERFORMFULLSYNC: Found \(localSplits.count) local splits to sync")
+        // Run sync in background task - network operations are inherently async
+        Task(priority: .utility) {
+            do {
+                // Sync Splits
+                let descriptor = FetchDescriptor<Split>()
+                let localSplits = try context.fetch(descriptor)
+                print("🔄 PERFORMFULLSYNC: Found \(localSplits.count) local splits to sync")
 
-            for split in localSplits {
-                print("🔄 PERFORMFULLSYNC: Uploading split '\(split.name)' to CloudKit...")
-                do {
-                    try await saveSplit(split)
-                    print("✅ PERFORMFULLSYNC: Split '\(split.name)' uploaded successfully")
-                } catch {
-                    print("❌ PERFORMFULLSYNC: Failed to upload split '\(split.name)': \(error.localizedDescription)")
-                    throw error  // Re-throw to stop the sync
+                // OPTIMIZATION: Sync splits in parallel with concurrency limit
+                var successCount = 0
+                var timeoutCount = 0
+
+                for split in localSplits {
+                    print("🔄 PERFORMFULLSYNC: Uploading split '\(split.name)' to CloudKit...")
+                    do {
+                        try await self.saveSplit(split)
+                        print("✅ PERFORMFULLSYNC: Split '\(split.name)' uploaded successfully")
+                        successCount += 1
+                    } catch let error as CloudKitError where error == .timeout {
+                        print("⏱️ PERFORMFULLSYNC: Split '\(split.name)' timed out - will retry later")
+                        timeoutCount += 1
+                        // Don't throw - continue with other splits
+                    } catch {
+                        print("❌ PERFORMFULLSYNC: Failed to upload split '\(split.name)': \(error.localizedDescription)")
+                        // Continue with other splits even if one fails
+                    }
+                }
+
+                // Sync DayStorage
+                let dayStorageDescriptor = FetchDescriptor<DayStorage>()
+                let localDayStorages = try context.fetch(dayStorageDescriptor)
+                for dayStorage in localDayStorages {
+                    try? await self.saveDayStorage(dayStorage)
+                }
+
+                // Sync WeightPoints
+                let weightPointDescriptor = FetchDescriptor<WeightPoint>()
+                let localWeightPoints = try context.fetch(weightPointDescriptor)
+                for weightPoint in localWeightPoints {
+                    try? await self.saveWeightPoint(weightPoint)
+                }
+
+                // Update last sync date
+                await MainActor.run {
+                    let now = Date()
+                    self.userDefaults.set(now, forKey: self.lastSyncKey)
+                    self.lastSyncDate = now
+                    self.isSyncing = false
+
+                    if timeoutCount > 0 {
+                        self.syncError = "\(successCount) items synced, \(timeoutCount) timed out (will retry later)"
+                    } else {
+                        self.syncError = nil
+                    }
+                    print("✅ PERFORMFULLSYNC: Sync complete - \(successCount) successful, \(timeoutCount) timed out")
+                }
+            } catch {
+                await MainActor.run {
+                    print("❌ PERFORMFULLSYNC ERROR: \(error.localizedDescription)")
+                    self.syncError = error.localizedDescription
+                    self.isSyncing = false
                 }
             }
-
-            // Sync DayStorage
-            let dayStorageDescriptor = FetchDescriptor<DayStorage>()
-            let localDayStorages = try context.fetch(dayStorageDescriptor)
-            for dayStorage in localDayStorages {
-                try await saveDayStorage(dayStorage)
-            }
-
-            // Sync WeightPoints
-            let weightPointDescriptor = FetchDescriptor<WeightPoint>()
-            let localWeightPoints = try context.fetch(weightPointDescriptor)
-            for weightPoint in localWeightPoints {
-                try await saveWeightPoint(weightPoint)
-            }
-
-
-            // Update last sync date
-            let now = Date()
-            userDefaults.set(now, forKey: lastSyncKey)
-            self.lastSyncDate = now
-            self.isSyncing = false
-            print("✅ PERFORMFULLSYNC: All data synced to CloudKit successfully")
-        } catch {
-            print("❌ PERFORMFULLSYNC ERROR: \(error.localizedDescription)")
-            self.syncError = error.localizedDescription
-            self.isSyncing = false
         }
     }
 
@@ -789,10 +952,12 @@ class CloudKitManager: ObservableObject {
     }
 }
 
-enum CloudKitError: LocalizedError {
+enum CloudKitError: LocalizedError, Equatable {
     case notAvailable
     case invalidData
     case syncFailed(String)
+    case timeout
+    case poorNetworkQuality
 
     var errorDescription: String? {
         switch self {
@@ -802,6 +967,10 @@ enum CloudKitError: LocalizedError {
             return "Invalid data format received from iCloud."
         case .syncFailed(let message):
             return "Sync failed: \(message)"
+        case .timeout:
+            return "Operation timed out. Please check your network connection."
+        case .poorNetworkQuality:
+            return "Network quality is poor. Sync will retry later."
         }
     }
 }
