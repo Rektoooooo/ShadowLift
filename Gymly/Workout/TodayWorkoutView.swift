@@ -291,6 +291,13 @@ struct TodayWorkoutView: View {
                     )
                 }
             }
+            .onChange(of: showWorkoutSummary) { _, isShowing in
+                // Clear summary data when sheet is dismissed to allow showing it again
+                if !isShowing {
+                    workoutSummaryData = nil
+                    print("🧹 WORKOUT SUMMARY: Sheet dismissed, cleared summary data")
+                }
+            }
         }
     }
     
