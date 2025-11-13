@@ -1,6 +1,6 @@
 //
 //  CloudKitManager.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by CloudKit Integration on 18.09.2025.
 //

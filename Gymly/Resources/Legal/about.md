@@ -1,4 +1,4 @@
-# About Gymly
+# About ShadowLift
 
 **Version 1.0 (Build 7)**
 
@@ -6,7 +6,7 @@
 
 ## Our Mission
 
-Gymly is built by lifters, for lifters. We believe that tracking your workouts shouldn't be complicated, frustrating, or time-consuming. That's why we created a fitness app that's fast, intuitive, and designed specifically for strength training.
+ShadowLift is built by lifters, for lifters. We believe that tracking your workouts shouldn't be complicated, frustrating, or time-consuming. That's why we created a fitness app that's fast, intuitive, and designed specifically for strength training.
 
 **Our Philosophy:**
 - **Gym-First Design:** Every feature is tested in actual gym conditions, including poor cellular connections
@@ -16,11 +16,11 @@ Gymly is built by lifters, for lifters. We believe that tracking your workouts s
 
 ---
 
-## The Gymly Story
+## The ShadowLift Story
 
-Gymly was born from frustration with existing fitness apps that lagged in the gym, required constant internet connections, and made simple tasks unnecessarily complicated.
+ShadowLift was born from frustration with existing fitness apps that lagged in the gym, required constant internet connections, and made simple tasks unnecessarily complicated.
 
-After experiencing the "gym lag" problem firsthand - where workout apps would freeze or slow down during crucial gym sessions - our founder Sebastián Kučera decided to build something better. The result is Gymly: a native iOS app built entirely with Apple's frameworks, optimized for performance, and designed to work flawlessly even with poor or no internet connection.
+After experiencing the "gym lag" problem firsthand - where workout apps would freeze or slow down during crucial gym sessions - our founder Sebastián Kučera decided to build something better. The result is ShadowLift: a native iOS app built entirely with Apple's frameworks, optimized for performance, and designed to work flawlessly even with poor or no internet connection.
 
 **What Makes Us Different:**
 - **100% Native:** Built with pure Swift and SwiftUI - no external dependencies
@@ -130,9 +130,9 @@ Your privacy is our top priority:
 **Category:** Health & Fitness
 **Age Rating:** 4+ (suitable for all ages, exercise under supervision recommended)
 
-**Bundle Identifier:** com.icservis.GymlyFitness
-**Developer:** Gymly Fitness
-**Copyright:** © 2024 Gymly Fitness. All rights reserved.
+**Bundle Identifier:** com.shadowlift.app
+**Developer:** ShadowLift
+**Copyright:** © 2024 ShadowLift. All rights reserved.
 
 ---
 
@@ -141,7 +141,7 @@ Your privacy is our top priority:
 **Terms of Service:** View in Settings → Legal → Terms of Service
 **Privacy Policy:** View in Settings → Legal → Privacy Policy
 
-Gymly is a registered trademark of Gymly Fitness.
+ShadowLift is a registered trademark of ShadowLift.
 
 All product names, logos, and brands are property of their respective owners. Apple, iPhone, iPad, iOS, HealthKit, iCloud, and related marks are trademarks of Apple Inc.
 
@@ -150,18 +150,18 @@ All product names, logos, and brands are property of their respective owners. Ap
 ## Support & Feedback
 
 **Need Help?**
-- Email: support@gymly.app
+- Email: support@shadowlift.app
 - Response time: Within 24 hours on weekdays
 
 **Have Feedback?**
-- Feature requests: hello@gymly.app
-- Bug reports: support@gymly.app
-- General feedback: hello@gymly.app
+- Feature requests: hello@shadowlift.app
+- Bug reports: support@shadowlift.app
+- General feedback: hello@shadowlift.app
 
 **Follow Us:**
-- Website: Coming Soon
-- Twitter/X: @gymly_app
-- Instagram: @gymly_fitness
+- Website: shadowlift.app
+- Twitter/X: @shadowlift_app
+- Instagram: @shadowlift_fitness
 
 ---
 
@@ -192,7 +192,7 @@ All product names, logos, and brands are property of their respective owners. Ap
 
 ## Thank You
 
-Thank you for choosing Gymly for your strength training journey. Whether you're a beginner starting your first program or an experienced lifter chasing PRs, we're honored to be part of your fitness story.
+Thank you for choosing ShadowLift for your strength training journey. Whether you're a beginner starting your first program or an experienced lifter chasing PRs, we're honored to be part of your fitness story.
 
 Every rep counts. Every set matters. Every workout is progress.
 
@@ -202,17 +202,17 @@ Every rep counts. Every set matters. Every workout is progress.
 
 *Made with passion, powered by caffeine, tested under the iron.*
 
-*Gymly Fitness - Building tools for serious lifters.*
+*ShadowLift - Building tools for serious lifters.*
 
 ---
 
 ### Contact Information
 
-**Gymly Fitness**
+**ShadowLift**
 [Your Address Here]
 
-**General Inquiries:** hello@gymly.app
-**Support:** support@gymly.app
-**Privacy:** privacy@gymly.app
+**General Inquiries:** hello@shadowlift.app
+**Support:** support@shadowlift.app
+**Privacy:** privacy@shadowlift.app
 
-© 2024 Gymly Fitness. All rights reserved.
+© 2024 ShadowLift. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  CopyWorkout.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 12.09.2024.
 //

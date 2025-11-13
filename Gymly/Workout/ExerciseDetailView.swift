@@ -1,6 +1,6 @@
 //
 //  ExerciseDetailView.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera.
 //

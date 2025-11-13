@@ -1,6 +1,6 @@
 //
 //  SetEditorView.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 20.09.2024.
 //

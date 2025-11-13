@@ -1,6 +1,6 @@
 //
 //  CalendarDayView.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 30.09.2024.
 //

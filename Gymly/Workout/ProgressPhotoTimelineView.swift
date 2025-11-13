@@ -1,6 +1,6 @@
 //
 //  ProgressPhotoTimelineView.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Claude Code on 27.10.2025.
 //

@@ -138,13 +138,13 @@
 		EC9BE9B02EAF86DE00EBEA0B /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		EC9BE9B32EAF86EC00EBEA0B /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		EC9BE9B52EAF870D00EBEA0B /* PoseGuideOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseGuideOverlay.swift; sourceTree = "<group>"; };
-		ECA5D1402BF20CF100DCC9F8 /* Gymly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gymly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECA5D1402BF20CF100DCC9F8 /* ShadowLift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShadowLift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA5D1432BF20CF100DCC9F8 /* GymlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymlyApp.swift; sourceTree = "<group>"; };
 		ECA5D1472BF20CF500DCC9F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ECA5D14A2BF20CF500DCC9F8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		ECA5D1502BF20CF500DCC9F8 /* GymlyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymlyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECA5D1502BF20CF500DCC9F8 /* ShadowLiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShadowLiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA5D1542BF20CF500DCC9F8 /* GymlyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymlyTests.swift; sourceTree = "<group>"; };
-		ECA5D15A2BF20CF500DCC9F8 /* GymlyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymlyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECA5D15A2BF20CF500DCC9F8 /* ShadowLiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShadowLiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA5D15E2BF20CF500DCC9F8 /* GymlyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymlyUITests.swift; sourceTree = "<group>"; };
 		ECA5D1602BF20CF500DCC9F8 /* GymlyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymlyUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		ECA5D16D2BF20D0F00DCC9F8 /* ToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBar.swift; sourceTree = "<group>"; };
@@ -310,9 +310,9 @@
 		ECA5D1412BF20CF100DCC9F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ECA5D1402BF20CF100DCC9F8 /* Gymly.app */,
-				ECA5D1502BF20CF500DCC9F8 /* GymlyTests.xctest */,
-				ECA5D15A2BF20CF500DCC9F8 /* GymlyUITests.xctest */,
+				ECA5D1402BF20CF100DCC9F8 /* ShadowLift.app */,
+				ECA5D1502BF20CF500DCC9F8 /* ShadowLiftTests.xctest */,
+				ECA5D15A2BF20CF500DCC9F8 /* ShadowLiftUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -384,9 +384,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ECA5D13F2BF20CF100DCC9F8 /* Gymly */ = {
+		ECA5D13F2BF20CF100DCC9F8 /* ShadowLift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECA5D1642BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "Gymly" */;
+			buildConfigurationList = ECA5D1642BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "ShadowLift" */;
 			buildPhases = (
 				ECA5D13C2BF20CF100DCC9F8 /* Sources */,
 				ECA5D13D2BF20CF100DCC9F8 /* Frameworks */,
@@ -403,14 +403,14 @@
 				ECA863142CC9759500FFB675 /* Settings */,
 				ECA863152CC9760C00FFB675 /* Logic */,
 			);
-			name = Gymly;
+			name = ShadowLift;
 			productName = Gymly;
-			productReference = ECA5D1402BF20CF100DCC9F8 /* Gymly.app */;
+			productReference = ECA5D1402BF20CF100DCC9F8 /* ShadowLift.app */;
 			productType = "com.apple.product-type.application";
 		};
-		ECA5D14F2BF20CF500DCC9F8 /* GymlyTests */ = {
+		ECA5D14F2BF20CF500DCC9F8 /* ShadowLiftTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECA5D1672BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "GymlyTests" */;
+			buildConfigurationList = ECA5D1672BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "ShadowLiftTests" */;
 			buildPhases = (
 				ECA5D14C2BF20CF500DCC9F8 /* Sources */,
 				ECA5D14D2BF20CF500DCC9F8 /* Frameworks */,
@@ -421,14 +421,14 @@
 			dependencies = (
 				ECA5D1522BF20CF500DCC9F8 /* PBXTargetDependency */,
 			);
-			name = GymlyTests;
+			name = ShadowLiftTests;
 			productName = GymlyTests;
-			productReference = ECA5D1502BF20CF500DCC9F8 /* GymlyTests.xctest */;
+			productReference = ECA5D1502BF20CF500DCC9F8 /* ShadowLiftTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		ECA5D1592BF20CF500DCC9F8 /* GymlyUITests */ = {
+		ECA5D1592BF20CF500DCC9F8 /* ShadowLiftUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ECA5D16A2BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "GymlyUITests" */;
+			buildConfigurationList = ECA5D16A2BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "ShadowLiftUITests" */;
 			buildPhases = (
 				ECA5D1562BF20CF500DCC9F8 /* Sources */,
 				ECA5D1572BF20CF500DCC9F8 /* Frameworks */,
@@ -439,9 +439,9 @@
 			dependencies = (
 				ECA5D15C2BF20CF500DCC9F8 /* PBXTargetDependency */,
 			);
-			name = GymlyUITests;
+			name = ShadowLiftUITests;
 			productName = GymlyUITests;
-			productReference = ECA5D15A2BF20CF500DCC9F8 /* GymlyUITests.xctest */;
+			productReference = ECA5D15A2BF20CF500DCC9F8 /* ShadowLiftUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -467,7 +467,7 @@
 					};
 				};
 			};
-			buildConfigurationList = ECA5D13B2BF20CF100DCC9F8 /* Build configuration list for PBXProject "Gymly" */;
+			buildConfigurationList = ECA5D13B2BF20CF100DCC9F8 /* Build configuration list for PBXProject "ShadowLift" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -480,9 +480,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ECA5D13F2BF20CF100DCC9F8 /* Gymly */,
-				ECA5D14F2BF20CF500DCC9F8 /* GymlyTests */,
-				ECA5D1592BF20CF500DCC9F8 /* GymlyUITests */,
+				ECA5D13F2BF20CF100DCC9F8 /* ShadowLift */,
+				ECA5D14F2BF20CF500DCC9F8 /* ShadowLiftTests */,
+				ECA5D1592BF20CF500DCC9F8 /* ShadowLiftUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -600,12 +600,12 @@
 /* Begin PBXTargetDependency section */
 		ECA5D1522BF20CF500DCC9F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = ECA5D13F2BF20CF100DCC9F8 /* Gymly */;
+			target = ECA5D13F2BF20CF100DCC9F8 /* ShadowLift */;
 			targetProxy = ECA5D1512BF20CF500DCC9F8 /* PBXContainerItemProxy */;
 		};
 		ECA5D15C2BF20CF500DCC9F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = ECA5D13F2BF20CF100DCC9F8 /* Gymly */;
+			target = ECA5D13F2BF20CF100DCC9F8 /* ShadowLift */;
 			targetProxy = ECA5D15B2BF20CF500DCC9F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -746,8 +746,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gymly/Info.plist;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your health data to display your steps, heart rate, and workouts.";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "This app needs permission to log your workouts and fitness activities to the Health app.";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Take progress photos to track your transformation over time.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We use your health data to sync your weight and height.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We use your health data to update your weight and height when you edit them in the app.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save your progress photos to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access your photo library to add existing photos to your progress timeline.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -781,8 +786,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gymly/Info.plist;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your health data to display your steps, heart rate, and workouts.";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "This app needs permission to log your workouts and fitness activities to the Health app.";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Take progress photos to track your transformation over time.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We use your health data to sync your weight and height.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We use your health data to update your weight and height when you edit them in the app.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save your progress photos to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access your photo library to add existing photos to your progress timeline.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -818,7 +828,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gymly.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Gymly";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShadowLift.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ShadowLift";
 			};
 			name = Debug;
 		};
@@ -836,7 +846,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gymly.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Gymly";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShadowLift.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ShadowLift";
 			};
 			name = Release;
 		};
@@ -877,7 +887,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ECA5D13B2BF20CF100DCC9F8 /* Build configuration list for PBXProject "Gymly" */ = {
+		ECA5D13B2BF20CF100DCC9F8 /* Build configuration list for PBXProject "ShadowLift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECA5D1622BF20CF500DCC9F8 /* Debug */,
@@ -886,7 +896,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ECA5D1642BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "Gymly" */ = {
+		ECA5D1642BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "ShadowLift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECA5D1652BF20CF500DCC9F8 /* Debug */,
@@ -895,7 +905,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ECA5D1672BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "GymlyTests" */ = {
+		ECA5D1672BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "ShadowLiftTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECA5D1682BF20CF500DCC9F8 /* Debug */,
@@ -904,7 +914,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ECA5D16A2BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "GymlyUITests" */ = {
+		ECA5D16A2BF20CF500DCC9F8 /* Build configuration list for PBXNativeTarget "ShadowLiftUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ECA5D16B2BF20CF500DCC9F8 /* Debug */,

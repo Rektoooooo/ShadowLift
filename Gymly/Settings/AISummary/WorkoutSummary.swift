@@ -1,6 +1,6 @@
 //
 //  WorkoutSummary.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 22.09.2025.
 //

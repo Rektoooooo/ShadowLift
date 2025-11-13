@@ -13,7 +13,7 @@ PLEASE READ THESE TERMS CAREFULLY BEFORE USING GYMLY. BY ACCESSING OR USING THE 
 
 ## 1. Acceptance of Terms
 
-These Terms of Service ("Terms") constitute a legally binding agreement between you ("you," "your," or "User") and Gymly Fitness ("we," "us," or "Company") governing your use of the Gymly mobile application and all related services (collectively, the "Service").
+These Terms of Service ("Terms") constitute a legally binding agreement between you ("you," "your," or "User") and ShadowLift Fitness ("we," "us," or "Company") governing your use of the ShadowLift mobile application and all related services (collectively, the "Service").
 
 By downloading, installing, creating an account, or accessing any part of the Service, you acknowledge that you have read, understood, and agree to be bound by these Terms and our Privacy Policy.
 
@@ -21,7 +21,7 @@ By downloading, installing, creating an account, or accessing any part of the Se
 
 ## 2. Description of Service
 
-Gymly is a fitness tracking application designed for strength training and workout logging.
+ShadowLift is a fitness tracking application designed for strength training and workout logging.
 
 ### Core Features (Free):
 - Workout logging (exercises, sets, reps, weights)
@@ -51,7 +51,7 @@ Gymly is a fitness tracking application designed for strength training and worko
 
 ## 3. Eligibility
 
-**You must be at least 13 years of age to use Gymly** (or 16 in the European Union).
+**You must be at least 13 years of age to use ShadowLift** (or 16 in the European Union).
 
 By accepting these Terms, you represent that:
 - You have the legal capacity to enter into binding contracts
@@ -81,7 +81,7 @@ To access certain features, you must create an account using Apple Sign In with 
 
 ### Premium Subscription
 
-Gymly offers optional paid Premium subscriptions:
+ShadowLift offers optional paid Premium subscriptions:
 - **Monthly:** €2.99/month
 - **Yearly:** €29.99/year (save 17%)
 
@@ -107,7 +107,7 @@ All payments are processed through Apple's In-App Purchase system and are subjec
 
 ### How to Cancel:
 1. iOS Settings → [Your Name] → Subscriptions
-2. Select Gymly
+2. Select ShadowLift
 3. Tap "Cancel Subscription"
 
 **Cancellation Terms:**
@@ -120,7 +120,7 @@ All payments are processed through Apple's In-App Purchase system and are subjec
 Refunds are handled through Apple's refund policy. To request a refund:
 - Visit reportaproblem.apple.com
 - Sign in with your Apple ID
-- Select Gymly purchase
+- Select ShadowLift purchase
 - Choose "Request a Refund"
 
 ---
@@ -128,7 +128,7 @@ Refunds are handled through Apple's refund policy. To request a refund:
 ## 6. License and Access
 
 Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to:
-- Install and use Gymly on your personal devices
+- Install and use ShadowLift on your personal devices
 - Access and use the Service for personal, non-commercial purposes
 - Sync data across devices you own
 
@@ -142,8 +142,8 @@ Subject to these Terms, we grant you a limited, non-exclusive, non-transferable,
 
 ### Ownership
 
-Gymly Fitness owns all rights, title, and interest in:
-- The Gymly application
+ShadowLift Fitness owns all rights, title, and interest in:
+- The ShadowLift application
 - Source code and design
 - Trademarks, logos, and branding
 - Content provided by us (templates, exercise data, etc.)
@@ -178,7 +178,7 @@ Your use of the Service does not grant you any ownership rights.
 
 ### Your Content
 
-"User Content" means any data you create, upload, or store in Gymly:
+"User Content" means any data you create, upload, or store in ShadowLift:
 - Workout logs and history
 - Exercise notes and comments
 - Progress photos
@@ -295,7 +295,7 @@ The Service:
 - Any chronic health condition
 
 **YOU MUST:**
-- Consult your doctor before using Gymly
+- Consult your doctor before using ShadowLift
 - Follow all medical advice and restrictions
 - Modify exercises as recommended by healthcare providers
 - Stop exercising if symptoms occur
@@ -320,7 +320,7 @@ We Disclaim Warranties Of:
 
 **TO THE MAXIMUM EXTENT PERMITTED BY LAW:**
 
-Gymly Fitness SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING:
+ShadowLift Fitness SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING:
 - Loss of data or content
 - Personal injury or property damage
 - Emotional distress
@@ -405,7 +405,7 @@ For legal proceedings:
 
 ### Entire Agreement
 
-These Terms, along with our Privacy Policy, constitute the entire agreement between you and Gymly Fitness regarding the Service.
+These Terms, along with our Privacy Policy, constitute the entire agreement between you and ShadowLift Fitness regarding the Service.
 
 ### Severability
 
@@ -433,7 +433,7 @@ Subject: "Terms of Service Question"
 Email: support@gymly.app
 
 **Mailing Address:**
-Gymly Fitness
+ShadowLift Fitness
 Attn: Legal Department
 [Your Address Here]
 
@@ -452,10 +452,10 @@ BY USING GYMLY, YOU ACKNOWLEDGE THAT:
 ✓ You are at least 13 years old (or age of majority in your jurisdiction)
 ✓ You have the authority to enter into this agreement
 
-**If you do not agree to these Terms, do not use Gymly.**
+**If you do not agree to these Terms, do not use ShadowLift.**
 
 ---
 
-*Thank you for using Gymly. Train hard, train smart, and stay safe! 💪*
+*Thank you for using ShadowLift. Train hard, train smart, and stay safe! 💪*
 
 *Last reviewed and updated: November 13, 2024*

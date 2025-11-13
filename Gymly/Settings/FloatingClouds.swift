@@ -1,6 +1,6 @@
 //
 //  FloatingClouds.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 10.09.2025.
 //

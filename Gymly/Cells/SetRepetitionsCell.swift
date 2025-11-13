@@ -1,6 +1,6 @@
 //
 //  RepetitionCell.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 06.03.2025.
 //

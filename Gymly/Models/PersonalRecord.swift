@@ -1,6 +1,6 @@
 //
 //  PersonalRecord.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Claude Code on 03.11.2025.
 //

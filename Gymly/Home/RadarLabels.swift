@@ -1,6 +1,6 @@
 //
 //  RadarLabels.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 24.09.2024.
 //

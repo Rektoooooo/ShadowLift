@@ -1,6 +1,6 @@
 //
 //  ContactSupportView.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Claude Code on 13.11.2024.
 //
@@ -25,13 +25,13 @@ struct ContactSupportView: View {
         var email: String {
             switch self {
             case .general:
-                return "support@gymly.app"
+                return "support@shadowlift.app"
             case .bug:
-                return "support@gymly.app"
+                return "support@shadowlift.app"
             case .feature:
-                return "hello@gymly.app"
+                return "hello@shadowlift.app"
             case .billing:
-                return "support@gymly.app"
+                return "support@shadowlift.app"
             }
         }
 

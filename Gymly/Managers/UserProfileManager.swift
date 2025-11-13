@@ -1,6 +1,6 @@
 //
 //  UserProfileManager.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by SwiftData Migration on 18.09.2025.
 //

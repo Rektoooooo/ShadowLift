@@ -1,6 +1,6 @@
 //
 //  ProfileImageCropView.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Claude Code on 30.01.2025.
 //

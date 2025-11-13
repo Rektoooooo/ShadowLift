@@ -1,6 +1,6 @@
 //
 //  DayStorage.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 29.08.2024.
 //

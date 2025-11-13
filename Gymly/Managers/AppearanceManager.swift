@@ -1,6 +1,6 @@
 //
 //  AppearanceManager.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 20.10.2025.
 //

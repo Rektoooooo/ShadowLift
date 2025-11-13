@@ -1,6 +1,6 @@
 //
 //  AboutGymlyView.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Claude Code on 13.11.2024.
 //
@@ -37,7 +37,7 @@ struct AboutGymlyView: View {
                                     .cornerRadius(20)
                                     .shadow(radius: 5)
 
-                                Text("Gymly")
+                                Text("ShadowLift")
                                     .font(.largeTitle)
                                     .fontWeight(.bold)
 
@@ -64,7 +64,7 @@ struct AboutGymlyView: View {
                 }
             }
         }
-        .navigationTitle("About Gymly")
+        .navigationTitle("About ShadowLift")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             loadDocument()
@@ -93,11 +93,11 @@ struct AboutGymlyView: View {
         guard let finalUrl = url,
               let text = try? String(contentsOf: finalUrl, encoding: .utf8) else {
             content = """
-            # About Gymly
+            # About ShadowLift
 
             **Built for lifters, by lifters.**
 
-            Gymly is a modern fitness tracking app designed for strength training enthusiasts.
+            ShadowLift is a modern fitness tracking app designed for strength training enthusiasts.
 
             ## Our Mission
 
@@ -105,10 +105,10 @@ struct AboutGymlyView: View {
 
             ## Contact
 
-            **Support**: support@gymly.app
-            **General**: hello@gymly.app
+            **Support**: support@shadowlift.app
+            **General**: hello@shadowlift.app
 
-            © 2024 Gymly Fitness. All rights reserved.
+            © 2024 ShadowLift. All rights reserved.
             """
             isLoading = false
             return

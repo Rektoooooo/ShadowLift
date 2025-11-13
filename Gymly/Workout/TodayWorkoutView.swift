@@ -1,6 +1,6 @@
 //
 //  TodayWorkoutView.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Sebastián Kučera on 20.08.2024.
 //

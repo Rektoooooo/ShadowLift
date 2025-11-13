@@ -1,6 +1,6 @@
 //
 //  HelpFAQView.swift
-//  Gymly
+//  ShadowLift
 //
 //  Created by Claude Code on 13.11.2024.
 //

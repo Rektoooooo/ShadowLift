@@ -25,7 +25,7 @@
 5. Enter your weight and reps
 6. Mark the set as complete by tapping the checkmark
 7. Complete all sets for all exercises
-8. Gymly automatically saves your progress!
+8. ShadowLift automatically saves your progress!
 
 ### What's the difference between a Split and a Day?
 
@@ -56,7 +56,7 @@ You create a split once, and it contains multiple days that cycle through automa
 
 ### Can I create custom exercises?
 
-Not yet! Currently Gymly uses a curated exercise library of 200+ exercises. Custom exercise creation is planned for a future update.
+Not yet! Currently ShadowLift uses a curated exercise library of 200+ exercises. Custom exercise creation is planned for a future update.
 
 **Workaround**: Find a similar exercise in the library and add notes to specify your variation.
 
@@ -86,9 +86,9 @@ Not yet! Currently Gymly uses a curated exercise library of 200+ exercises. Cust
 **To mark a set type:**
 Tap the set indicator icons when logging a set.
 
-### How does Gymly track my progress?
+### How does ShadowLift track my progress?
 
-Gymly tracks several metrics automatically:
+ShadowLift tracks several metrics automatically:
 - **Volume**: Total weight lifted (sets × reps × weight)
 - **Personal Records (PRs)**: Your best performance for each exercise (Premium)
 - **Workout Frequency**: Days per week you train
@@ -104,7 +104,7 @@ View your progress in:
 
 ## Premium Features
 
-### What do I get with Gymly Pro?
+### What do I get with ShadowLift Pro?
 
 **Premium Features (€2.99/month or €29.99/year):**
 - ⭐ Automatic PR (Personal Record) tracking
@@ -139,9 +139,9 @@ View your progress in:
 ### How do I cancel my subscription?
 
 **On iPhone:**
-1. Open **Settings** app (iPhone Settings, not Gymly)
+1. Open **Settings** app (iPhone Settings, not ShadowLift)
 2. Tap your name at the top → **Subscriptions**
-3. Find **Gymly Pro**
+3. Find **ShadowLift Pro**
 4. Tap **Cancel Subscription**
 
 **You'll keep Premium access until the end of your billing period.**
@@ -152,7 +152,7 @@ Refunds are handled by Apple. To request a refund:
 
 1. Go to [reportaproblem.apple.com](https://reportaproblem.apple.com)
 2. Sign in with your Apple ID
-3. Find your Gymly subscription purchase
+3. Find your ShadowLift subscription purchase
 4. Click **Report a Problem** → **Request a Refund**
 5. Select your reason and submit
 
@@ -195,14 +195,14 @@ Settings → Connections → iCloud Sync (toggle on/off)
 
 **Common issues:**
 
-1. **iCloud not enabled in Gymly**
+1. **iCloud not enabled in ShadowLift**
    - Settings → Connections → Enable iCloud Sync
 
 2. **Signed out of iCloud**
    - iPhone Settings → [Your Name] → Sign in
 
 3. **Poor network connection**
-   - Gymly pauses sync on poor cellular to prevent lag
+   - ShadowLift pauses sync on poor cellular to prevent lag
    - Connect to WiFi for faster sync
 
 4. **iCloud storage full**
@@ -210,11 +210,11 @@ Settings → Connections → iCloud Sync (toggle on/off)
    - Free up space or upgrade plan
 
 5. **Background app refresh disabled**
-   - iPhone Settings → Gymly → Enable Background App Refresh
+   - iPhone Settings → ShadowLift → Enable Background App Refresh
 
-### Does Gymly work offline?
+### Does ShadowLift work offline?
 
-**Yes!** Gymly is designed for offline-first operation:
+**Yes!** ShadowLift is designed for offline-first operation:
 
 - ✅ Log workouts without internet
 - ✅ View workout history
@@ -226,7 +226,7 @@ Settings → Connections → iCloud Sync (toggle on/off)
 - ❌ AI workout summaries (first generation)
 - ❌ Subscription purchases
 
-**Pro Tip**: This is why Gymly works perfectly in gyms with poor cellular connection!
+**Pro Tip**: This is why ShadowLift works perfectly in gyms with poor cellular connection!
 
 ### Can I export my workout data?
 
@@ -254,13 +254,13 @@ Settings → Connections → iCloud Sync (toggle on/off)
    - ✅ Height (read)
    - ✅ Workouts (write)
 
-### What data does Gymly sync with Health?
+### What data does ShadowLift sync with Health?
 
-**Gymly writes:**
+**ShadowLift writes:**
 - Workout sessions (duration, start/end time)
 - Body weight updates
 
-**Gymly reads:**
+**ShadowLift reads:**
 - Body weight (for charts and BMI)
 - Height (for BMI calculation)
 - Date of birth (for age)
@@ -270,7 +270,7 @@ Settings → Connections → iCloud Sync (toggle on/off)
 **Check these:**
 
 1. **Health permissions granted**
-   - iPhone Settings → Health → Data Access & Devices → Gymly
+   - iPhone Settings → Health → Data Access & Devices → ShadowLift
    - Ensure "Weight" is enabled
 
 2. **Weight data exists in Health**
@@ -278,7 +278,7 @@ Settings → Connections → iCloud Sync (toggle on/off)
    - Add a weight entry if none exists
 
 3. **Reconnect Health**
-   - Gymly Settings → Connections → Disconnect Health
+   - ShadowLift Settings → Connections → Disconnect Health
    - Then reconnect and grant permissions again
 
 ### Can I stop syncing with Health?
@@ -300,7 +300,7 @@ This was a known issue (the "gym lag" problem) that has been fixed in recent upd
 **Try these fixes:**
 
 1. **Update to latest version**
-   - App Store → Updates → Update Gymly
+   - App Store → Updates → Update ShadowLift
 
 2. **Disable iCloud sync during workouts**
    - Settings → Connections → Disable iCloud Sync
@@ -330,7 +330,7 @@ If lag persists, contact support@gymly.app with your iPhone model and iOS versio
    - Calendar tab → Find incorrect workout → Delete or edit date
 
 3. **Streak calculation logic**
-   - Gymly allows up to `1 + rest days` gap before breaking
+   - ShadowLift allows up to `1 + rest days` gap before breaking
    - Example: 2 rest days = 3 day max gap
 
 **To manually adjust:**
@@ -350,10 +350,10 @@ Email hello@gymly.app with the exercise name and we'll consider adding it in fut
 
 ### The app crashed. Will I lose my workout?
 
-**No!** Gymly auto-saves after every set you log.
+**No!** ShadowLift auto-saves after every set you log.
 
 **If app crashes during workout:**
-1. Reopen Gymly
+1. Reopen ShadowLift
 2. Go to Routine tab
 3. Your logged sets will still be there
 4. Continue where you left off
@@ -362,7 +362,7 @@ Email hello@gymly.app with the exercise name and we'll consider adding it in fut
 
 ### How do I reset my password?
 
-Gymly uses **Apple Sign In** which doesn't have passwords!
+ShadowLift uses **Apple Sign In** which doesn't have passwords!
 
 Your Apple ID credentials secure your account. To change your Apple ID password:
 
@@ -387,7 +387,7 @@ Your Apple ID credentials secure your account. To change your Apple ID password:
 
 ### Is my workout data private?
 
-**Yes!** Privacy is core to Gymly:
+**Yes!** Privacy is core to ShadowLift:
 
 - ✅ Workout data stored locally on your device by default
 - ✅ AI processing happens entirely on your iPhone (iOS 18.1+)
@@ -398,7 +398,7 @@ Your Apple ID credentials secure your account. To change your Apple ID password:
 
 **You control your data** - export or delete anytime.
 
-### What data does Gymly collect?
+### What data does ShadowLift collect?
 
 **We collect minimal data:**
 
@@ -425,7 +425,7 @@ Your Apple ID credentials secure your account. To change your Apple ID password:
 
 Read our full [Privacy Policy](privacy-policy) for details.
 
-### Can Gymly access my photos?
+### Can ShadowLift access my photos?
 
 **Only if you grant permission** for Progress Photos feature.
 
@@ -456,12 +456,12 @@ The AI Summary analyzes your weekly workouts and provides:
 
 ### Why do I need iOS 18.1 for AI features?
 
-Apple's **FoundationModels** framework (on-device AI) was introduced in iOS 18.1. This framework powers Gymly's private AI summaries.
+Apple's **FoundationModels** framework (on-device AI) was introduced in iOS 18.1. This framework powers ShadowLift's private AI summaries.
 
 **Requirements:**
 - iOS 18.1 or later
 - iPhone 12 or newer (for Neural Engine)
-- Gymly Pro subscription
+- ShadowLift Pro subscription
 
 ### Are AI summaries accurate?
 
@@ -501,13 +501,13 @@ AI summaries are **insightful but not medical advice**.
 - Apple Watch (planned for future)
 - Android devices
 
-### Does Gymly work on Apple Watch?
+### Does ShadowLift work on Apple Watch?
 
 **Not yet**, but it's planned for a future update!
 
-Currently Gymly is iPhone/iPad only.
+Currently ShadowLift is iPhone/iPad only.
 
-### Can I use Gymly on multiple devices?
+### Can I use ShadowLift on multiple devices?
 
 **Yes!** With iCloud sync enabled:
 
@@ -517,7 +517,7 @@ Currently Gymly is iPhone/iPad only.
 
 **Supported**: iPhone ↔️ iPad
 
-### Why does Gymly need certain permissions?
+### Why does ShadowLift need certain permissions?
 
 **Camera**: To take progress photos (optional)
 **Photo Library**: To save progress photos (optional)
@@ -533,7 +533,7 @@ Currently Gymly is iPhone/iPad only.
 
 ### What payment methods are accepted?
 
-Gymly uses **Apple's In-App Purchase** system.
+ShadowLift uses **Apple's In-App Purchase** system.
 
 **Accepted payments:**
 - Credit/Debit cards
@@ -541,7 +541,7 @@ Gymly uses **Apple's In-App Purchase** system.
 - Apple Account balance
 - Carrier billing (if available)
 
-**Payments are processed by Apple**, not Gymly. We never see your payment information.
+**Payments are processed by Apple**, not ShadowLift. We never see your payment information.
 
 ### Why was I charged after my trial?
 
@@ -613,14 +613,14 @@ We review all exercise suggestions!
 
 We aim to respond within 24 hours on weekdays.
 
-### Where can I follow Gymly updates?
+### Where can I follow ShadowLift updates?
 
 **Social Media:**
 - Twitter/X: @gymly_app
 - Instagram: @gymly_fitness
 
 **App Updates:**
-- App Store → Gymly → What's New section
+- App Store → ShadowLift → What's New section
 
 **Direct contact:**
 - General: hello@gymly.app
@@ -637,7 +637,7 @@ We aim to respond within 24 hours on weekdays.
 
 **Before contacting support, please:**
 1. Check if your question is answered in this FAQ
-2. Make sure you're on the latest version of Gymly
+2. Make sure you're on the latest version of ShadowLift
 3. Try restarting the app and your iPhone
 
 **Include in your email:**
@@ -648,7 +648,7 @@ We aim to respond within 24 hours on weekdays.
 
 ---
 
-**Thank you for using Gymly!** 💪
+**Thank you for using ShadowLift!** 💪
 
 *Train hard, train smart, and don't skip leg day.*
 
