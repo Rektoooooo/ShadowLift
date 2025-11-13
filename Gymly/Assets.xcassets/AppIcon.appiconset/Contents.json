@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "LogoGymlyWhite.jpg",
+      "filename" : "ShadowLift_Red 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "LogoGymlyBlack.jpg",
+      "filename" : "ShadowLift_Red.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "AppIconTinted.png",
+      "filename" : "New logo.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

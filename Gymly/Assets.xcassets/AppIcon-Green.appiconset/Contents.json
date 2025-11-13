@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "AppIconWhite-Green.png",
+      "filename" : "ShadowLift_Green.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "AppIcon-Green.png",
+      "filename" : "ShadowLift_Green 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "AppIconTinted.png",
+      "filename" : "New logo.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

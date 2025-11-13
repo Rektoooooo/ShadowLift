@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "AppIconWhite-Blue.png",
+      "filename" : "ShadowLift_Blue.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "AppIcon-Blue.png",
+      "filename" : "ShadowLift_Blue 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
