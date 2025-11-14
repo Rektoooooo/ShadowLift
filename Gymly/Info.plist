@@ -28,7 +28,7 @@
 					<string>AppIcon-Blue</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>AppIconGreen</key>
 			<dict>
@@ -37,7 +37,7 @@
 					<string>AppIcon-Green</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>AppIconOrange</key>
 			<dict>
@@ -46,7 +46,7 @@
 					<string>AppIcon-Orange</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>AppIconPink</key>
 			<dict>
@@ -55,7 +55,7 @@
 					<string>AppIcon-Pink</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>AppIconPurple</key>
 			<dict>
@@ -64,7 +64,7 @@
 					<string>AppIcon-Purple</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<true/>
 			</dict>
 		</dict>
 		<key>CFBundlePrimaryIcon</key>

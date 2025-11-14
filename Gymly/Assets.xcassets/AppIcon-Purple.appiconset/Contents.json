@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "ShadowLift_Purple 1.png",
+      "filename" : "AppIcon-Purple-Light.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ShadowLift_Purple.png",
+      "filename" : "ShadowLiftDark_Purple.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "New logo.png",
+      "filename" : "AppIcon-Purple-Tint.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

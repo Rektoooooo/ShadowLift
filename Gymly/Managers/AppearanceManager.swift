@@ -111,7 +111,7 @@ public class AppearanceManager: ObservableObject {
             if let error = error {
                 debugPrint("❌ Error setting app icon: \(error.localizedDescription)")
             } else {
-                debugPrint("✅ App icon changed to: \(iconName ?? "default (Red)")")
+                debugPrint("✅ App icon changed to: \(iconName ?? "default")")
             }
         }
     }

@@ -51,11 +51,11 @@ struct PremiumSubscriptionView: View {
                     VStack(spacing: 24) {
                         // Header
                         VStack(spacing: 12) {
-                            Image(systemName: "star.fill")
-                                .font(.system(size: 60))
-                                .foregroundColor(.yellow)
+                            Image(.shadowPremium)
+                                .resizable()
+                                .frame(width: 300, height: 300)
 
-                            Text("Gymly Pro")
+                            Text("ShadowLift Pro")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
 

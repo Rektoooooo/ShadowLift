@@ -38,7 +38,7 @@ struct ContactSupportView: View {
         var subject: String {
             switch self {
             case .general:
-                return "Gymly Support Request"
+                return "Shadowlift Support Request"
             case .bug:
                 return "Bug Report: [Brief Description]"
             case .feature:

@@ -199,7 +199,7 @@ struct NewSettingsView: View {
                         HStack {
                             Spacer()
                             VStack(spacing: 4) {
-                                Text("Gymly")
+                                Text("ShadowLift")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                                 Text("Version 1.0.0")

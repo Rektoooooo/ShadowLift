@@ -60,7 +60,7 @@ struct AppearanceView: View {
                         HStack(spacing: 8) {
                             Image(systemName: "app.badge")
                                 .foregroundStyle(.secondary)
-                            Text("Preview your color choice, then save to update the app icon")
+                            Text("Preview your color choice, then save to update the app icon (Works for light mode only)")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }

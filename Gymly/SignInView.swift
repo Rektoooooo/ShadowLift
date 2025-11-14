@@ -38,10 +38,9 @@ struct SignInView: View {
                                 .fill(Color.white.opacity(0.1))
                                 .frame(width: 120, height: 120)
 
-                            Image(systemName: "icloud.and.arrow.down")
-                                .font(.system(size: 50))
-                                .foregroundStyle(.white)
-                                .symbolEffect(.bounce, options: .repeating)
+                            Image(.shadowICloud)
+                                .resizable()
+                                .frame(width: 300, height: 300)
                         }
 
                         VStack(spacing: 12) {
@@ -50,7 +49,7 @@ struct SignInView: View {
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.white)
 
-                            Text("Restoring your profile and workouts...")
+                            Text("Shadow is collecting your profile and workouts...")
                                 .font(.body)
                                 .foregroundStyle(.white.opacity(0.8))
 
@@ -73,7 +72,7 @@ struct SignInView: View {
 
             VStack(spacing: 40) {
                 VStack(spacing: 16) {
-                    Text("Gymly")
+                    Text("ShadowLift")
                         .bold()
                         .font(.largeTitle)
                         .foregroundStyle(Color.primary)
