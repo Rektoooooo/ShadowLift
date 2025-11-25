@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EC04B7762EC65EDC00232DDE /* terms-of-service.md in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7732EC65EDC00232DDE /* terms-of-service.md */; };
-		EC04B7772EC65EDC00232DDE /* about.md in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7702EC65EDC00232DDE /* about.md */; };
-		EC04B7782EC65EDC00232DDE /* privacy-policy.md in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7722EC65EDC00232DDE /* privacy-policy.md */; };
-		EC04B7792EC65EDC00232DDE /* faq.md in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7712EC65EDC00232DDE /* faq.md */; };
 		EC04B77E2EC6608700232DDE /* MarkdownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC04B77D2EC6608700232DDE /* MarkdownText.swift */; };
 		EC04B78B2EC718AD00232DDE /* AppIcon-Green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7812EC718AD00232DDE /* AppIcon-Green@2x.png */; };
 		EC04B78C2EC718AD00232DDE /* AppIcon-Pink@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7862EC718AD00232DDE /* AppIcon-Pink@3x.png */; };
@@ -26,7 +22,6 @@
 		EC06F16A2E7CA3DA00E42CCF /* UserProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC06F1682E7CA3DA00E42CCF /* UserProfileManager.swift */; };
 		EC317F392EA2473D000DFB1E /* FitnessProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC317F382EA2473D000DFB1E /* FitnessProfile.swift */; };
 		EC317F4B2EA63235000DFB1E /* AppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC317F4A2EA63235000DFB1E /* AppearanceManager.swift */; };
-		EC3BEC3D2C76624600C9DF0B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BEC3C2C76624600C9DF0B /* Config.swift */; };
 		EC4FD1532C4ED88300D1A4A6 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4FD1522C4ED88300D1A4A6 /* Day.swift */; };
 		EC4FD1572C4EE0A600D1A4A6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4FD1552C4EE0A600D1A4A6 /* Color.swift */; };
 		EC4FD1582C4EE0A600D1A4A6 /* onFirstAppear.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4FD1542C4EE0A600D1A4A6 /* onFirstAppear.swift */; };
@@ -39,7 +34,6 @@
 		EC5922542D7B1BE100EB39B2 /* ProfileImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5922532D7B1BE100EB39B2 /* ProfileImageCell.swift */; };
 		EC629C662C9CAE2300009902 /* MuscleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629C652C9CAE2300009902 /* MuscleGroup.swift */; };
 		EC66F6992D92CF380086D625 /* SettingUserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC66F6982D92CF380086D625 /* SettingUserInfoCell.swift */; };
-		EC66F69B2D92FD750086D625 /* WhatsNewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC66F69A2D92FD750086D625 /* WhatsNewManager.swift */; };
 		EC66F6A12D94213D0086D625 /* BMIGaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC66F6A02D94213D0086D625 /* BMIGaugeView.swift */; };
 		EC66F6A52D949D410086D625 /* WeightChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC66F6A42D949D410086D625 /* WeightChart.swift */; };
 		EC66F6A72D949DBB0086D625 /* WeightPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC66F6A62D949DBB0086D625 /* WeightPoint.swift */; };
@@ -50,9 +44,6 @@
 		EC9BE9A72EAEA7FC00EBEA0B /* SplitTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE9A62EAEA7FC00EBEA0B /* SplitTemplate.swift */; };
 		EC9BE9AB2EAF864100EBEA0B /* ProgressPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE9AA2EAF864100EBEA0B /* ProgressPhoto.swift */; };
 		EC9BE9AD2EAF868000EBEA0B /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE9AC2EAF868000EBEA0B /* PhotoManager.swift */; };
-		EC9BE9B22EAF86DE00EBEA0B /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE9B02EAF86DE00EBEA0B /* CameraViewModel.swift */; };
-		EC9BE9B42EAF86EC00EBEA0B /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE9B32EAF86EC00EBEA0B /* CameraPreview.swift */; };
-		EC9BE9B62EAF870D00EBEA0B /* PoseGuideOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BE9B52EAF870D00EBEA0B /* PoseGuideOverlay.swift */; };
 		ECA5BBB32EC749D100AD2757 /* AppIcon-Blue@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECA5BBB02EC749D100AD2757 /* AppIcon-Blue@3x.png */; };
 		ECA5BBB42EC749D100AD2757 /* AppIcon-Blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECA5BBAF2EC749D100AD2757 /* AppIcon-Blue@2x.png */; };
 		ECA5BBB52EC749D100AD2757 /* AppIcon-Purple@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECA5BBB22EC749D100AD2757 /* AppIcon-Purple@3x.png */; };
@@ -65,7 +56,9 @@
 		ECA5D1612BF20CF500DCC9F8 /* GymlyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D1602BF20CF500DCC9F8 /* GymlyUITestsLaunchTests.swift */; };
 		ECA5D16E2BF20D0F00DCC9F8 /* ToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D16D2BF20D0F00DCC9F8 /* ToolBar.swift */; };
 		ECA5D1762BF22C2000DCC9F8 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D1752BF22C2000DCC9F8 /* Exercise.swift */; };
-		ECDE63112D48D27B00C2DA94 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDE63102D48D27B00C2DA94 /* SignInView.swift */; };
+		ECE71EAE2ED5C8C1005AA330 /* iCloudSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE71EAC2ED5C8C1005AA330 /* iCloudSyncManager.swift */; };
+		ECE71F082ED5C8C1005AA330 /* FloatingClouds.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE71EF02ED5C8C1005AA330 /* FloatingClouds.swift */; };
+		ECE71F092ED5C8C1005AA330 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE71EF12ED5C8C1005AA330 /* HealthKitManager.swift */; };
 		ECFFCAAB2EB7F45A008D6FE7 /* claude.md in Resources */ = {isa = PBXBuildFile; fileRef = ECFFCAAA2EB7F45A008D6FE7 /* claude.md */; };
 		ECFFCAAF2EB8A501008D6FE7 /* WeeklyPatternChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFFCAAE2EB8A501008D6FE7 /* WeeklyPatternChart.swift */; };
 		ECFFCAB12EB8B25A008D6FE7 /* PersonalRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFFCAB02EB8B25A008D6FE7 /* PersonalRecord.swift */; };
@@ -92,10 +85,6 @@
 
 /* Begin PBXFileReference section */
 		347803F01A594112B3ABC56EE5F6566C /* WorkoutFlowPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFlowPerformanceTests.swift; sourceTree = "<group>"; };
-		EC04B7702EC65EDC00232DDE /* about.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = about.md; sourceTree = "<group>"; };
-		EC04B7712EC65EDC00232DDE /* faq.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = faq.md; sourceTree = "<group>"; };
-		EC04B7722EC65EDC00232DDE /* privacy-policy.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "privacy-policy.md"; sourceTree = "<group>"; };
-		EC04B7732EC65EDC00232DDE /* terms-of-service.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "terms-of-service.md"; sourceTree = "<group>"; };
 		EC04B77D2EC6608700232DDE /* MarkdownText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownText.swift; sourceTree = "<group>"; };
 		EC04B7812EC718AD00232DDE /* AppIcon-Green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Green@2x.png"; sourceTree = "<group>"; };
 		EC04B7822EC718AD00232DDE /* AppIcon-Green@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Green@3x.png"; sourceTree = "<group>"; };
@@ -111,7 +100,6 @@
 		EC06F1682E7CA3DA00E42CCF /* UserProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileManager.swift; sourceTree = "<group>"; };
 		EC317F382EA2473D000DFB1E /* FitnessProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessProfile.swift; sourceTree = "<group>"; };
 		EC317F4A2EA63235000DFB1E /* AppearanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceManager.swift; sourceTree = "<group>"; };
-		EC3BEC3C2C76624600C9DF0B /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		EC4FD1522C4ED88300D1A4A6 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		EC4FD1542C4EE0A600D1A4A6 /* onFirstAppear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onFirstAppear.swift; sourceTree = "<group>"; };
 		EC4FD1552C4EE0A600D1A4A6 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -124,7 +112,6 @@
 		EC5922532D7B1BE100EB39B2 /* ProfileImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageCell.swift; sourceTree = "<group>"; };
 		EC629C652C9CAE2300009902 /* MuscleGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleGroup.swift; sourceTree = "<group>"; };
 		EC66F6982D92CF380086D625 /* SettingUserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUserInfoCell.swift; sourceTree = "<group>"; };
-		EC66F69A2D92FD750086D625 /* WhatsNewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewManager.swift; sourceTree = "<group>"; };
 		EC66F6A02D94213D0086D625 /* BMIGaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMIGaugeView.swift; sourceTree = "<group>"; };
 		EC66F6A42D949D410086D625 /* WeightChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightChart.swift; sourceTree = "<group>"; };
 		EC66F6A62D949DBB0086D625 /* WeightPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightPoint.swift; sourceTree = "<group>"; };
@@ -135,9 +122,6 @@
 		EC9BE9A62EAEA7FC00EBEA0B /* SplitTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitTemplate.swift; sourceTree = "<group>"; };
 		EC9BE9AA2EAF864100EBEA0B /* ProgressPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPhoto.swift; sourceTree = "<group>"; };
 		EC9BE9AC2EAF868000EBEA0B /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
-		EC9BE9B02EAF86DE00EBEA0B /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
-		EC9BE9B32EAF86EC00EBEA0B /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
-		EC9BE9B52EAF870D00EBEA0B /* PoseGuideOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseGuideOverlay.swift; sourceTree = "<group>"; };
 		ECA5BBAF2EC749D100AD2757 /* AppIcon-Blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Blue@2x.png"; sourceTree = "<group>"; };
 		ECA5BBB02EC749D100AD2757 /* AppIcon-Blue@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Blue@3x.png"; sourceTree = "<group>"; };
 		ECA5BBB12EC749D100AD2757 /* AppIcon-Purple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Purple@2x.png"; sourceTree = "<group>"; };
@@ -153,8 +137,10 @@
 		ECA5D1602BF20CF500DCC9F8 /* GymlyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymlyUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		ECA5D16D2BF20D0F00DCC9F8 /* ToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBar.swift; sourceTree = "<group>"; };
 		ECA5D1752BF22C2000DCC9F8 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
-		ECDE63102D48D27B00C2DA94 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		ECDE63122D48D85A00C2DA94 /* Gymly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gymly.entitlements; sourceTree = "<group>"; };
+		ECE71EAC2ED5C8C1005AA330 /* iCloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudSyncManager.swift; sourceTree = "<group>"; };
+		ECE71EF02ED5C8C1005AA330 /* FloatingClouds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingClouds.swift; sourceTree = "<group>"; };
+		ECE71EF12ED5C8C1005AA330 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		ECF621932D497912007B4C2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		ECFFCAAA2EB7F45A008D6FE7 /* claude.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = claude.md; sourceTree = "<group>"; };
 		ECFFCAAE2EB8A501008D6FE7 /* WeeklyPatternChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyPatternChart.swift; sourceTree = "<group>"; };
@@ -163,11 +149,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		ECA863112CC9754600FFB675 /* Home */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Home; sourceTree = "<group>"; };
-		ECA863122CC9757300FFB675 /* Workout */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Workout; sourceTree = "<group>"; };
-		ECA863132CC9758E00FFB675 /* Calendar */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Calendar; sourceTree = "<group>"; };
+		ECA863122CC9757300FFB675 /* RoutineTab */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = RoutineTab; sourceTree = "<group>"; };
+		ECA863132CC9758E00FFB675 /* CalendarTab */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CalendarTab; sourceTree = "<group>"; };
 		ECA863142CC9759500FFB675 /* Settings */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Settings; sourceTree = "<group>"; };
 		ECA863152CC9760C00FFB675 /* Logic */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Logic; sourceTree = "<group>"; };
+		ECE71F192ED5E7DF005AA330 /* Profile */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Profile; sourceTree = "<group>"; };
+		ECE71F322ED64CCB005AA330 /* Auth */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Auth; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,25 +182,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EC04B7742EC65EDC00232DDE /* Legal */ = {
-			isa = PBXGroup;
-			children = (
-				EC04B7702EC65EDC00232DDE /* about.md */,
-				EC04B7712EC65EDC00232DDE /* faq.md */,
-				EC04B7722EC65EDC00232DDE /* privacy-policy.md */,
-				EC04B7732EC65EDC00232DDE /* terms-of-service.md */,
-			);
-			path = Legal;
-			sourceTree = "<group>";
-		};
-		EC04B7752EC65EDC00232DDE /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				EC04B7742EC65EDC00232DDE /* Legal */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		EC04B77B2EC65FDF00232DDE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,13 +190,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		EC06F15E2E7BC4FE00E42CCF /* CloudKit */ = {
+		EC06F15E2E7BC4FE00E42CCF /* CloudKit & HealthKit */ = {
 			isa = PBXGroup;
 			children = (
 				EC06F15C2E7BC4FE00E42CCF /* CloudKitManager.swift */,
 				EC06F15D2E7BC4FE00E42CCF /* CloudKitSyncStatus.swift */,
+				ECE71EAC2ED5C8C1005AA330 /* iCloudSyncManager.swift */,
+				ECE71EF12ED5C8C1005AA330 /* HealthKitManager.swift */,
 			);
-			path = CloudKit;
+			path = "CloudKit & HealthKit";
 			sourceTree = "<group>";
 		};
 		EC06F1662E7CA3C100E42CCF /* Models */ = {
@@ -261,18 +231,19 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
-		EC4FD1562C4EE0A600D1A4A6 /* Extensions */ = {
+		EC4FD1562C4EE0A600D1A4A6 /* Extensions & Themes */ = {
 			isa = PBXGroup;
 			children = (
 				EC5922412D79A81000EB39B2 /* ImageExtension.swift */,
 				EC4FD1542C4EE0A600D1A4A6 /* onFirstAppear.swift */,
 				EC4FD1552C4EE0A600D1A4A6 /* Color.swift */,
 				EC06F1612E7BCCC900E42CCF /* ExerciseExtensions.swift */,
+				ECE71EF02ED5C8C1005AA330 /* FloatingClouds.swift */,
 			);
-			path = Extensions;
+			path = "Extensions & Themes";
 			sourceTree = "<group>";
 		};
-		EC5922482D7A3BD500EB39B2 /* Cells */ = {
+		EC5922482D7A3BD500EB39B2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				EC66F6A02D94213D0086D625 /* BMIGaugeView.swift */,
@@ -286,16 +257,6 @@
 				EC66F6A42D949D410086D625 /* WeightChart.swift */,
 				ECFFCAAE2EB8A501008D6FE7 /* WeeklyPatternChart.swift */,
 			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		EC9BE9B12EAF86DE00EBEA0B /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				EC9BE9B02EAF86DE00EBEA0B /* CameraViewModel.swift */,
-				EC9BE9B32EAF86EC00EBEA0B /* CameraPreview.swift */,
-				EC9BE9B52EAF870D00EBEA0B /* PoseGuideOverlay.swift */,
-			);
 			path = Components;
 			sourceTree = "<group>";
 		};
@@ -306,7 +267,6 @@
 				ECA5D1532BF20CF500DCC9F8 /* GymlyTests */,
 				ECA5D15D2BF20CF500DCC9F8 /* GymlyUITests */,
 				ECA5D1412BF20CF100DCC9F8 /* Products */,
-				EC04B7752EC65EDC00232DDE /* Resources */,
 				EC04B77B2EC65FDF00232DDE /* Helpers */,
 			);
 			sourceTree = "<group>";
@@ -326,36 +286,23 @@
 			children = (
 				ECF621932D497912007B4C2E /* Info.plist */,
 				ECDE63122D48D85A00C2DA94 /* Gymly.entitlements */,
-				EC06F15E2E7BC4FE00E42CCF /* CloudKit */,
-				EC5922482D7A3BD500EB39B2 /* Cells */,
-				ECA863152CC9760C00FFB675 /* Logic */,
-				ECA863112CC9754600FFB675 /* Home */,
-				ECA863122CC9757300FFB675 /* Workout */,
-				ECA863132CC9758E00FFB675 /* Calendar */,
-				ECA5D1432BF20CF100DCC9F8 /* GymlyApp.swift */,
-				ECA863142CC9759500FFB675 /* Settings */,
+				ECE71F322ED64CCB005AA330 /* Auth */,
 				EC06F1662E7CA3C100E42CCF /* Models */,
-				EC66F69A2D92FD750086D625 /* WhatsNewManager.swift */,
-				ECDE63102D48D27B00C2DA94 /* SignInView.swift */,
-				ECA5D16D2BF20D0F00DCC9F8 /* ToolBar.swift */,
-				EC9BE9B12EAF86DE00EBEA0B /* Components */,
 				EC06F1692E7CA3DA00E42CCF /* Managers */,
-				EC3BEC3C2C76624600C9DF0B /* Config.swift */,
+				EC4FD1562C4EE0A600D1A4A6 /* Extensions & Themes */,
+				EC06F15E2E7BC4FE00E42CCF /* CloudKit & HealthKit */,
+				EC5922482D7A3BD500EB39B2 /* Components */,
+				ECA863152CC9760C00FFB675 /* Logic */,
+				ECA863122CC9757300FFB675 /* RoutineTab */,
+				ECA863132CC9758E00FFB675 /* CalendarTab */,
+				ECE71F192ED5E7DF005AA330 /* Profile */,
+				ECA863142CC9759500FFB675 /* Settings */,
+				ECA5D1432BF20CF100DCC9F8 /* GymlyApp.swift */,
+				ECA5D16D2BF20D0F00DCC9F8 /* ToolBar.swift */,
 				ECA5D1472BF20CF500DCC9F8 /* Assets.xcassets */,
-				EC4FD1562C4EE0A600D1A4A6 /* Extensions */,
+				ECE71F312ED5EE0E005AA330 /* AppIcons */,
 				ECA5D1492BF20CF500DCC9F8 /* Preview Content */,
 				ECFFCAAA2EB7F45A008D6FE7 /* claude.md */,
-				EC04B7812EC718AD00232DDE /* AppIcon-Green@2x.png */,
-				EC04B7822EC718AD00232DDE /* AppIcon-Green@3x.png */,
-				ECA5BBAF2EC749D100AD2757 /* AppIcon-Blue@2x.png */,
-				ECA5BBB02EC749D100AD2757 /* AppIcon-Blue@3x.png */,
-				ECA5BBB12EC749D100AD2757 /* AppIcon-Purple@2x.png */,
-				ECA5BBB22EC749D100AD2757 /* AppIcon-Purple@3x.png */,
-				EC04B7832EC718AD00232DDE /* AppIcon-Orange@2x.png */,
-				EC04B7842EC718AD00232DDE /* AppIcon-Orange@3x.png */,
-				EC04B7852EC718AD00232DDE /* AppIcon-Pink@2x.png */,
-				EC04B7862EC718AD00232DDE /* AppIcon-Pink@3x.png */,
-				EC04B7892EC718AD00232DDE /* AppIcon@2x.png */,
 			);
 			path = Gymly;
 			sourceTree = "<group>";
@@ -387,6 +334,24 @@
 			path = GymlyUITests;
 			sourceTree = "<group>";
 		};
+		ECE71F312ED5EE0E005AA330 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				EC04B7812EC718AD00232DDE /* AppIcon-Green@2x.png */,
+				EC04B7822EC718AD00232DDE /* AppIcon-Green@3x.png */,
+				ECA5BBAF2EC749D100AD2757 /* AppIcon-Blue@2x.png */,
+				ECA5BBB02EC749D100AD2757 /* AppIcon-Blue@3x.png */,
+				ECA5BBB12EC749D100AD2757 /* AppIcon-Purple@2x.png */,
+				ECA5BBB22EC749D100AD2757 /* AppIcon-Purple@3x.png */,
+				EC04B7832EC718AD00232DDE /* AppIcon-Orange@2x.png */,
+				EC04B7842EC718AD00232DDE /* AppIcon-Orange@3x.png */,
+				EC04B7852EC718AD00232DDE /* AppIcon-Pink@2x.png */,
+				EC04B7862EC718AD00232DDE /* AppIcon-Pink@3x.png */,
+				EC04B7892EC718AD00232DDE /* AppIcon@2x.png */,
+			);
+			path = AppIcons;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -403,11 +368,12 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				ECA863112CC9754600FFB675 /* Home */,
-				ECA863122CC9757300FFB675 /* Workout */,
-				ECA863132CC9758E00FFB675 /* Calendar */,
+				ECA863122CC9757300FFB675 /* RoutineTab */,
+				ECA863132CC9758E00FFB675 /* CalendarTab */,
 				ECA863142CC9759500FFB675 /* Settings */,
 				ECA863152CC9760C00FFB675 /* Logic */,
+				ECE71F192ED5E7DF005AA330 /* Profile */,
+				ECE71F322ED64CCB005AA330 /* Auth */,
 			);
 			name = ShadowLift;
 			productName = Gymly;
@@ -504,10 +470,6 @@
 				ECA5BBB42EC749D100AD2757 /* AppIcon-Blue@2x.png in Resources */,
 				ECA5BBB52EC749D100AD2757 /* AppIcon-Purple@3x.png in Resources */,
 				ECA5BBB62EC749D100AD2757 /* AppIcon-Purple@2x.png in Resources */,
-				EC04B7762EC65EDC00232DDE /* terms-of-service.md in Resources */,
-				EC04B7772EC65EDC00232DDE /* about.md in Resources */,
-				EC04B7782EC65EDC00232DDE /* privacy-policy.md in Resources */,
-				EC04B7792EC65EDC00232DDE /* faq.md in Resources */,
 				EC04B78B2EC718AD00232DDE /* AppIcon-Green@2x.png in Resources */,
 				EC04B78C2EC718AD00232DDE /* AppIcon-Pink@3x.png in Resources */,
 				EC04B78E2EC718AD00232DDE /* AppIcon-Orange@2x.png in Resources */,
@@ -542,7 +504,6 @@
 			files = (
 				ECA5D16E2BF20D0F00DCC9F8 /* ToolBar.swift in Sources */,
 				EC06F1622E7BCCC900E42CCF /* ExerciseExtensions.swift in Sources */,
-				EC3BEC3D2C76624600C9DF0B /* Config.swift in Sources */,
 				EC4FD1532C4ED88300D1A4A6 /* Day.swift in Sources */,
 				EC629C662C9CAE2300009902 /* MuscleGroup.swift in Sources */,
 				ECA5D1762BF22C2000DCC9F8 /* Exercise.swift in Sources */,
@@ -552,15 +513,15 @@
 				EC66F6A72D949DBB0086D625 /* WeightPoint.swift in Sources */,
 				ECFFCAAF2EB8A501008D6FE7 /* WeeklyPatternChart.swift in Sources */,
 				ECFFCAB12EB8B25A008D6FE7 /* PersonalRecord.swift in Sources */,
+				ECE71EAE2ED5C8C1005AA330 /* iCloudSyncManager.swift in Sources */,
 				EC9BE9A72EAEA7FC00EBEA0B /* SplitTemplate.swift in Sources */,
+				ECE71F082ED5C8C1005AA330 /* FloatingClouds.swift in Sources */,
+				ECE71F092ED5C8C1005AA330 /* HealthKitManager.swift in Sources */,
 				EC06F16A2E7CA3DA00E42CCF /* UserProfileManager.swift in Sources */,
 				EC04B77E2EC6608700232DDE /* MarkdownText.swift in Sources */,
-				EC9BE9B22EAF86DE00EBEA0B /* CameraViewModel.swift in Sources */,
-				EC9BE9B42EAF86EC00EBEA0B /* CameraPreview.swift in Sources */,
 				EC66F6A52D949D410086D625 /* WeightChart.swift in Sources */,
 				EC4FD1582C4EE0A600D1A4A6 /* onFirstAppear.swift in Sources */,
 				EC59224E2D7A407C00EB39B2 /* SetTypeCell.swift in Sources */,
-				EC9BE9B62EAF870D00EBEA0B /* PoseGuideOverlay.swift in Sources */,
 				EC5922462D79A81000EB39B2 /* ImageExtension.swift in Sources */,
 				EC5922542D7B1BE100EB39B2 /* ProfileImageCell.swift in Sources */,
 				EC06F15F2E7BC4FE00E42CCF /* CloudKitSyncStatus.swift in Sources */,
@@ -577,9 +538,7 @@
 				EC317F4B2EA63235000DFB1E /* AppearanceManager.swift in Sources */,
 				EC66F6A12D94213D0086D625 /* BMIGaugeView.swift in Sources */,
 				EC9A6A602E716FC20081E390 /* GraphEntry.swift in Sources */,
-				EC66F69B2D92FD750086D625 /* WhatsNewManager.swift in Sources */,
 				EC317F392EA2473D000DFB1E /* FitnessProfile.swift in Sources */,
-				ECDE63112D48D27B00C2DA94 /* SignInView.swift in Sources */,
 				EC06F1672E7CA3C100E42CCF /* UserProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

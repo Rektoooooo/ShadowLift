@@ -310,4 +310,18 @@ struct ProfileView: View {
             profileImage = userProfileManager.currentProfile?.profileImage
         }
     }
+    
+    func getBmiStyle(bmi: Double) -> (Color, String) {
+        switch bmi {
+        case ..<18.5:
+            return (.orange, "Underweight")
+        case 18.5...24.9:
+            return (.green, "Normal weight")
+        case 25...29.9:
+            return (.orange, "Overweight")
+        default:
+            return (.red, "Obese")
+        }
+    }
+
 }

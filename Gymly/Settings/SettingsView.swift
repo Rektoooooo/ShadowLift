@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct NewSettingsView: View {
+struct SettingsView: View {
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject var config: Config
     @EnvironmentObject var userProfileManager: UserProfileManager
@@ -53,8 +53,7 @@ struct NewSettingsView: View {
                         .frame(width: 300)
 
                         NavigationLink(destination: Text("Notifications (Coming Soon)")) {
-                            Image(systemName: "bell.fill")
-                            Text("Notifications")
+                            NotificationsView()
                         }
                         .frame(width: 300)
 

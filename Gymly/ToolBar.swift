@@ -38,7 +38,7 @@ struct ToolBar: View {
                                 Label("Calendar", systemImage: "calendar")
                             }
                             .tag(2)
-                        NewSettingsView(viewModel: settingsVM)
+                        SettingsView(viewModel: settingsVM)
                             .tabItem {
                                 Label("Settings", systemImage: "gearshape")
                             }
