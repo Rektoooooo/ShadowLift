@@ -14,7 +14,6 @@
 		EC04B77E2EC6608700232DDE /* MarkdownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC04B77D2EC6608700232DDE /* MarkdownText.swift */; };
 		EC04B78B2EC718AD00232DDE /* AppIcon-Green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7812EC718AD00232DDE /* AppIcon-Green@2x.png */; };
 		EC04B78C2EC718AD00232DDE /* AppIcon-Pink@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7862EC718AD00232DDE /* AppIcon-Pink@3x.png */; };
-		EC04B78D2EC718AD00232DDE /* AppIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B78A2EC718AD00232DDE /* AppIcon@3x.png */; };
 		EC04B78E2EC718AD00232DDE /* AppIcon-Orange@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7832EC718AD00232DDE /* AppIcon-Orange@2x.png */; };
 		EC04B7902EC718AD00232DDE /* AppIcon-Green@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7822EC718AD00232DDE /* AppIcon-Green@3x.png */; };
 		EC04B7922EC718AD00232DDE /* AppIcon-Pink@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7852EC718AD00232DDE /* AppIcon-Pink@2x.png */; };
@@ -105,7 +104,6 @@
 		EC04B7852EC718AD00232DDE /* AppIcon-Pink@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pink@2x.png"; sourceTree = "<group>"; };
 		EC04B7862EC718AD00232DDE /* AppIcon-Pink@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Pink@3x.png"; sourceTree = "<group>"; };
 		EC04B7892EC718AD00232DDE /* AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x.png"; sourceTree = "<group>"; };
-		EC04B78A2EC718AD00232DDE /* AppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@3x.png"; sourceTree = "<group>"; };
 		EC06F15C2E7BC4FE00E42CCF /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		EC06F15D2E7BC4FE00E42CCF /* CloudKitSyncStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSyncStatus.swift; sourceTree = "<group>"; };
 		EC06F1612E7BCCC900E42CCF /* ExerciseExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseExtensions.swift; sourceTree = "<group>"; };
@@ -358,7 +356,6 @@
 				EC04B7852EC718AD00232DDE /* AppIcon-Pink@2x.png */,
 				EC04B7862EC718AD00232DDE /* AppIcon-Pink@3x.png */,
 				EC04B7892EC718AD00232DDE /* AppIcon@2x.png */,
-				EC04B78A2EC718AD00232DDE /* AppIcon@3x.png */,
 			);
 			path = Gymly;
 			sourceTree = "<group>";
@@ -513,7 +510,6 @@
 				EC04B7792EC65EDC00232DDE /* faq.md in Resources */,
 				EC04B78B2EC718AD00232DDE /* AppIcon-Green@2x.png in Resources */,
 				EC04B78C2EC718AD00232DDE /* AppIcon-Pink@3x.png in Resources */,
-				EC04B78D2EC718AD00232DDE /* AppIcon@3x.png in Resources */,
 				EC04B78E2EC718AD00232DDE /* AppIcon-Orange@2x.png in Resources */,
 				EC04B7902EC718AD00232DDE /* AppIcon-Green@3x.png in Resources */,
 				EC04B7922EC718AD00232DDE /* AppIcon-Pink@2x.png in Resources */,

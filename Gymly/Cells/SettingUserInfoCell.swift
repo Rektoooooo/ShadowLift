@@ -19,7 +19,8 @@ struct SettingUserInfoCell: View {
     @State var headerColor: Color = .green
     @State var additionalInfo: String = "Normal Weight"
     @State var icon: String = "figure.run"
-    @State var weightLastWeek: Double = 0.0
+    @State var compareWeight: Double? = nil  // Weight to compare against
+    @State var compareText: String = ""  // Text to display (e.g., "last week" or "last weigh-in")
     @State private var hasLoadedWeightData = false  // Prevent multiple loads
 
     var body: some View {
@@ -41,19 +42,27 @@ struct SettingUserInfoCell: View {
                                     .bold()
                                 Image(systemName: icon)
                             }
-                            if metric == "Kg" || metric == "Lbs" {
-                                HStack(spacing: 4) {
-                                    Text("\(String(format: "%.1f", (Double(value) ?? 0.0) - weightLastWeek * (userProfileManager.currentProfile?.weightUnit ?? "Kg" == "Kg" ? 1.0 : 2.20462)))\(userProfileManager.currentProfile?.weightUnit ?? "Kg")")
-                                    if Double(value) ?? 0.0 > weightLastWeek * (userProfileManager.currentProfile?.weightUnit ?? "Kg" == "Kg" ? 1.0 : 2.20462) {
+                            // Show weight change
+                            if (metric == "Kg" || metric == "Lbs"), let compareWt = compareWeight, compareWt > 0, !compareText.isEmpty {
+                                let conversionFactor = userProfileManager.currentProfile?.weightUnit ?? "Kg" == "Kg" ? 1.0 : 2.20462
+                                let currentWeight = Double(value) ?? 0.0
+                                let compareConverted = compareWt * conversionFactor
+                                let change = currentWeight - compareConverted
+
+                                HStack(spacing: 3) {
+                                    if change > 0.1 {
                                        Image(systemName: "arrow.up")
-                                    } else if Double(value) ?? 0.0 < weightLastWeek * (userProfileManager.currentProfile?.weightUnit ?? "Kg" == "Kg" ? 1.0 : 2.20462) {
+                                    } else if change < -0.1 {
                                         Image(systemName: "arrow.down")
                                     } else {
-                                        Image(systemName: "arrow.up.arrow.down")
+                                        Image(systemName: "minus")
                                     }
-                                    Text("From last week")
+                                    Text("\(String(format: "%.1f", abs(change))) \(compareText)")
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.7)
                                 }
-                                .font(.caption)
+                                .font(.system(size: 11))
+                                .foregroundColor(.secondary)
                             }
                         }
                     }
@@ -68,48 +77,88 @@ struct SettingUserInfoCell: View {
             guard (metric == "Kg" || metric == "Lbs") && !hasLoadedWeightData else { return }
             hasLoadedWeightData = true
 
-            getLastWeekWeight { weight in
-                if let weight = weight {
-                    DispatchQueue.main.async {
-                        self.weightLastWeek = weight
-                    }
-                }
-            }
+            getWeightComparison()
         }
         .frame(width: 160, height: 120)
         .cornerRadius(20)
         .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
     }
     
-    func getLastWeekWeight(completion: @escaping (Double?) -> Void) {
+    func getWeightComparison() {
         guard let weightType = HKObjectType.quantityType(forIdentifier: .bodyMass) else {
-            completion(nil)
             return
         }
-        
+
         let now = Date()
         let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: now)!
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
+
+        // Get recent weight samples (last 10 days)
         let predicate = HKQuery.predicateForSamples(withStart: tenDaysAgo, end: now)
 
-        let query = HKSampleQuery(sampleType: weightType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (_, samples, error) in
-            guard
-                error == nil,
-                let samples = samples as? [HKQuantitySample],
-                !samples.isEmpty
-            else {
-                completion(nil)
+        let query = HKSampleQuery(sampleType: weightType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { (_, samples, error) in
+
+            // If we have recent samples, try to find weight from last week
+            if error == nil, let samples = samples as? [HKQuantitySample], !samples.isEmpty {
+                // Try to find weight from ~7 days ago (with 3 day tolerance)
+                let targetDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+                let closestTo7Days = samples.min(by: { abs($0.startDate.timeIntervalSince(targetDate)) < abs($1.startDate.timeIntervalSince(targetDate)) })
+
+                if let sample = closestTo7Days {
+                    let daysDiff = abs(Calendar.current.dateComponents([.day], from: sample.startDate, to: targetDate).day ?? 0)
+
+                    // If within 3 days of 7 days ago, use "last week"
+                    if daysDiff <= 3 {
+                        let weight = sample.quantity.doubleValue(for: .gramUnit(with: .kilo))
+                        DispatchQueue.main.async {
+                            self.compareWeight = weight
+                            self.compareText = "vs last week"
+                        }
+                        return
+                    }
+                }
+            }
+
+            // No weight from last week (or no recent data), get last 2 weights
+            self.getAllRecentWeights { allWeights in
+                print("📊 SettingUserInfoCell: Found \(allWeights.count) total weight entries in HealthKit")
+
+                guard allWeights.count >= 2 else {
+                    print("⚠️ SettingUserInfoCell: Not enough weight data (need at least 2 entries)")
+                    return
+                }
+
+                // Compare last weight to 2nd last weight
+                let lastWeight = allWeights[0].quantity.doubleValue(for: .gramUnit(with: .kilo))
+                let secondLastWeight = allWeights[1].quantity.doubleValue(for: .gramUnit(with: .kilo))
+
+                print("📊 SettingUserInfoCell: Comparing last (\(lastWeight)kg) to 2nd last (\(secondLastWeight)kg)")
+
+                DispatchQueue.main.async {
+                    self.compareWeight = secondLastWeight
+                    self.compareText = "vs last time"
+                    print("✅ SettingUserInfoCell: Set compareWeight=\(secondLastWeight), compareText='vs last time'")
+                }
+            }
+        }
+        healthStore.execute(query)
+    }
+
+    func getAllRecentWeights(completion: @escaping ([HKQuantitySample]) -> Void) {
+        guard let weightType = HKObjectType.quantityType(forIdentifier: .bodyMass) else {
+            completion([])
+            return
+        }
+
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
+
+        // Get all weight samples
+        let query = HKSampleQuery(sampleType: weightType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { (_, samples, error) in
+            guard error == nil, let samples = samples as? [HKQuantitySample] else {
+                completion([])
                 return
             }
-
-            let targetDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
-            let closestSample = samples.min(by: { abs($0.startDate.timeIntervalSince(targetDate)) < abs($1.startDate.timeIntervalSince(targetDate)) })
-
-            if let closestSample = closestSample {
-                let weight = closestSample.quantity.doubleValue(for: .gramUnit(with: .kilo))
-                completion(weight)
-            } else {
-                completion(nil)
-            }
+            completion(samples)
         }
         healthStore.execute(query)
     }

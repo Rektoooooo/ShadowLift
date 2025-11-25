@@ -35,10 +35,16 @@ struct TodayWorkoutView: View {
     @State var orderExercises: [String] = []
     @State private var showWorkoutSummary = false
     @State private var workoutSummaryData: WorkoutSummaryData?
+    @State private var isLoadingInitialData = true
 
     // OPTIMIZATION: Cached grouped exercises to avoid recomputing on every render
     @State private var cachedGroupedExercises: [(String, [Exercise])] = []
     @State private var cachedGlobalOrderMap: [UUID: Int] = [:]
+
+    // Skeleton loading view
+    private var skeletonLoadingView: some View {
+        WorkoutSkeletonView()
+    }
 
     // Break down complex view for compiler
     private var daySelectionMenu: some View {
@@ -157,20 +163,32 @@ struct TodayWorkoutView: View {
             ZStack {
                 FloatingClouds(theme: CloudsTheme.graphite(scheme))
                     .ignoresSafeArea()
-                VStack {
-                    if !selectedDay.name.isEmpty {
+
+                // Fade transition wrapper
+                ZStack {
+                    if isLoadingInitialData {
+                        /// Show skeleton loading while data is being fetched
+                        skeletonLoadingView
+                            .transition(.opacity)
+                            .zIndex(1)
+                    } else if !selectedDay.name.isEmpty {
                         VStack {
                             daySelectionMenu
                             exercisesList
                         }
+                        .transition(.opacity)
+                        .zIndex(2)
                     } else {
                         /// If no split is created show help message
                         VStack {
                             Text("Create your split with the \(Image(systemName: "line.2.horizontal.decrease.circle")) icon in the top right corner")
                                 .multilineTextAlignment(.center)
                         }
+                        .transition(.opacity)
+                        .zIndex(2)
                     }
                 }
+                .animation(.easeInOut(duration: 0.3), value: isLoadingInitialData)
                 .toolbar {
                     /// Display user profile image as a button for getting to setting view
                     ToolbarItem(placement: .topBarLeading) {
@@ -366,6 +384,10 @@ struct TodayWorkoutView: View {
 
         // OPTIMIZATION: Only refresh muscle groups if not already done by cache update
         // refreshMuscleGroups() does additional sorting but cache already has the data
+
+        // Mark initial data loading as complete
+        isLoadingInitialData = false
+
         #if DEBUG
         print("🔄 TODAYWORKOUTVIEW: Refresh complete")
         #endif

@@ -53,8 +53,13 @@ struct WeightDetailView: View {
     }
 
     private var allTimeChange: Double {
-        guard let firstPoint = weightPoints.last else { return 0 }
-        return (currentWeight - firstPoint.weight) * weightConversionFactor
+        guard let firstPoint = weightPoints.last else {
+            print("⚠️ WeightDetailView: No weight points for all-time calculation")
+            return 0
+        }
+        let change = (currentWeight - firstPoint.weight) * weightConversionFactor
+        print("✅ WeightDetailView: All-time change = \(change) (current: \(currentWeight)kg, oldest: \(firstPoint.weight)kg from \(firstPoint.date))")
+        return change
     }
 
     private func calculateWeightChange(daysBack: Int) -> Double {
@@ -63,13 +68,27 @@ struct WeightDetailView: View {
             return 0
         }
 
-        // Find closest weight point to target date
-        let sortedPoints = weightPoints.sorted { $0.date < $1.date }
-        guard let closestPoint = sortedPoints.first(where: { $0.date >= targetDate }) ?? sortedPoints.last else {
+        // Find the weight point closest to the target date
+        guard !weightPoints.isEmpty else { return 0 }
+
+        let closestPoint = weightPoints.min(by: { abs($0.date.timeIntervalSince(targetDate)) < abs($1.date.timeIntervalSince(targetDate)) })
+
+        guard let point = closestPoint else { return 0 }
+
+        // Adaptive tolerance based on time period
+        // 7 days = ±3 days tolerance (4-10 days range)
+        // 30 days = ±7 days tolerance (23-37 days range)
+        let tolerance = daysBack <= 7 ? 3 : 7
+        let daysDifference = abs(calendar.dateComponents([.day], from: point.date, to: targetDate).day ?? 0)
+
+        guard daysDifference <= tolerance else {
+            // Point is too far from target date, not enough data
+            print("⚠️ WeightDetailView: No data within \(tolerance) days of \(daysBack) days ago (closest was \(daysDifference) days away)")
             return 0
         }
 
-        return (currentWeight - closestPoint.weight) * weightConversionFactor
+        print("✅ WeightDetailView: \(daysBack)d change = \(currentWeight - point.weight)kg (from \(point.date))")
+        return (currentWeight - point.weight) * weightConversionFactor
     }
 
     var body: some View {
