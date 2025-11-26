@@ -19,6 +19,8 @@ struct ToolBar: View {
     @StateObject private var notificationManager = NotificationManager.shared
     @StateObject private var streakNotificationManager = StreakNotificationManager.shared
     @StateObject private var workoutReminderManager = WorkoutReminderManager.shared
+    @StateObject private var milestoneNotificationManager = MilestoneNotificationManager.shared
+    @StateObject private var inactivityReminderManager = InactivityReminderManager.shared
     @State private var todayViewModel: WorkoutViewModel?
     @State private var calendarViewModel: WorkoutViewModel?
     @State private var settingsViewModel: WorkoutViewModel?
@@ -100,6 +102,12 @@ struct ToolBar: View {
             // Initialize WorkoutReminderManager
             workoutReminderManager.setup(modelContext: context, config: config)
 
+            // Initialize MilestoneNotificationManager
+            milestoneNotificationManager.setup(config: config)
+
+            // Initialize InactivityReminderManager
+            inactivityReminderManager.setup(userProfileManager: userProfileManager, config: config)
+
             // Initialize WorkoutViewModels and connect userProfileManager
             let todayVM = WorkoutViewModel(config: config, context: context)
             let settingsVM = WorkoutViewModel(config: config, context: context)
@@ -159,6 +167,9 @@ struct ToolBar: View {
 
                 // Schedule smart workout reminders
                 workoutReminderManager.scheduleSmartWorkoutReminders()
+
+                // Check for inactivity and schedule reminder if needed
+                inactivityReminderManager.checkAndScheduleInactivityReminder()
             }
         }
     }

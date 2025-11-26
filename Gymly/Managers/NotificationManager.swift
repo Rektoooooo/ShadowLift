@@ -299,6 +299,7 @@ extension NotificationManager {
         static let workoutMilestone = "workout_milestone"
 
         // Inactivity
+        static let inactivityReminder = "inactivity_reminder"
         static let inactive3Days = "inactive_3_days"
         static let inactive7Days = "inactive_7_days"
         static let inactive14Days = "inactive_14_days"

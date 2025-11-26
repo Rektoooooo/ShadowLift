@@ -18,6 +18,7 @@ class PRManager: ObservableObject {
 
     private var modelContext: ModelContext?
     private var userProfileManager: UserProfileManager?
+    private let milestoneManager = MilestoneNotificationManager.shared
 
     private init() {}
 
@@ -75,6 +76,10 @@ class PRManager: ObservableObject {
                 )
                 recentPRs.append(notification)
                 print("🏆 PR MANAGER: New Weight PR for \(exercise.name)! \(newBest) kg × \(set.reps) reps")
+
+                // Send push notification for milestone
+                milestoneManager.sendPRNotification(prNotification: notification)
+
                 return notification
             } else if let new1RM = prRecord.best1RM, oldBest1RM == nil || new1RM > oldBest1RM! {
                 let notification = PRNotification(
@@ -86,6 +91,10 @@ class PRManager: ObservableObject {
                 )
                 recentPRs.append(notification)
                 print("🏆 PR MANAGER: New 1RM PR for \(exercise.name)! \(new1RM) kg")
+
+                // Send push notification for milestone
+                milestoneManager.sendPRNotification(prNotification: notification)
+
                 return notification
             }
         } catch {
@@ -148,6 +157,9 @@ class PRManager: ObservableObject {
                     )
                     notifications.append(notification)
                     print("🏆 PR MANAGER: New Volume PR for \(exerciseName)! \(newVolume) kg total")
+
+                    // Send push notification for milestone
+                    milestoneManager.sendPRNotification(prNotification: notification)
                 }
 
                 cachedPRs[exerciseName] = prRecord
@@ -197,13 +209,15 @@ class PRManager: ObservableObject {
     }
 
     /// Check if a specific set would be a PR (for real-time UI feedback)
+    /// NOTE: Returns true ONLY when BEATING (>) existing PR, NOT when matching (==)
+    /// This ensures stars appear only for actual improvements, not repeat performances
     func isSetPR(exerciseName: String, weight: Double, reps: Int) async -> Bool {
         guard let pr = await getPR(for: exerciseName) else {
             // No PR exists yet, so this would be the first PR
             return true
         }
 
-        // Check if this set beats any existing PR
+        // Check if this set BEATS (not matches) any existing PR
         if let bestWeight = pr.bestWeight, weight > bestWeight {
             return true
         }

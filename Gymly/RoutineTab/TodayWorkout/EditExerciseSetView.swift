@@ -16,6 +16,7 @@ struct EditExerciseSetView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var scheme
     @EnvironmentObject var userProfileManager: UserProfileManager
+    @StateObject private var prManager = PRManager.shared
 
     /// The specific set being edited
     @State var targetSet: Exercise.Set
@@ -253,6 +254,21 @@ struct EditExerciseSetView: View {
         // This eliminates 50-200ms lag per set edit, critical for gym UX on cellular
         debugPrint("✅ [OPTIMIZED] Set changes applied to memory - Weight: \(weight), Reps: \(reps)")
         debugPrint("💡 Changes will be saved to disk when workout completes")
+
+        // Check for PR (real-time detection) - only if set has timestamp (completed)
+        if !freshSet.time.isEmpty && !freshSet.warmUp {
+            Task {
+                if let prNotification = await prManager.checkForPR(
+                    exercise: exercise,
+                    set: freshSet,
+                    workoutDate: Date(),
+                    workoutID: UUID()
+                ) {
+                    print("🏆 NEW PR DETECTED: \(prNotification.exerciseName) - \(prNotification.type.displayName)")
+                }
+            }
+        }
+
         dismiss()
     }
 

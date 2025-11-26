@@ -75,6 +75,7 @@ struct ProgressPhotoTimelineView: View {
             }
             .padding()
             .background(Color.black.opacity(0.05))
+            .cornerRadius(20)
             .onAppear {
                 // Migrate missing thumbnails for old photos on first load
                 if let profile = userProfileManager.currentProfile {

@@ -248,6 +248,19 @@ struct ExerciseDetailView: View {
             debugPrint("✅ Quick marked set as done - Weight: \(freshSet.weight), Reps: \(freshSet.reps), Time: \(freshSet.time)")
             debugPrint("💡 Changes in memory, will save when workout completes")
 
+            // Check for PR (real-time detection)
+            if let prNotification = await prManager.checkForPR(
+                exercise: freshExercise,
+                set: freshSet,
+                workoutDate: Date(),
+                workoutID: UUID()
+            ) {
+                print("🏆 NEW PR DETECTED: \(prNotification.exerciseName) - \(prNotification.type.displayName)")
+
+                // Refresh PR display at top of view
+                personalRecords = await prManager.getPR(for: freshExercise.name)
+            }
+
             // Update local exercise reference
             exercise = freshExercise
 

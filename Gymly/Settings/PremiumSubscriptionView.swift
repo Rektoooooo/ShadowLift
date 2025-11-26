@@ -83,7 +83,7 @@ struct PremiumSubscriptionView: View {
                             FeatureRow(
                                 icon: "apple.intelligence",
                                 title: "AI Workout Summary",
-                                description: "Weekly insights & recommendations"
+                                description: "Weekly insights & recommendations \n(iPhones with Apple Inteligence only)"
                             )
 
                             FeatureRow(

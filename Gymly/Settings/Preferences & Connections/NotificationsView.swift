@@ -223,6 +223,62 @@ struct NotificationsView: View {
                         }
                         .listRowBackground(Color.black.opacity(0.05))
                     }
+
+                    Section(header: Text("🏆 Milestones & Achievements")) {
+                        Button("Test Weight PR Notification") {
+                            Task {
+                                await testPRNotification(type: .weight)
+                            }
+                        }
+                        .listRowBackground(Color.black.opacity(0.05))
+
+                        Button("Test 1RM PR Notification") {
+                            Task {
+                                await testPRNotification(type: .oneRM)
+                            }
+                        }
+                        .listRowBackground(Color.black.opacity(0.05))
+
+                        Button("Test Volume PR Notification") {
+                            Task {
+                                await testPRNotification(type: .volume)
+                            }
+                        }
+                        .listRowBackground(Color.black.opacity(0.05))
+
+                        Button("Test Workout Count Milestone") {
+                            MilestoneNotificationManager.shared.sendWorkoutCountMilestone(count: 50)
+                        }
+                        .listRowBackground(Color.black.opacity(0.05))
+                    }
+
+                    Section(header: Text("😴 Inactivity Reminders")) {
+                        Button("Test 4-Day Inactivity") {
+                            Task {
+                                await testInactivityReminder(days: 4)
+                            }
+                        }
+                        .listRowBackground(Color.black.opacity(0.05))
+
+                        Button("Test 7-Day Inactivity") {
+                            Task {
+                                await testInactivityReminder(days: 7)
+                            }
+                        }
+                        .listRowBackground(Color.black.opacity(0.05))
+
+                        Button("Test 14-Day Inactivity") {
+                            Task {
+                                await testInactivityReminder(days: 14)
+                            }
+                        }
+                        .listRowBackground(Color.black.opacity(0.05))
+
+                        Button("Check Current Inactivity Status") {
+                            InactivityReminderManager.shared.checkAndScheduleInactivityReminder()
+                        }
+                        .listRowBackground(Color.black.opacity(0.05))
+                    }
                 }
                 #endif
             }
@@ -355,6 +411,82 @@ struct NotificationsView: View {
             print("✅ TEST: Rest day reminder scheduled in 5 seconds")
         } catch {
             print("❌ TEST: Failed to schedule rest day reminder - \(error)")
+        }
+    }
+
+    private func testPRNotification(type: PRNotification.PRType) async {
+        let notification: PRNotification
+
+        switch type {
+        case .weight:
+            notification = PRNotification(
+                exerciseName: "Bench Press",
+                type: .weight,
+                value: 100,
+                reps: 8,
+                date: Date()
+            )
+        case .oneRM:
+            notification = PRNotification(
+                exerciseName: "Deadlift",
+                type: .oneRM,
+                value: 180,
+                reps: 1,
+                date: Date()
+            )
+        case .volume:
+            notification = PRNotification(
+                exerciseName: "Squat",
+                type: .volume,
+                value: 5000,
+                sets: 4,
+                date: Date()
+            )
+        default:
+            notification = PRNotification(
+                exerciseName: "Test Exercise",
+                type: type,
+                value: 100,
+                reps: 10,
+                date: Date()
+            )
+        }
+
+        MilestoneNotificationManager.shared.sendPRNotification(prNotification: notification)
+        print("✅ TEST: Sent \(type) PR notification")
+    }
+
+    private func testInactivityReminder(days: Int) async {
+        let title: String
+        let body: String
+
+        switch days {
+        case 4:
+            title = "We Miss You! 😊"
+            body = "It's been 4 days since your last workout. Ready to get back?"
+        case 7:
+            title = "One Week Break 😔"
+            body = "A week since your last session. Every rep counts - let's go!"
+        case 14:
+            title = "We Believe in You! 🌟"
+            body = "14 days away. One workout is all it takes to restart!"
+        default:
+            title = "Time for a Fresh Start! 🚀"
+            body = "Ready to begin again? Your fitness journey is waiting!"
+        }
+
+        do {
+            try await notificationManager.scheduleNotification(
+                id: "test_inactivity",
+                title: title,
+                body: body,
+                timeInterval: 5,
+                categoryIdentifier: NotificationManager.NotificationCategory.inactivity,
+                userInfo: ["type": "test", "days_since_workout": days]
+            )
+            print("✅ TEST: Inactivity reminder (\(days) days) scheduled in 5 seconds")
+        } catch {
+            print("❌ TEST: Failed to schedule inactivity reminder - \(error)")
         }
     }
     #endif

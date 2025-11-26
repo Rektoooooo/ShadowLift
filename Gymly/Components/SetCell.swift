@@ -146,6 +146,19 @@ struct SetCell: View {
                 )
             }
         }
+        .onChange(of: set.time) { oldTime, newTime in
+            // Re-check PR status when set is marked as done
+            if !newTime.isEmpty && !set.warmUp {
+                Task {
+                    isPR = await prManager.isSetPR(
+                        exerciseName: exercise.name,
+                        weight: set.weight,
+                        reps: set.reps
+                    )
+                    print("⭐ SetCell: PR check for \(exercise.name) - isPR: \(isPR)")
+                }
+            }
+        }
         .scrollContentBackground(.hidden)
         .background(Color.clear)
         .listRowBackground(Color.black.opacity(0.1))

@@ -205,6 +205,23 @@ struct ProfileView: View {
                     .listRowBackground(Color.clear)
                     .padding(.horizontal)
 
+                    // Personal Records Section
+                    Section("Personal Records") {
+                        NavigationLink(destination: PRHistoryView()) {
+                            HStack {
+                                Image(systemName: "trophy.fill")
+                                    .foregroundStyle(.yellow)
+                                Text("View All Records")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .frame(width: 300)
+                    }
+                    .listRowBackground(Color.black.opacity(0.05))
+
                     // AI Insights Section
                     Section("AI Insights") {
                         if #available(iOS 18.1, *) {

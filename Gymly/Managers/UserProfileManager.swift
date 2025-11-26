@@ -381,6 +381,12 @@ class UserProfileManager: ObservableObject {
 
             // Update workout reminders with new pattern data
             WorkoutReminderManager.shared.scheduleSmartWorkoutReminders()
+
+            // Cancel today's workout reminder (already worked out)
+            WorkoutReminderManager.shared.cancelTodayReminderIfWorkoutCompleted()
+
+            // Reset inactivity reminder (user is active again)
+            InactivityReminderManager.shared.rescheduleInactivityCheck()
         } else if daysSinceLastWorkout > 1 {
             // Check if streak should be reset or just paused based on rest days
             let shouldReset = shouldResetStreak(lastWorkoutDate: lastWorkoutDay, currentDate: today, restDaysPerWeek: profile.restDaysPerWeek)
@@ -400,6 +406,12 @@ class UserProfileManager: ObservableObject {
 
                 // Update workout reminders with new pattern data
                 WorkoutReminderManager.shared.scheduleSmartWorkoutReminders()
+
+                // Cancel today's workout reminder (already worked out)
+                WorkoutReminderManager.shared.cancelTodayReminderIfWorkoutCompleted()
+
+                // Reset inactivity reminder (user is active again)
+                InactivityReminderManager.shared.rescheduleInactivityCheck()
             }
         }
 

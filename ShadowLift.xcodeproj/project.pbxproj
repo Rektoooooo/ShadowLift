@@ -10,6 +10,8 @@
 		EC022DBF2ED6F17A0051ED1B /* StreakNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC022DBE2ED6F17A0051ED1B /* StreakNotificationManager.swift */; };
 		EC022DC12ED6F2240051ED1B /* NotificationTestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC022DC02ED6F2240051ED1B /* NotificationTestHelper.swift */; };
 		EC022DC32ED6F58F0051ED1B /* WorkoutReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC022DC22ED6F58F0051ED1B /* WorkoutReminderManager.swift */; };
+		EC022DC52ED72C730051ED1B /* MilestoneNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC022DC42ED72C730051ED1B /* MilestoneNotificationManager.swift */; };
+		EC022DC72ED72D110051ED1B /* InactivityReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC022DC62ED72D110051ED1B /* InactivityReminderManager.swift */; };
 		EC04B77E2EC6608700232DDE /* MarkdownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC04B77D2EC6608700232DDE /* MarkdownText.swift */; };
 		EC04B78B2EC718AD00232DDE /* AppIcon-Green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7812EC718AD00232DDE /* AppIcon-Green@2x.png */; };
 		EC04B78C2EC718AD00232DDE /* AppIcon-Pink@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7862EC718AD00232DDE /* AppIcon-Pink@3x.png */; };
@@ -92,6 +94,8 @@
 		EC022DBE2ED6F17A0051ED1B /* StreakNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakNotificationManager.swift; sourceTree = "<group>"; };
 		EC022DC02ED6F2240051ED1B /* NotificationTestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTestHelper.swift; sourceTree = "<group>"; };
 		EC022DC22ED6F58F0051ED1B /* WorkoutReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutReminderManager.swift; sourceTree = "<group>"; };
+		EC022DC42ED72C730051ED1B /* MilestoneNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneNotificationManager.swift; sourceTree = "<group>"; };
+		EC022DC62ED72D110051ED1B /* InactivityReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InactivityReminderManager.swift; sourceTree = "<group>"; };
 		EC04B77D2EC6608700232DDE /* MarkdownText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownText.swift; sourceTree = "<group>"; };
 		EC04B7812EC718AD00232DDE /* AppIcon-Green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Green@2x.png"; sourceTree = "<group>"; };
 		EC04B7822EC718AD00232DDE /* AppIcon-Green@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Green@3x.png"; sourceTree = "<group>"; };
@@ -239,6 +243,8 @@
 				EC022DBE2ED6F17A0051ED1B /* StreakNotificationManager.swift */,
 				EC022DC02ED6F2240051ED1B /* NotificationTestHelper.swift */,
 				EC022DC22ED6F58F0051ED1B /* WorkoutReminderManager.swift */,
+				EC022DC42ED72C730051ED1B /* MilestoneNotificationManager.swift */,
+				EC022DC62ED72D110051ED1B /* InactivityReminderManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -526,9 +532,11 @@
 				EC66F6A72D949DBB0086D625 /* WeightPoint.swift in Sources */,
 				ECFFCAAF2EB8A501008D6FE7 /* WeeklyPatternChart.swift in Sources */,
 				ECFFCAB12EB8B25A008D6FE7 /* PersonalRecord.swift in Sources */,
+				EC022DC52ED72C730051ED1B /* MilestoneNotificationManager.swift in Sources */,
 				EC022DC12ED6F2240051ED1B /* NotificationTestHelper.swift in Sources */,
 				EC022DBF2ED6F17A0051ED1B /* StreakNotificationManager.swift in Sources */,
 				ECE71EAE2ED5C8C1005AA330 /* iCloudSyncManager.swift in Sources */,
+				EC022DC72ED72D110051ED1B /* InactivityReminderManager.swift in Sources */,
 				ECE71F382ED65EB8005AA330 /* NotificationManager.swift in Sources */,
 				EC9BE9A72EAEA7FC00EBEA0B /* SplitTemplate.swift in Sources */,
 				ECE71F082ED5C8C1005AA330 /* FloatingClouds.swift in Sources */,

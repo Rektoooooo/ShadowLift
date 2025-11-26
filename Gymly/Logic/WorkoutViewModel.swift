@@ -458,6 +458,17 @@ final class WorkoutViewModel: ObservableObject {
 
             // Update streak when workout is saved
             userProfileManager?.calculateStreak(workoutDate: Date())
+
+            // Analyze workout for volume PRs and update workout counters
+            let volumePRs = await PRManager.shared.analyzeWorkoutForPRs(
+                exercises: completedExercises,
+                workoutDate: Date(),
+                workoutID: dayStorage.id
+            )
+            if !volumePRs.isEmpty {
+                debugPrint("🏆 WORKOUT COMPLETE: Detected \(volumePRs.count) volume PR(s)!")
+            }
+            debugPrint("✅ WORKOUT COMPLETE: PR analysis complete, updated workout counters")
         } catch {
             debugPrint(error)
         }
