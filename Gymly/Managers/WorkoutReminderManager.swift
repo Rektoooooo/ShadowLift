@@ -103,25 +103,42 @@ class WorkoutReminderManager: ObservableObject {
     /// Get the time of the first set logged on a specific date
     private func getFirstSetTimeForDate(_ date: Date, context: ModelContext) -> Date? {
         let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: date)
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+
+        // Format date string to match DayStorage format (e.g., "28 November 2025")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMMM yyyy"
+        let dateString = dateFormatter.string(from: date)
 
         do {
-            // Fetch all exercises and filter manually (SwiftData doesn't support force unwrap in predicates)
-            let descriptor = FetchDescriptor<Exercise>(
-                predicate: #Predicate<Exercise> { exercise in
-                    exercise.done == true
+            // Query DayStorage for this date (permanent record of completed workouts)
+            let descriptor = FetchDescriptor<DayStorage>(
+                predicate: #Predicate<DayStorage> { storage in
+                    storage.date == dateString
                 }
             )
-            let allExercises = try context.fetch(descriptor)
+            let dayStorages = try context.fetch(descriptor)
 
-            // Filter by date manually
-            let exercises = allExercises.filter { exercise in
-                guard let completedAt = exercise.completedAt else { return false }
-                return completedAt >= startOfDay && completedAt < endOfDay
+            guard let dayStorage = dayStorages.first else {
+                #if DEBUG
+                print("🔍 WORKOUT REMINDER: No DayStorage found for \(dateString)")
+                #endif
+                return nil
             }
 
-            guard !exercises.isEmpty else {
+            // Fetch the associated Day object to get exercises
+            let dayId = dayStorage.dayId
+            let dayDescriptor = FetchDescriptor<Day>(
+                predicate: #Predicate<Day> { day in
+                    day.id == dayId
+                }
+            )
+            let days = try context.fetch(dayDescriptor)
+
+            guard let day = days.first,
+                  let exercises = day.exercises else {
+                #if DEBUG
+                print("🔍 WORKOUT REMINDER: No exercises found for \(dateString)")
+                #endif
                 return nil
             }
 
@@ -131,8 +148,8 @@ class WorkoutReminderManager: ObservableObject {
             for exercise in exercises {
                 guard let sets = exercise.sets, !sets.isEmpty else { continue }
 
-                for set in sets {
-                    // Parse set time (format: "HH:mm:ss")
+                for set in sets where !set.time.isEmpty {
+                    // Parse set time (format: "HH:mm" or "H:mm")
                     if let setTime = parseSetTime(set.time, on: date) {
                         if earliestTime == nil || setTime < earliestTime! {
                             earliestTime = setTime
@@ -140,6 +157,14 @@ class WorkoutReminderManager: ObservableObject {
                     }
                 }
             }
+
+            #if DEBUG
+            if let earliestTime = earliestTime {
+                let timeFormatter = DateFormatter()
+                timeFormatter.dateFormat = "HH:mm"
+                print("✅ WORKOUT REMINDER: Found workout at \(timeFormatter.string(from: earliestTime)) on \(dateString)")
+            }
+            #endif
 
             return earliestTime
         } catch {
@@ -297,25 +322,22 @@ class WorkoutReminderManager: ObservableObject {
 
         let calendar = Calendar.current
         let today = Date()
-        let startOfDay = calendar.startOfDay(for: today)
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+
+        // Format today's date to match DayStorage format (e.g., "28 November 2025")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMMM yyyy"
+        let dateString = dateFormatter.string(from: today)
 
         do {
-            // Check if workout completed today (fetch all and filter manually)
-            let descriptor = FetchDescriptor<Exercise>(
-                predicate: #Predicate<Exercise> { exercise in
-                    exercise.done == true
+            // Check if DayStorage exists for today (indicates completed workout)
+            let descriptor = FetchDescriptor<DayStorage>(
+                predicate: #Predicate<DayStorage> { storage in
+                    storage.date == dateString
                 }
             )
-            let allExercises = try context.fetch(descriptor)
+            let dayStorages = try context.fetch(descriptor)
 
-            // Filter by date manually
-            let exercises = allExercises.filter { exercise in
-                guard let completedAt = exercise.completedAt else { return false }
-                return completedAt >= startOfDay && completedAt < endOfDay
-            }
-
-            if !exercises.isEmpty {
+            if !dayStorages.isEmpty {
                 // Workout completed, cancel today's reminder
                 let weekday = calendar.component(.weekday, from: today)
                 let notificationID = "workout_reminder_\(weekday)"
@@ -353,15 +375,16 @@ class WorkoutReminderManager: ObservableObject {
         return formatter.string(from: date)
     }
 
-    /// Parse set time string (HH:mm:ss) into Date on specific day
+    /// Parse set time string (HH:mm or H:mm) into Date on specific day
     private func parseSetTime(_ timeString: String, on date: Date) -> Date? {
         let components = timeString.split(separator: ":")
-        guard components.count == 3,
+        guard components.count >= 2,
               let hour = Int(components[0]),
-              let minute = Int(components[1]),
-              let second = Int(components[2]) else {
+              let minute = Int(components[1]) else {
             return nil
         }
+
+        let second = components.count >= 3 ? (Int(components[2]) ?? 0) : 0
 
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: date)
