@@ -305,7 +305,8 @@ class WorkoutReminderManager: ObservableObject {
                 return (false, nil)
             }
 
-            let isRestDay = day.name.lowercased().contains("rest")
+            // Use explicit isRestDay property instead of checking name
+            let isRestDay = day.isRestDay
 
             return (isRestDay, isRestDay ? nil : day.name)
         } catch {

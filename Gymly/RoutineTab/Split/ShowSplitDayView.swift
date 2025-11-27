@@ -199,6 +199,21 @@ struct ShowSplitDayView: View {
                                 Label("Copy Workout", systemImage: "doc.on.doc")
                             }
 
+                            Button {
+                                // Toggle rest day status
+                                day.isRestDay.toggle()
+                                do {
+                                    try context.save()
+                                } catch {
+                                    debugPrint("❌ Failed to save rest day status: \(error)")
+                                }
+                            } label: {
+                                Label(
+                                    day.isRestDay ? "Mark as Workout Day" : "Mark as Rest Day",
+                                    systemImage: day.isRestDay ? "figure.run" : "moon.zzz.fill"
+                                )
+                            }
+
                             Divider()
 
                             Button {
