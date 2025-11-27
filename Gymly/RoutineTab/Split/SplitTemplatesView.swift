@@ -14,9 +14,11 @@ struct SplitTemplatesView: View {
     @Environment(\.modelContext) var context
     @Environment(\.colorScheme) private var scheme
     @EnvironmentObject var appearanceManager: AppearanceManager
+    @EnvironmentObject var config: Config
 
     @State private var selectedTemplate: SplitTemplate?
     @State private var showTemplateDetail = false
+    @State private var showPremiumSheet = false
 
     var body: some View {
         NavigationView {
@@ -43,9 +45,13 @@ struct SplitTemplatesView: View {
 
                         // Templates List - Now with lazy loading
                         ForEach(SplitTemplate.allTemplates) { template in
-                            TemplateCard(template: template) {
+                            TemplateCard(template: template, isPremiumUser: config.isPremium) {
                                 selectedTemplate = template
-                                showTemplateDetail = true
+                                if config.isPremium {
+                                    showTemplateDetail = true
+                                } else {
+                                    showPremiumSheet = true
+                                }
                             }
                             .padding(.horizontal)
                         }
@@ -74,6 +80,9 @@ struct SplitTemplatesView: View {
                         }
                     )
                 }
+            }
+            .sheet(isPresented: $showPremiumSheet) {
+                PremiumSubscriptionView()
             }
         }
     }
@@ -151,6 +160,7 @@ struct SplitTemplatesView: View {
 
 struct TemplateCard: View {
     let template: SplitTemplate
+    let isPremiumUser: Bool
     let onTap: () -> Void
     @EnvironmentObject var appearanceManager: AppearanceManager
 
@@ -177,7 +187,11 @@ struct TemplateCard: View {
 
                     Spacer()
 
-                    if template.isPremium {
+                    if template.isPremium && !isPremiumUser {
+                        Image(systemName: "lock.fill")
+                            .foregroundColor(.yellow)
+                            .font(.title3)
+                    } else if template.isPremium {
                         Image(systemName: "star.fill")
                             .foregroundColor(.yellow)
                             .font(.title3)
