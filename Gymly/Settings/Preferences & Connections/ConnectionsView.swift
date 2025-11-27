@@ -157,7 +157,7 @@ struct ConnectionsView: View {
 
     /// Requests HealthKit authorization with optimistic UI updates
     private func requestHealthKitAuthorizationOptimistic() {
-        print("🩺 HEALTH: Requesting HealthKit authorization...")
+        print("🩺 HEALTH: Requesting HealthKit authorization with READ and WRITE permissions...")
 
         let healthDataToRead: Set = [
             HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!,
@@ -165,9 +165,14 @@ struct ConnectionsView: View {
             HKObjectType.quantityType(forIdentifier: .bodyMass)!
         ]
 
+        let healthDataToWrite: Set<HKSampleType> = [
+            HKObjectType.quantityType(forIdentifier: .height)!,
+            HKObjectType.quantityType(forIdentifier: .bodyMass)!
+        ]
+
         // Request authorization (this shows the system dialog on first attempt)
         // On subsequent attempts, iOS returns cached result immediately
-        healthStore.requestAuthorization(toShare: nil, read: healthDataToRead) { success, error in
+        healthStore.requestAuthorization(toShare: healthDataToWrite, read: healthDataToRead) { success, error in
             // Note: success is always true for read-only permissions due to privacy
             // iOS doesn't tell us if user granted or denied - we must try fetching to find out
 
