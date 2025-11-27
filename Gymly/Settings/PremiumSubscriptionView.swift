@@ -115,6 +115,12 @@ struct PremiumSubscriptionView: View {
                                 title: "Custom App Appearance",
                                 description: "Choose your theme & colors"
                             )
+
+                            FeatureRow(
+                                icon: "chart.bar.fill",
+                                title: "Advanced Graph Statistics",
+                                description: "Week, month & all-time filtering"
+                            )
                         }
                         .padding(.horizontal, 24)
 
