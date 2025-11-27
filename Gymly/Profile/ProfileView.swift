@@ -113,15 +113,28 @@ struct ProfileView: View {
                                 .listRowSeparator(.hidden)
 
                                 Button(action: {
-                                    showStreakDetail = true
+                                    if config.isPremium {
+                                        showStreakDetail = true
+                                    } else {
+                                        showPremiumSheet = true
+                                    }
                                 }) {
-                                    SettingUserInfoCell(
-                                        value: String(format: "%d", userProfileManager.currentProfile?.currentStreak ?? 0),
+                                    HStack {
+                                        SettingUserInfoCell(
+                                            value: String(format: "%d", userProfileManager.currentProfile?.currentStreak ?? 0),
                                         metric: "Days",
                                         headerColor: .orange,
                                         additionalInfo: "Streak 🔥",
                                         icon: "flame.fill"
                                     )
+
+                                        if !config.isPremium {
+                                            Spacer()
+                                            Image(systemName: "lock.fill")
+                                                .foregroundStyle(.orange)
+                                                .font(.caption)
+                                        }
+                                    }
                                 }
                                 .foregroundStyle(Color.white)
                                 .listRowBackground(Color.clear)
