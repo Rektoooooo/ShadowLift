@@ -90,13 +90,13 @@ struct SettingsView: View {
                     Section("Premium") {
                         NavigationLink(destination: PremiumSubscriptionView()) {
                             HStack {
-                                Image(systemName: "star.fill")
-                                    .foregroundColor(.yellow)
+                                Image(systemName: config.isPremium ? "checkmark.seal.fill" : "star.fill")
+                                    .foregroundColor(config.isPremium ? .green : .yellow)
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Upgrade to Premium")
+                                    Text(config.isPremium ? "ShadowLift Pro" : "Upgrade to Premium")
                                         .foregroundColor(.primary)
                                         .font(.headline)
-                                    Text("Unlock AI summaries, advanced graphs & more")
+                                    Text(config.isPremium ? "Manage your subscription" : "Unlock AI summaries, advanced graphs & more")
                                         .foregroundColor(.secondary)
                                         .font(.caption)
                                 }

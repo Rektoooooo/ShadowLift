@@ -207,12 +207,20 @@ class StoreManager: ObservableObject {
 
             let expirationDate = transaction.expirationDate ?? Date()
 
+            // Get renewal info (verified)
+            guard let renewalInfo = try? checkVerified(status.renewalInfo) else {
+                print("❌ StoreManager: Renewal info verification failed")
+                isPremium = false
+                subscriptionStatus = .expired
+                return
+            }
+
             // Determine subscription status
             switch status.state {
             case .subscribed:
-                if status.renewalInfo.willAutoRenew {
-                    // Check if in trial period
-                    if let introOffer = transaction.offerType, introOffer == .introductory {
+                if renewalInfo.willAutoRenew {
+                    // Check if in trial period - use offer instead of deprecated offerType
+                    if transaction.offer?.type == .introductory {
                         subscriptionStatus = .trial(expiresAt: expirationDate)
                         print("   Status: Free Trial (expires \(expirationDate))")
                     } else {
@@ -230,12 +238,24 @@ class StoreManager: ObservableObject {
                 isPremium = true
                 print("   Status: Grace Period (expires \(expirationDate))")
 
-            case .revoked, .expired:
+            case .revoked:
+                subscriptionStatus = .expired
+                isPremium = false
+                print("   Status: Revoked")
+
+            case .expired:
                 subscriptionStatus = .expired
                 isPremium = false
                 print("   Status: Expired")
 
-            @unknown default:
+            case .inBillingRetryPeriod:
+                // Keep premium active during billing retry
+                subscriptionStatus = .gracePeriod(expiresAt: expirationDate)
+                isPremium = true
+                print("   Status: Billing Retry Period")
+
+            default:
+                // Handle any future subscription states
                 subscriptionStatus = .expired
                 isPremium = false
                 print("   Status: Unknown (treating as expired)")
@@ -252,18 +272,21 @@ class StoreManager: ObservableObject {
 
     // MARK: - Listen for Transactions
     private func listenForTransactions() -> Task<Void, Error> {
-        return Task.detached {
+        return Task.detached { [weak self] in
+            guard let self = self else { return }
+
             print("🛒 StoreManager: Started listening for transaction updates...")
 
             for await result in Transaction.updates {
                 do {
-                    let transaction = try self.checkVerified(result)
+                    // checkVerified is not actor-isolated, so we can call it directly
+                    let transaction = try await self.checkVerifiedAsync(result)
 
                     print("🛒 StoreManager: Received transaction update for \(transaction.productID)")
 
                     // Update subscription status on main thread
-                    await MainActor.run {
-                        Task {
+                    _ = await MainActor.run {
+                        Task { @MainActor in
                             await self.updateSubscriptionStatus()
                         }
                     }
@@ -273,6 +296,17 @@ class StoreManager: ObservableObject {
                     print("❌ StoreManager: Transaction verification failed: \(error)")
                 }
             }
+        }
+    }
+
+    // MARK: - Async Transaction Verification (for background task)
+    private func checkVerifiedAsync<T>(_ result: VerificationResult<T>) async throws -> T {
+        switch result {
+        case .unverified:
+            print("❌ StoreManager: Transaction unverified")
+            throw StoreError.failedVerification
+        case .verified(let safe):
+            return safe
         }
     }
 

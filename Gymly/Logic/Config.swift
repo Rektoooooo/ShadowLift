@@ -242,14 +242,10 @@ class Config:ObservableObject {
         self.isHealtKitEnabled = UserDefaults.standard.object(forKey: "isHealtKitEnabled") as? Bool ?? false
 
         // Premium status - will be synced from StoreManager
-        // For testing: keep true in DEBUG, false in production (StoreManager will update)
-        #if DEBUG
-        self.isPremium = UserDefaults.standard.object(forKey: "isPremium") as? Bool ?? true
-        print("💎 Config: DEBUG mode - isPremium defaults to true for testing")
-        #else
-        self.isPremium = UserDefaults.standard.object(forKey: "isPremium") as? Bool ?? false
-        print("💎 Config: Production mode - isPremium defaults to false, waiting for StoreManager")
-        #endif
+        // Load from UserDefaults, will be updated by StoreManager after initialization
+        let loadedPremium = UserDefaults.standard.object(forKey: "isPremium") as? Bool ?? false
+        self.isPremium = loadedPremium
+        print("💎 Config: isPremium loaded from UserDefaults: \(loadedPremium)")
 
         // Notification Settings initialization
         self.notificationsEnabled = UserDefaults.standard.object(forKey: "notificationsEnabled") as? Bool ?? false

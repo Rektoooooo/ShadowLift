@@ -21,9 +21,11 @@ struct GymlyApp: App {
                 .onOpenURL { url in
                     handleIncomingFile(url, config: config)
                 }
-                .onChange(of: storeManager.isPremium) { _, isPremium in
+                .onChange(of: storeManager.isPremium) { oldValue, newValue in
                     // Sync premium status from StoreManager to Config
-                    config.updatePremiumStatus(from: isPremium)
+                    print("💎 GymlyApp: StoreManager isPremium changed from \(oldValue) to \(newValue)")
+                    config.updatePremiumStatus(from: newValue)
+                    print("💎 GymlyApp: Config isPremium is now \(config.isPremium)")
                 }
         }
         .modelContainer(for: [Split.self, Exercise.self, Day.self, DayStorage.self, WeightPoint.self, UserProfile.self, ExercisePR.self])

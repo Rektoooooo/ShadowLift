@@ -13,7 +13,7 @@ struct PremiumSubscriptionView: View {
     @Environment(\.colorScheme) private var scheme
     @EnvironmentObject var appearanceManager: AppearanceManager
     @EnvironmentObject var config: Config
-    @StateObject private var storeManager = StoreManager()
+    @EnvironmentObject var storeManager: StoreManager
     @State private var selectedProduct: Product?
     @State private var showTermsOfService = false
     @State private var showPrivacyPolicy = false
@@ -104,9 +104,91 @@ struct PremiumSubscriptionView: View {
                         Text("Enjoy all features unlocked")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
+
+                        // Subscription status
+                        if let status = storeManager.subscriptionStatus {
+                            Text(status.displayText)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .padding(.top, 4)
+                        }
                     }
                 }
                 .padding(.top, 40)
+
+                // Subscription Management
+                VStack(spacing: 16) {
+                    Text("Subscription Management")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal, 24)
+
+                    VStack(spacing: 12) {
+                        // Current Plan Card
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Image(systemName: "creditcard.fill")
+                                    .foregroundColor(appearanceManager.accentColor.color)
+                                Text("Current Plan")
+                                    .font(.headline)
+                                Spacer()
+                            }
+
+                            if storeManager.subscriptionStatus != nil,
+                               let product = storeManager.products.first {
+                                Text(product.displayName)
+                                    .font(.body)
+                                    .foregroundColor(.primary)
+                                Text(product.displayPrice + "/" + (product.subscription?.subscriptionPeriod.unit == .month ? "month" : "year"))
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            } else {
+                                Text("ShadowLift Pro")
+                                    .font(.body)
+                                    .foregroundColor(.primary)
+                                Text("Active subscription")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.black.opacity(0.2))
+                        .cornerRadius(12)
+
+                        // Manage Subscription Button
+                        Button(action: {
+                            // Open iOS Settings to manage subscription
+                            if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
+                                UIApplication.shared.open(url)
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: "gearshape.fill")
+                                    .foregroundColor(.white)
+                                Text("Manage Subscription")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                Spacer()
+                                Image(systemName: "arrow.up.right")
+                                    .font(.caption)
+                                    .foregroundColor(.white)
+                            }
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(12)
+                        }
+                        .buttonStyle(.plain)
+
+                        // Info text
+                        Text("Change plan, cancel, or manage your subscription in the App Store")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.horizontal, 24)
+                }
+                .padding(.bottom, 20)
 
                 // Features List with Checkmarks
                 VStack(alignment: .leading, spacing: 16) {

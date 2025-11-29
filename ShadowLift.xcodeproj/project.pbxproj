@@ -13,6 +13,7 @@
 		EC022DC52ED72C730051ED1B /* MilestoneNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC022DC42ED72C730051ED1B /* MilestoneNotificationManager.swift */; };
 		EC022DC72ED72D110051ED1B /* InactivityReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC022DC62ED72D110051ED1B /* InactivityReminderManager.swift */; };
 		EC022DCF2ED9CBD40051ED1B /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC022DCE2ED9CBD30051ED1B /* StoreManager.swift */; };
+		EC022DD12ED9CD1D0051ED1B /* Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = EC022DD02ED9CD1D0051ED1B /* Configuration.storekit */; };
 		EC04B77E2EC6608700232DDE /* MarkdownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC04B77D2EC6608700232DDE /* MarkdownText.swift */; };
 		EC04B78B2EC718AD00232DDE /* AppIcon-Green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7812EC718AD00232DDE /* AppIcon-Green@2x.png */; };
 		EC04B78C2EC718AD00232DDE /* AppIcon-Pink@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04B7862EC718AD00232DDE /* AppIcon-Pink@3x.png */; };
@@ -98,6 +99,7 @@
 		EC022DC42ED72C730051ED1B /* MilestoneNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneNotificationManager.swift; sourceTree = "<group>"; };
 		EC022DC62ED72D110051ED1B /* InactivityReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InactivityReminderManager.swift; sourceTree = "<group>"; };
 		EC022DCE2ED9CBD30051ED1B /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		EC022DD02ED9CD1D0051ED1B /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		EC04B77D2EC6608700232DDE /* MarkdownText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownText.swift; sourceTree = "<group>"; };
 		EC04B7812EC718AD00232DDE /* AppIcon-Green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Green@2x.png"; sourceTree = "<group>"; };
 		EC04B7822EC718AD00232DDE /* AppIcon-Green@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Green@3x.png"; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				ECA5D15D2BF20CF500DCC9F8 /* GymlyUITests */,
 				ECA5D1412BF20CF100DCC9F8 /* Products */,
 				EC04B77B2EC65FDF00232DDE /* Helpers */,
+				EC022DD02ED9CD1D0051ED1B /* Configuration.storekit */,
 			);
 			sourceTree = "<group>";
 		};
@@ -488,6 +491,7 @@
 				ECA5D14B2BF20CF500DCC9F8 /* Preview Assets.xcassets in Resources */,
 				ECA5D1482BF20CF500DCC9F8 /* Assets.xcassets in Resources */,
 				ECA5BBB32EC749D100AD2757 /* AppIcon-Blue@3x.png in Resources */,
+				EC022DD12ED9CD1D0051ED1B /* Configuration.storekit in Resources */,
 				ECA5BBB42EC749D100AD2757 /* AppIcon-Blue@2x.png in Resources */,
 				ECA5BBB52EC749D100AD2757 /* AppIcon-Purple@3x.png in Resources */,
 				ECA5BBB62EC749D100AD2757 /* AppIcon-Purple@2x.png in Resources */,
