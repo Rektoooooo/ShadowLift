@@ -444,7 +444,6 @@ class CloudKitManager {
 
 **Uses Apple's FoundationModels Framework:**
 ```swift
-@available(iOS 26, *)
 class WorkoutSummarizer {
     private let model = LLMModel.default  // On-device LLM
 
@@ -659,9 +658,8 @@ Bundle ID:  com.icservis.GymlyFitness  // NOTE: Different prefix!
 
 ### 9. iOS Version Availability
 ```swift
-@available(iOS 26, *)  // AI summaries only
 ```
-App compiles for iOS 17+, but some features require iOS 26+.
+App compiles for iOS 26+, but some features require iOS 26+.
 
 ### 10. ModelContainer Injection
 ```swift

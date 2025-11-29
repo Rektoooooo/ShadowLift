@@ -712,6 +712,29 @@ class CloudKitManager: ObservableObject {
                     try? await self.saveWeightPoint(weightPoint)
                 }
 
+                // Sync Progress Photos (with full images)
+                let progressPhotoDescriptor = FetchDescriptor<ProgressPhoto>()
+                let localProgressPhotos = try context.fetch(progressPhotoDescriptor)
+                print("🔄 PERFORMFULLSYNC: Found \(localProgressPhotos.count) progress photos to sync")
+
+                for photo in localProgressPhotos {
+                    // Load full image from Photos library if available
+                    if let assetID = photo.photoAssetID {
+                        if let fullImage = await PhotoManager.shared.loadImage(from: assetID) {
+                            do {
+                                try await self.saveProgressPhoto(photo, fullImage: fullImage)
+                                print("✅ PERFORMFULLSYNC: Progress photo synced")
+                            } catch {
+                                print("❌ PERFORMFULLSYNC: Failed to sync progress photo - \(error)")
+                            }
+                        } else {
+                            print("⚠️ PERFORMFULLSYNC: Could not load image from Photos library for photo \(photo.id?.uuidString ?? "unknown")")
+                        }
+                    } else {
+                        print("⚠️ PERFORMFULLSYNC: Photo \(photo.id?.uuidString ?? "unknown") has no asset ID, skipping")
+                    }
+                }
+
                 // Update last sync date
                 await MainActor.run {
                     let now = Date()
@@ -791,6 +814,53 @@ class CloudKitManager: ObservableObject {
             for cloudWeightPoint in cloudWeightPoints {
                 if !localWeightPoints.contains(where: { $0.id == cloudWeightPoint.id }) {
                     context.insert(cloudWeightPoint)
+                }
+            }
+
+            // Fetch and restore Progress Photos from CloudKit
+            let cloudProgressPhotos = try await fetchProgressPhotos()
+            print("🔥 FETCHED FROM CLOUDKIT: \(cloudProgressPhotos.count) progress photos")
+
+            let localProgressPhotoDescriptor = FetchDescriptor<ProgressPhoto>()
+            let localProgressPhotos = try context.fetch(localProgressPhotoDescriptor)
+
+            // Get user profile to link photos
+            let userProfileDescriptor = FetchDescriptor<UserProfile>()
+            let userProfile = try context.fetch(userProfileDescriptor).first
+
+            for (cloudPhoto, imageData) in cloudProgressPhotos {
+                // Skip if photo already exists locally
+                if localProgressPhotos.contains(where: { $0.id == cloudPhoto.id }) {
+                    print("📸 CLOUDKIT: Photo \(cloudPhoto.id?.uuidString ?? "unknown") already exists locally, skipping")
+                    continue
+                }
+
+                // Convert Data to UIImage
+                guard let image = UIImage(data: imageData) else {
+                    print("❌ CLOUDKIT: Failed to create UIImage from data for photo \(cloudPhoto.id?.uuidString ?? "unknown")")
+                    continue
+                }
+
+                // Save to Photos library and get asset ID
+                if let assetID = await PhotoManager.shared.saveToPhotosLibrary(image: image) {
+                    // Update photo with asset ID and link to user profile
+                    cloudPhoto.photoAssetID = assetID
+                    cloudPhoto.userProfile = userProfile
+
+                    // Insert into context
+                    context.insert(cloudPhoto)
+
+                    // Add to user profile's photos array
+                    if let profile = userProfile {
+                        if profile.progressPhotos == nil {
+                            profile.progressPhotos = []
+                        }
+                        profile.progressPhotos?.append(cloudPhoto)
+                    }
+
+                    print("✅ CLOUDKIT: Restored progress photo \(cloudPhoto.id?.uuidString ?? "unknown") to Photos library")
+                } else {
+                    print("❌ CLOUDKIT: Failed to save photo \(cloudPhoto.id?.uuidString ?? "unknown") to Photos library")
                 }
             }
 
@@ -949,6 +1019,164 @@ class CloudKitManager: ObservableObject {
             print("🔍 PROFILE IMAGE: No CloudKit profile image found")
             return nil
         }
+    }
+
+    // MARK: - ProgressPhoto CloudKit Methods
+
+    /// Save progress photo to CloudKit with full image
+    func saveProgressPhoto(_ photo: ProgressPhoto, fullImage: UIImage) async throws {
+        guard isCloudKitEnabled else {
+            throw CloudKitError.notAvailable
+        }
+
+        guard let photoID = photo.id else {
+            throw CloudKitError.invalidData
+        }
+
+        print("📸 CLOUDKIT: Saving progress photo \(photoID)")
+
+        // Compress image for CloudKit (max 10MB, CloudKit limit is 25MB but we'll be conservative)
+        guard let imageData = fullImage.jpegData(compressionQuality: 0.85) else {
+            throw CloudKitError.invalidData
+        }
+
+        // Write to temporary file for CKAsset
+        let tempURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("progress_photo_\(photoID.uuidString).jpg")
+        try imageData.write(to: tempURL)
+
+        let asset = CKAsset(fileURL: tempURL)
+        let recordID = CKRecord.ID(recordName: photoID.uuidString)
+
+        let record: CKRecord
+        do {
+            // Try to fetch existing record
+            record = try await privateDatabase.record(for: recordID)
+            print("🔄 PROGRESS PHOTO: Updating existing CloudKit record")
+        } catch {
+            // Create new record
+            record = CKRecord(recordType: "ProgressPhoto", recordID: recordID)
+            print("🆕 PROGRESS PHOTO: Creating new CloudKit record")
+        }
+
+        // Store full image as asset
+        record["imageAsset"] = asset
+
+        // Store metadata
+        if let date = photo.date {
+            record["date"] = date as CKRecordValue
+        }
+        if let weight = photo.weight {
+            record["weight"] = weight as CKRecordValue
+        }
+        if let notes = photo.notes {
+            record["notes"] = notes as CKRecordValue
+        }
+        if let photoType = photo.photoType {
+            record["photoType"] = photoType.rawValue as CKRecordValue
+        }
+        if let createdAt = photo.createdAt {
+            record["createdAt"] = createdAt as CKRecordValue
+        }
+        if let thumbnailData = photo.thumbnailData {
+            record["thumbnailData"] = thumbnailData as CKRecordValue
+        }
+
+        do {
+            _ = try await withTimeout(30.0) { // 30 second timeout for image upload
+                try await self.privateDatabase.save(record)
+            }
+            print("✅ PROGRESS PHOTO: Saved to CloudKit")
+
+            // Clean up temp file
+            try? FileManager.default.removeItem(at: tempURL)
+        } catch {
+            // Clean up temp file even on error
+            try? FileManager.default.removeItem(at: tempURL)
+            print("❌ PROGRESS PHOTO: Failed to save - \(error)")
+            throw CloudKitError.syncFailed(error.localizedDescription)
+        }
+    }
+
+    /// Fetch all progress photos from CloudKit
+    func fetchProgressPhotos() async throws -> [(photo: ProgressPhoto, imageData: Data)] {
+        guard isCloudKitEnabled else {
+            throw CloudKitError.notAvailable
+        }
+
+        print("📸 CLOUDKIT: Fetching progress photos...")
+
+        do {
+            let query = CKQuery(recordType: "ProgressPhoto", predicate: NSPredicate(value: true))
+            let (matchResults, _) = try await privateDatabase.records(matching: query)
+
+            var results: [(photo: ProgressPhoto, imageData: Data)] = []
+
+            for (_, result) in matchResults {
+                switch result {
+                case .success(let record):
+                    if let photoData = try? await progressPhotoFromRecord(record) {
+                        results.append(photoData)
+                        print("✅ PROGRESS PHOTO: Fetched photo from CloudKit")
+                    }
+                case .failure(let error):
+                    print("❌ PROGRESS PHOTO: Error fetching record - \(error)")
+                }
+            }
+
+            print("📸 CLOUDKIT: Fetched \(results.count) progress photos")
+            return results
+        } catch let error as CKError {
+            if error.code == .unknownItem || error.code == .invalidArguments {
+                print("📸 CLOUDKIT: No progress photos found")
+                return []
+            }
+            throw error
+        }
+    }
+
+    /// Convert CloudKit record to ProgressPhoto with image data
+    private func progressPhotoFromRecord(_ record: CKRecord) async throws -> (photo: ProgressPhoto, imageData: Data)? {
+        guard let asset = record["imageAsset"] as? CKAsset,
+              let fileURL = asset.fileURL,
+              let imageData = try? Data(contentsOf: fileURL) else {
+            print("❌ PROGRESS PHOTO: No valid image asset in record")
+            return nil
+        }
+
+        let id = UUID(uuidString: record.recordID.recordName) ?? UUID()
+        let date = record["date"] as? Date
+        let weight = record["weight"] as? Double
+        let notes = record["notes"] as? String
+        let photoTypeString = record["photoType"] as? String
+        let photoType = photoTypeString.flatMap { PhotoType(rawValue: $0) }
+        let createdAt = record["createdAt"] as? Date
+        let thumbnailData = record["thumbnailData"] as? Data
+
+        let photo = ProgressPhoto(
+            id: id,
+            date: date ?? Date(),
+            photoAssetID: nil, // Will be set when saved to Photos library
+            thumbnailData: thumbnailData,
+            weight: weight,
+            notes: notes,
+            photoType: photoType ?? .front,
+            createdAt: createdAt ?? Date(),
+            userProfile: nil // Will be linked when inserted
+        )
+
+        return (photo, imageData)
+    }
+
+    /// Delete progress photo from CloudKit
+    func deleteProgressPhoto(_ photoID: UUID) async throws {
+        guard isCloudKitEnabled else {
+            throw CloudKitError.notAvailable
+        }
+
+        let recordID = CKRecord.ID(recordName: photoID.uuidString)
+        try await privateDatabase.deleteRecord(withID: recordID)
+        print("🗑️ PROGRESS PHOTO: Deleted from CloudKit")
     }
 }
 

@@ -94,6 +94,18 @@ class PhotoManager: ObservableObject {
         do {
             try context.save()
             print("✅ Progress photo saved: \(type.rawValue)")
+
+            // Sync to CloudKit if enabled
+            Task {
+                do {
+                    try await CloudKitManager.shared.saveProgressPhoto(progressPhoto, fullImage: image)
+                    print("✅ Progress photo synced to CloudKit")
+                } catch {
+                    print("⚠️ Failed to sync progress photo to CloudKit: \(error)")
+                    // Don't fail the save if CloudKit sync fails
+                }
+            }
+
             return progressPhoto
         } catch {
             print("❌ Failed to save ProgressPhoto: \(error)")
@@ -102,7 +114,7 @@ class PhotoManager: ObservableObject {
     }
 
     /// Save image to Photos library and return asset identifier
-    private func saveToPhotosLibrary(image: UIImage) async -> String? {
+    func saveToPhotosLibrary(image: UIImage) async -> String? {
         return await withCheckedContinuation { continuation in
             var assetID: String?
 
@@ -213,11 +225,26 @@ class PhotoManager: ObservableObject {
     /// Delete progress photo from database (keeps in Photos library)
     func deletePhoto(_ photo: ProgressPhoto, context: ModelContext) {
         print("🗑️ Deleting photo with ID: \(photo.id?.uuidString ?? "nil"), type: \(photo.photoType?.rawValue ?? "nil"), userProfile: \(photo.userProfile?.id.uuidString ?? "nil")")
+
+        let photoID = photo.id
         context.delete(photo)
 
         do {
             try context.save()
             print("✅ Progress photo deleted")
+
+            // Delete from CloudKit if enabled
+            if let photoID = photoID {
+                Task {
+                    do {
+                        try await CloudKitManager.shared.deleteProgressPhoto(photoID)
+                        print("✅ Progress photo deleted from CloudKit")
+                    } catch {
+                        print("⚠️ Failed to delete progress photo from CloudKit: \(error)")
+                        // Don't fail the delete if CloudKit sync fails
+                    }
+                }
+            }
         } catch {
             print("❌ Failed to delete photo: \(error)")
         }

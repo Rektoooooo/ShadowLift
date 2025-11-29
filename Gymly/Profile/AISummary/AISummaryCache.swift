@@ -60,7 +60,6 @@ class AISummaryCache {
     private init() {}
 
     /// Save a generated summary to cache (runs on background thread for performance)
-    @available(iOS 26, *)
     nonisolated func saveSummary(_ summary: WorkoutSummary.PartiallyGenerated) {
         Task.detached(priority: .utility) { [weak self] in
             guard let self = self else { return }

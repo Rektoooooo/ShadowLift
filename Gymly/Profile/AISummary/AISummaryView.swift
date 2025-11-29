@@ -8,7 +8,6 @@
 import SwiftUI
 import SwiftData
 
-@available(iOS 18.1, *)
 struct AISummaryView: View {
     @Environment(\.colorScheme) private var scheme
     @Environment(\.modelContext) private var context
@@ -241,7 +240,6 @@ struct AISummaryView: View {
         .animation(.easeInOut(duration: 0.3), value: summarizer.workoutSummary?.recommendations?.count)
     }
     
-    @available(iOS 26, *)
     @ViewBuilder
     private func summaryContent(_ summary: WorkoutSummary.PartiallyGenerated) -> some View {
         VStack(spacing: 20) {
@@ -354,7 +352,6 @@ struct AISummaryView: View {
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
     }
     
-    @available(iOS 26, *)
     private func keyStatsCard(_ stats: [KeyStat].PartiallyGenerated) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Label("Key Stats", systemImage: "chart.bar.fill")
@@ -393,7 +390,6 @@ struct AISummaryView: View {
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
     }
     
-    @available(iOS 26, *)
     private func trendsCard(_ trends: [Trend].PartiallyGenerated) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Label("Trends", systemImage: "chart.line.uptrend.xyaxis")
@@ -425,7 +421,6 @@ struct AISummaryView: View {
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
     }
     
-    @available(iOS 26, *)
     private func personalRecordsCard(_ prs: [PersonalRecords].PartiallyGenerated) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Label("Personal Records", systemImage: "trophy.fill")
@@ -471,7 +466,6 @@ struct AISummaryView: View {
         )
     }
     
-    @available(iOS 26, *)
     private func issuesCard(_ issues: [Issue].PartiallyGenerated) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Label("Areas of Concern", systemImage: "exclamationmark.triangle")
@@ -507,7 +501,6 @@ struct AISummaryView: View {
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
     }
     
-    @available(iOS 26, *)
     private func recommendationsCard(_ recommendations: [Recommendation].PartiallyGenerated) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Label("Recommendations", systemImage: "lightbulb.fill")

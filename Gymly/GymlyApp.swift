@@ -28,13 +28,13 @@ struct GymlyApp: App {
                     print("💎 GymlyApp: Config isPremium is now \(config.isPremium)")
                 }
         }
-        .modelContainer(for: [Split.self, Exercise.self, Day.self, DayStorage.self, WeightPoint.self, UserProfile.self, ExercisePR.self])
+        .modelContainer(for: [Split.self, Exercise.self, Day.self, DayStorage.self, WeightPoint.self, UserProfile.self, ExercisePR.self, ProgressPhoto.self])
     }
     
     private func handleIncomingFile(_ url: URL, config: Config) {
         print("Opened file: \(url)")
 
-        if let modelContainer = try? ModelContainer(for: Split.self, Exercise.self, Day.self, DayStorage.self, WeightPoint.self, UserProfile.self, ExercisePR.self) {
+        if let modelContainer = try? ModelContainer(for: Split.self, Exercise.self, Day.self, DayStorage.self, WeightPoint.self, UserProfile.self, ExercisePR.self, ProgressPhoto.self) {
             let context = modelContainer.mainContext
             let viewModel = WorkoutViewModel(config: config, context: context)
             

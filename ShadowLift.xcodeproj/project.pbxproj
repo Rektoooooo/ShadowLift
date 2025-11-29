@@ -63,6 +63,7 @@
 		ECA5D1612BF20CF500DCC9F8 /* GymlyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D1602BF20CF500DCC9F8 /* GymlyUITestsLaunchTests.swift */; };
 		ECA5D16E2BF20D0F00DCC9F8 /* ToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D16D2BF20D0F00DCC9F8 /* ToolBar.swift */; };
 		ECA5D1762BF22C2000DCC9F8 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5D1752BF22C2000DCC9F8 /* Exercise.swift */; };
+		ECD2E0F12EDB91DC00D605E8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ECD2E0F02EDB91DC00D605E8 /* PrivacyInfo.xcprivacy */; };
 		ECE71EAE2ED5C8C1005AA330 /* iCloudSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE71EAC2ED5C8C1005AA330 /* iCloudSyncManager.swift */; };
 		ECE71F082ED5C8C1005AA330 /* FloatingClouds.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE71EF02ED5C8C1005AA330 /* FloatingClouds.swift */; };
 		ECE71F092ED5C8C1005AA330 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE71EF12ED5C8C1005AA330 /* HealthKitManager.swift */; };
@@ -152,6 +153,7 @@
 		ECA5D1602BF20CF500DCC9F8 /* GymlyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymlyUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		ECA5D16D2BF20D0F00DCC9F8 /* ToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBar.swift; sourceTree = "<group>"; };
 		ECA5D1752BF22C2000DCC9F8 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
+		ECD2E0F02EDB91DC00D605E8 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ECDE63122D48D85A00C2DA94 /* Gymly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gymly.entitlements; sourceTree = "<group>"; };
 		ECE71EAC2ED5C8C1005AA330 /* iCloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudSyncManager.swift; sourceTree = "<group>"; };
 		ECE71EF02ED5C8C1005AA330 /* FloatingClouds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingClouds.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 		ECA5D1422BF20CF100DCC9F8 /* Gymly */ = {
 			isa = PBXGroup;
 			children = (
+				ECD2E0F02EDB91DC00D605E8 /* PrivacyInfo.xcprivacy */,
 				ECF621932D497912007B4C2E /* Info.plist */,
 				ECDE63122D48D85A00C2DA94 /* Gymly.entitlements */,
 				ECE71F322ED64CCB005AA330 /* Auth */,
@@ -502,6 +505,7 @@
 				EC04B7922EC718AD00232DDE /* AppIcon-Pink@2x.png in Resources */,
 				EC04B7952EC718AD00232DDE /* AppIcon-Orange@3x.png in Resources */,
 				EC04B7962EC718AD00232DDE /* AppIcon@2x.png in Resources */,
+				ECD2E0F12EDB91DC00D605E8 /* PrivacyInfo.xcprivacy in Resources */,
 				ECFFCAAB2EB7F45A008D6FE7 /* claude.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
