@@ -14,10 +14,10 @@ struct AddProgressPhotoView: View {
     @Environment(\.modelContext) var context
     @EnvironmentObject var userProfileManager: UserProfileManager
     @EnvironmentObject var appearanceManager: AppearanceManager
-
+    
     @StateObject private var photoManager = PhotoManager.shared
     @StateObject private var camera = CameraViewModel()
-
+    
     @State private var selectedPhotoType: PhotoType = .front
     @State private var notes: String = ""
     @State private var showImagePicker = false
@@ -26,12 +26,12 @@ struct AddProgressPhotoView: View {
     @State private var showPoseGuide = true
     @State private var isSaving = false
     @State private var showPhotoPermissionError = false
-
+    
     var body: some View {
         NavigationView {
             ZStack {
                 Color.black.ignoresSafeArea()
-
+                
                 // Check if camera is authorized
                 if !camera.isCameraAuthorized {
                     // Camera Permission Denied View
@@ -49,7 +49,7 @@ struct AddProgressPhotoView: View {
                     }
                     .foregroundColor(.white)
                 }
-
+                
                 ToolbarItem(placement: .principal) {
                     Text("Progress Photo")
                         .foregroundColor(.white)
@@ -96,31 +96,31 @@ struct AddProgressPhotoView: View {
             }
         }
     }
-
+    
     // MARK: - Camera Permission Denied View
-
+    
     private var cameraPermissionDeniedView: some View {
         VStack(spacing: 24) {
             Spacer()
-
+            
             // Icon
             Image(systemName: "camera.slash.fill")
                 .font(.system(size: 70))
                 .foregroundColor(.white.opacity(0.7))
-
+            
             // Title
             Text("Camera Access Required")
                 .font(.title2)
                 .bold()
                 .foregroundColor(.white)
-
+            
             // Description
             Text("To take progress photos, Gymly needs access to your camera. You can still import photos from your library.")
                 .font(.body)
                 .foregroundColor(.white.opacity(0.8))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
-
+            
             // Buttons
             VStack(spacing: 12) {
                 // Open Settings Button
@@ -140,7 +140,7 @@ struct AddProgressPhotoView: View {
                     .foregroundColor(.black)
                     .cornerRadius(12)
                 }
-
+                
                 // Import from Library Button
                 Button(action: {
                     showImagePicker = true
@@ -159,128 +159,128 @@ struct AddProgressPhotoView: View {
             }
             .padding(.horizontal, 40)
             .padding(.top, 20)
-
+            
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-
+    
     // MARK: - Camera Interface View
-
+    
     private var cameraInterfaceView: some View {
         VStack(spacing: 0) {
             // Camera Preview
             ZStack {
                 CameraPreview(camera: camera)
                     .ignoresSafeArea()
-
-                        // Pose Guide Overlay
-                        if showPoseGuide {
-                            PoseGuideOverlay(photoType: selectedPhotoType)
-                                .opacity(0.3)
-                        }
-
-                        // Top Controls
-                        VStack {
-                            HStack {
-                                Button(action: {
-                                    withAnimation {
-                                        showPoseGuide.toggle()
-                                    }
-                                }) {
-                                    Image(systemName: showPoseGuide ? "eye.fill" : "eye.slash.fill")
-                                        .font(.title2)
-                                        .foregroundColor(.white)
-                                        .padding()
-                                        .background(Color.black.opacity(0.5))
-                                        .clipShape(Circle())
-                                }
-
-                                Spacer()
-
-                                Button(action: {
-                                    camera.flipCamera()
-                                }) {
-                                    Image(systemName: "camera.rotate")
-                                        .font(.title2)
-                                        .foregroundColor(.white)
-                                        .padding()
-                                        .background(Color.black.opacity(0.5))
-                                        .clipShape(Circle())
-                                }
+                
+                // Pose Guide Overlay
+                if showPoseGuide {
+                    PoseGuideOverlay(photoType: selectedPhotoType)
+                        .opacity(0.3)
+                }
+                
+                // Top Controls
+                VStack {
+                    HStack {
+                        Button(action: {
+                            withAnimation {
+                                showPoseGuide.toggle()
                             }
-                            .padding()
-
-                            Spacer()
+                        }) {
+                            Image(systemName: showPoseGuide ? "eye.fill" : "eye.slash.fill")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.black.opacity(0.5))
+                                .clipShape(Circle())
                         }
-                    }
-                    .frame(maxHeight: .infinity)
-
-                    // Bottom Controls
-                    VStack(spacing: 20) {
-                        // Photo Type Selector
-                        HStack(spacing: 20) {
-                            ForEach([PhotoType.front, PhotoType.side, PhotoType.back], id: \.self) { type in
-                                Button(action: {
-                                    withAnimation {
-                                        selectedPhotoType = type
-                                    }
-                                }) {
-                                    Text(type.rawValue)
-                                        .font(.subheadline)
-                                        .bold()
-                                        .foregroundColor(selectedPhotoType == type ? .black : .white)
-                                        .padding(.horizontal, 20)
-                                        .padding(.vertical, 10)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .fill(selectedPhotoType == type ? appearanceManager.accentColor.color : Color.white.opacity(0.2))
-                                        )
-                                }
-                            }
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            camera.flipCamera()
+                        }) {
+                            Image(systemName: "camera.rotate")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.black.opacity(0.5))
+                                .clipShape(Circle())
                         }
-
-                        // Capture Buttons
-                        HStack(spacing: 40) {
-                            // Import Button
-                            Button(action: {
-                                showImagePicker = true
-                            }) {
-                                Image(systemName: "photo.on.rectangle")
-                                    .font(.title)
-                                    .foregroundColor(.white)
-                                    .frame(width: 60, height: 60)
-                                    .background(Color.white.opacity(0.2))
-                                    .clipShape(Circle())
-                            }
-
-                            // Capture Button
-                            Button(action: {
-                                capturePhoto()
-                            }) {
-                                ZStack {
-                                    Circle()
-                                        .stroke(Color.white, lineWidth: 4)
-                                        .frame(width: 80, height: 80)
-
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 68, height: 68)
-                                }
-                            }
-
-                            // Placeholder for symmetry
-                            Color.clear
-                                .frame(width: 60, height: 60)
-                        }
-                        .padding(.bottom, 30)
                     }
                     .padding()
-                    .background(Color.black)
+                    
+                    Spacer()
                 }
             }
+            .frame(maxHeight: .infinity)
+            
+            // Bottom Controls
+            VStack(spacing: 20) {
+                // Photo Type Selector
+                HStack(spacing: 20) {
+                    ForEach([PhotoType.front, PhotoType.side, PhotoType.back], id: \.self) { type in
+                        Button(action: {
+                            withAnimation {
+                                selectedPhotoType = type
+                            }
+                        }) {
+                            Text(type.rawValue)
+                                .font(.subheadline)
+                                .bold()
+                                .foregroundColor(selectedPhotoType == type ? .black : .white)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 10)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(selectedPhotoType == type ? appearanceManager.accentColor.color : Color.white.opacity(0.2))
+                                )
+                        }
+                    }
+                }
+                
+                // Capture Buttons
+                HStack(spacing: 40) {
+                    // Import Button
+                    Button(action: {
+                        showImagePicker = true
+                    }) {
+                        Image(systemName: "photo.on.rectangle")
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .frame(width: 60, height: 60)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(Circle())
+                    }
+                    
+                    // Capture Button
+                    Button(action: {
+                        capturePhoto()
+                    }) {
+                        ZStack {
+                            Circle()
+                                .stroke(Color.white, lineWidth: 4)
+                                .frame(width: 80, height: 80)
+                            
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 68, height: 68)
+                        }
+                    }
+                    
+                    // Placeholder for symmetry
+                    Color.clear
+                        .frame(width: 60, height: 60)
+                }
+                .padding(.bottom, 30)
+            }
+            .padding()
+            .background(Color.black)
         }
     }
+
+    // MARK: - Helper Functions
 
     private func capturePhoto() {
         camera.capturePhoto { image in
@@ -328,10 +328,10 @@ struct ReviewPhotoView: View {
     @Binding var notes: String
     let onSave: () -> Void
     let onCancel: () -> Void
-
+    
     @EnvironmentObject var userProfileManager: UserProfileManager
     @EnvironmentObject var appearanceManager: AppearanceManager
-
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
@@ -342,7 +342,7 @@ struct ReviewPhotoView: View {
                     .frame(maxHeight: 400)
                     .cornerRadius(12)
                     .padding()
-
+                
                 // Info
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
@@ -352,7 +352,7 @@ struct ReviewPhotoView: View {
                             .bold()
                         Spacer()
                     }
-
+                    
                     HStack {
                         Text("Weight:")
                             .foregroundColor(.secondary)
@@ -365,7 +365,7 @@ struct ReviewPhotoView: View {
                         }
                         Spacer()
                     }
-
+                    
                     HStack {
                         Text("Date:")
                             .foregroundColor(.secondary)
@@ -373,22 +373,22 @@ struct ReviewPhotoView: View {
                             .bold()
                         Spacer()
                     }
-
+                    
                     // Notes
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Notes (Optional)")
                             .foregroundColor(.secondary)
                             .font(.caption)
-
+                        
                         TextField("How are you feeling?", text: $notes, axis: .vertical)
                             .lineLimit(3...5)
                             .textFieldStyle(.roundedBorder)
                     }
                 }
                 .padding(.horizontal)
-
+                
                 Spacer()
-
+                
                 // Save Button
                 Button(action: onSave) {
                     Text("Save Progress Photo")
@@ -420,35 +420,35 @@ struct ReviewPhotoView: View {
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var image: UIImage?
     let onImagePicked: () -> Void
-
+    
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration()
         config.filter = .images
         config.selectionLimit = 1
-
+        
         let picker = PHPickerViewController(configuration: config)
         picker.delegate = context.coordinator
         return picker
     }
-
+    
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
+    
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let parent: ImagePicker
-
+        
         init(_ parent: ImagePicker) {
             self.parent = parent
         }
-
+        
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             picker.dismiss(animated: true)
-
+            
             guard let provider = results.first?.itemProvider else { return }
-
+            
             if provider.canLoadObject(ofClass: UIImage.self) {
                 provider.loadObject(ofClass: UIImage.self) { image, _ in
                     DispatchQueue.main.async {

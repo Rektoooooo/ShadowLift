@@ -64,6 +64,14 @@ struct ConnectionsView: View {
                     }
                 }
 
+                if config.isHealtKitEnabled {
+                    Button("Sync Now") {
+                        isHealthKitSyncing = true
+                        fetchHealthKitDataAfterAuthorizationWithValidation()
+                    }
+                    .disabled(isHealthKitSyncing)
+                }
+
                 Text("To fully revoke permissions, disable HealthKit access in Settings > Privacy & Security > Health > Gymly")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -80,6 +88,12 @@ struct ConnectionsView: View {
                             if newValue && isCloudKitAvailable {
                                 cloudKitManager.setCloudKitEnabled(true)
                                 config.isCloudKitEnabled = true
+
+                                // First fetch data from CloudKit (restore from cloud)
+                                debugLog("☁️ Fetching data from CloudKit...")
+                                await CloudKitManager.shared.fetchAndMergeData(context: viewModel.context, config: config)
+
+                                // Then perform full sync (upload any local changes)
                                 viewModel.performFullCloudKitSync()
                             } else if !newValue {
                                 cloudKitManager.setCloudKitEnabled(false)
@@ -251,6 +265,13 @@ struct ConnectionsView: View {
                 }
                 checkCompletion()
             }
+        }
+
+        // Also fetch weight history for the chart
+        debugLog("📊 HEALTH: Fetching weight history for chart...")
+        Task { @MainActor in
+            await healthKitManager.updateFromWeightChart(context: viewModel.context)
+            debugLog("✅ HEALTH: Weight history fetched and saved")
         }
     }
 

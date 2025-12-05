@@ -10,6 +10,7 @@ import SwiftData
 
 struct SettingsView: View {
     @ObservedObject var viewModel: WorkoutViewModel
+    @ObservedObject var crashReporter = CrashReporter.shared
     @EnvironmentObject var config: Config
     @EnvironmentObject var userProfileManager: UserProfileManager
     @Environment(\.colorScheme) private var scheme
@@ -125,6 +126,25 @@ struct SettingsView: View {
                         NavigationLink(destination: ContactSupportView()) {
                             Image(systemName: "envelope.fill")
                             Text("Contact Support")
+                        }
+                        .frame(width: 300)
+
+                        NavigationLink(destination: CrashReportsView()) {
+                            HStack {
+                                Image(systemName: "exclamationmark.triangle")
+                                Text("Crash Reports")
+                                Spacer()
+                                if crashReporter.pendingCrashReports.count > 0 {
+                                    Text("\(crashReporter.pendingCrashReports.count)")
+                                        .font(.caption)
+                                        .bold()
+                                        .foregroundColor(.white)
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 4)
+                                        .background(Color.red)
+                                        .cornerRadius(12)
+                                }
+                            }
                         }
                         .frame(width: 300)
 

@@ -12,6 +12,7 @@ import SwiftData
 struct GymlyApp: App {
     @StateObject private var config = Config()
     @StateObject private var storeManager = StoreManager()
+    @StateObject private var crashReporter = CrashReporter.shared
     @State private var importError: ImportError?
     @State private var showImportError = false
     @State private var showImportSuccess = false

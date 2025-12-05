@@ -41,6 +41,7 @@
 		EC5922542D7B1BE100EB39B2 /* ProfileImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5922532D7B1BE100EB39B2 /* ProfileImageCell.swift */; };
 		EC5F6BD22EE1E31400AC2FEF /* DebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5F6BD02EE1E31400AC2FEF /* DebugLogger.swift */; };
 		EC5F6BD42EE1E55A00AC2FEF /* ImportError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5F6BD32EE1E55A00AC2FEF /* ImportError.swift */; };
+		EC5F6BD62EE1EC7A00AC2FEF /* CrashReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5F6BD52EE1EC7A00AC2FEF /* CrashReporter.swift */; };
 		EC629C662C9CAE2300009902 /* MuscleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629C652C9CAE2300009902 /* MuscleGroup.swift */; };
 		EC66F6992D92CF380086D625 /* SettingUserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC66F6982D92CF380086D625 /* SettingUserInfoCell.swift */; };
 		EC66F6A12D94213D0086D625 /* BMIGaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC66F6A02D94213D0086D625 /* BMIGaugeView.swift */; };
@@ -131,6 +132,7 @@
 		EC5922532D7B1BE100EB39B2 /* ProfileImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageCell.swift; sourceTree = "<group>"; };
 		EC5F6BD02EE1E31400AC2FEF /* DebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogger.swift; sourceTree = "<group>"; };
 		EC5F6BD32EE1E55A00AC2FEF /* ImportError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportError.swift; sourceTree = "<group>"; };
+		EC5F6BD52EE1EC7A00AC2FEF /* CrashReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReporter.swift; sourceTree = "<group>"; };
 		EC629C652C9CAE2300009902 /* MuscleGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleGroup.swift; sourceTree = "<group>"; };
 		EC66F6982D92CF380086D625 /* SettingUserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUserInfoCell.swift; sourceTree = "<group>"; };
 		EC66F6A02D94213D0086D625 /* BMIGaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMIGaugeView.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				EC022DC62ED72D110051ED1B /* InactivityReminderManager.swift */,
 				EC022DCE2ED9CBD30051ED1B /* StoreManager.swift */,
 				ECD2E0F42EDB974700D605E8 /* AccountManager.swift */,
+				EC5F6BD52EE1EC7A00AC2FEF /* CrashReporter.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -565,6 +568,7 @@
 				EC022DCF2ED9CBD40051ED1B /* StoreManager.swift in Sources */,
 				EC022DC12ED6F2240051ED1B /* NotificationTestHelper.swift in Sources */,
 				EC022DBF2ED6F17A0051ED1B /* StreakNotificationManager.swift in Sources */,
+				EC5F6BD62EE1EC7A00AC2FEF /* CrashReporter.swift in Sources */,
 				ECE71EAE2ED5C8C1005AA330 /* iCloudSyncManager.swift in Sources */,
 				EC022DC72ED72D110051ED1B /* InactivityReminderManager.swift in Sources */,
 				ECE71F382ED65EB8005AA330 /* NotificationManager.swift in Sources */,

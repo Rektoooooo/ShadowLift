@@ -184,7 +184,7 @@ Every rep counts. Every set matters. Every workout is progress.
 ### Contact Information
 
 **ShadowLift Fitness**
-[Your Address Here]
+[Sulice, Okružní 759, 25168, Czechia]
 
 **General Inquiries:** hello@shadowlift.app
 **Support:** support@shadowlift.app

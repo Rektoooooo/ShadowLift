@@ -435,7 +435,7 @@ Email: support@shadowLift.app
 **Mailing Address:**
 ShadowLift Fitness
 Attn: Legal Department
-[Your Address Here]
+[Sulice, Okružní 759, 25168, Czechia]
 
 ---
 

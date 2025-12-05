@@ -179,11 +179,68 @@ struct TodayWorkoutView: View {
                         .transition(.opacity)
                         .zIndex(2)
                     } else {
-                        /// If no split is created show help message
-                        VStack {
-                            Text("Create your split with the \(Image(systemName: "line.2.horizontal.decrease.circle")) icon in the top right corner")
+                        /// Enhanced empty state - no split created
+                        VStack(spacing: 24) {
+                            Spacer()
+
+                            // Icon
+                            Image(systemName: "dumbbell.fill")
+                                .font(.system(size: 70))
+                                .foregroundColor(appearanceManager.accentColor.color.opacity(0.7))
+
+                            // Title
+                            Text("Ready to Start Training?")
+                                .font(.title2)
+                                .bold()
                                 .multilineTextAlignment(.center)
+
+                            // Description
+                            Text("Create your first workout split or choose from our pro-designed templates to begin your fitness journey.")
+                                .font(.body)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 40)
+
+                            // Action Buttons
+                            VStack(spacing: 12) {
+                                // Create Split Button
+                                Button(action: {
+                                    viewModel.editPlan = true
+                                }) {
+                                    HStack {
+                                        Image(systemName: "plus.circle.fill")
+                                        Text("Create Workout Split")
+                                    }
+                                    .bold()
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(appearanceManager.accentColor.color)
+                                    .foregroundColor(.black)
+                                    .cornerRadius(12)
+                                }
+
+                                // Browse Templates Button
+                                Button(action: {
+                                    viewModel.editPlan = true
+                                }) {
+                                    HStack {
+                                        Image(systemName: "star.circle.fill")
+                                        Text("Browse Templates")
+                                    }
+                                    .bold()
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.secondary.opacity(0.2))
+                                    .foregroundColor(.primary)
+                                    .cornerRadius(12)
+                                }
+                            }
+                            .padding(.horizontal, 40)
+                            .padding(.top, 8)
+
+                            Spacer()
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .transition(.opacity)
                         .zIndex(2)
                     }

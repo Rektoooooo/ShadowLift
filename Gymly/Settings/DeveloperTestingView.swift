@@ -11,6 +11,7 @@ import SwiftData
 /// Developer-only view for testing account deletion safely
 /// This allows testing the deletion flow WITHOUT deleting CloudKit data
 struct DeveloperTestingView: View {
+    @ObservedObject var crashReporter = CrashReporter.shared
     @EnvironmentObject var config: Config
     @Environment(\.modelContext) private var context
     @State private var showTestDeleteAlert = false
@@ -51,6 +52,60 @@ struct DeveloperTestingView: View {
                     }
                 }
                 .disabled(isDeletingAccount)
+            }
+
+            Section("Crash Reporter Testing") {
+                Button(action: {
+                    CrashReporter.shared.recordError(
+                        NSError(domain: "com.gymly.test", code: 100, userInfo: [
+                            NSLocalizedDescriptionKey: "Test error from developer testing"
+                        ]),
+                        context: ["source": "DeveloperTestingView", "type": "manual"]
+                    )
+                }) {
+                    HStack {
+                        Image(systemName: "ant.circle")
+                            .foregroundColor(.orange)
+                        Text("Simulate Non-Fatal Error")
+                        Spacer()
+                    }
+                }
+
+                Button(action: {
+                    CrashReporter.shared.recordCriticalError(
+                        "Test critical error - Database corruption simulation",
+                        context: [
+                            "source": "DeveloperTestingView",
+                            "type": "critical",
+                            "severity": "high"
+                        ]
+                    )
+                }) {
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(.red)
+                        Text("Simulate Critical Error")
+                        Spacer()
+                    }
+                }
+
+                NavigationLink(destination: CrashReportsView()) {
+                    HStack {
+                        Image(systemName: "list.bullet.rectangle")
+                        Text("View Crash Reports")
+                        Spacer()
+                        if crashReporter.pendingCrashReports.count > 0 {
+                            Text("\(crashReporter.pendingCrashReports.count)")
+                                .font(.caption)
+                                .bold()
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.red)
+                                .cornerRadius(12)
+                        }
+                    }
+                }
             }
 
             if deletionComplete {
