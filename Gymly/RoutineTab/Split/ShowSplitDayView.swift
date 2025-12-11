@@ -23,7 +23,6 @@ struct ShowSplitDayView: View {
     @State private var reorderingBufferExercises: [Exercise] = []
     // Edit exercise sheet
     @State private var editingExercise: Exercise?
-    @State private var showEditExercise: Bool = false
     
     /// Environment and observed objects
     @Environment(\.modelContext) private var context
@@ -117,7 +116,6 @@ struct ShowSplitDayView: View {
                                                 let generator = UIImpactFeedbackGenerator(style: .light)
                                                 generator.impactOccurred()
                                                 editingExercise = exercise
-                                                showEditExercise = true
                                             } label: {
                                                 Label("Edit", systemImage: "pencil")
                                             }
@@ -126,7 +124,6 @@ struct ShowSplitDayView: View {
                                         .contextMenu {
                                             Button {
                                                 editingExercise = exercise
-                                                showEditExercise = true
                                             } label: {
                                                 Label("Edit Exercise", systemImage: "pencil")
                                             }
@@ -200,16 +197,14 @@ struct ShowSplitDayView: View {
                     .navigationTitle("Create Exercise")
                     .presentationDetents([.medium])
             }
-            .sheet(isPresented: $showEditExercise, onDismiss: {
+            .sheet(item: $editingExercise, onDismiss: {
                 Task {
                     day = await viewModel.fetchDay(dayOfSplit: day.dayOfSplit)
                     await refreshMuscleGroups()
                 }
-            }) {
-                if let exercise = editingExercise {
-                    EditExerciseView(viewModel: viewModel, exercise: exercise)
-                        .presentationDetents([.large])
-                }
+            }) { exercise in
+                EditExerciseView(viewModel: viewModel, exercise: exercise)
+                    .presentationDetents([.large])
             }
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {

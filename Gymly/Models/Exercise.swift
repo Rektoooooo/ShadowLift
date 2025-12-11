@@ -10,7 +10,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Exercise: Codable {
+class Exercise: Codable, Identifiable {
     var id: UUID = UUID()
     var name: String = ""
     var sets: [Set]?

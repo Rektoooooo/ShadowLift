@@ -28,11 +28,12 @@ struct EditExerciseView: View {
     }
 
     var body: some View {
-        ZStack {
-            FloatingClouds(theme: CloudsTheme.graphite(scheme))
-                .ignoresSafeArea()
-            VStack {
-        Form {
+        NavigationStack {
+            ZStack {
+                FloatingClouds(theme: CloudsTheme.graphite(scheme))
+                    .ignoresSafeArea()
+                VStack {
+            Form {
                 Section {
                     TextField("Exercise name", text: $name)
                 } header: {
@@ -114,8 +115,16 @@ struct EditExerciseView: View {
             .scrollContentBackground(.hidden)
             .background(Color.clear)
             .listRowBackground(Color.clear)
-            .navigationTitle("Edit \(exercise.name)")
+            .navigationTitle("Edit Exercise")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+                }
             }
         }
         .onAppear {
