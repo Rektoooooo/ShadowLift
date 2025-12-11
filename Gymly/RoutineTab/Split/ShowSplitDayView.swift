@@ -163,8 +163,8 @@ struct ShowSplitDayView: View {
                     }
                 }
             }
-            .navigationTitle(day.name)
-            .navigationBarTitleDisplayMode(.large)
+            .navigationTitle(split?.name != nil ? "" : day.name)
+            .navigationBarTitleDisplayMode(split?.name != nil ? .inline : .large)
             .onAppear {
                 Task {
                     /// Fetch updated day and refresh muscle groups

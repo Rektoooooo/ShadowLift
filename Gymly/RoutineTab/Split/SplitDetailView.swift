@@ -19,6 +19,8 @@ struct SplitDetailView: View {
     @State private var shareURL: URL?
     @State private var editingSplitName: Bool = false
     @State private var splitName: String = ""
+    @State private var showAddDay: Bool = false
+    @State private var newDayName: String = ""
     var body: some View {
         ZStack {
             FloatingClouds(theme: CloudsTheme.graphite(scheme))
@@ -85,6 +87,15 @@ struct SplitDetailView: View {
             }
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
+                    // Add Day button (primary action)
+                    Button {
+                        newDayName = ""
+                        showAddDay = true
+                    } label: {
+                        Label("Add Day", systemImage: "plus.circle")
+                    }
+
+                    // More menu (secondary actions)
                     Menu {
                         Button {
                             splitName = split.name
@@ -115,6 +126,15 @@ struct SplitDetailView: View {
                 }
             } message: {
                 Text("Enter a new name for this split")
+            }
+            .alert("Add New Day", isPresented: $showAddDay) {
+                TextField("Day name (e.g., Push, Pull, Legs)", text: $newDayName)
+                Button("Cancel", role: .cancel) {}
+                Button("Add") {
+                    addNewDay()
+                }
+            } message: {
+                Text("Enter a name for the new workout day")
             }
             .task {
                 days = split.days ?? []
@@ -243,6 +263,37 @@ struct SplitDetailView: View {
             debugLog("✅ Rest day toggled for: \(day.name)")
         } catch {
             debugLog("❌ Failed to toggle rest day: \(error)")
+        }
+    }
+
+    private func addNewDay() {
+        let trimmedName = newDayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else { return }
+
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+
+        // Create new day with next day number
+        let newDayNumber = (split.days?.map { $0.dayOfSplit }.max() ?? 0) + 1
+        let newDay = Day(
+            name: trimmedName,
+            dayOfSplit: newDayNumber,
+            exercises: [],
+            date: ""
+        )
+
+        if split.days == nil {
+            split.days = []
+        }
+        split.days?.append(newDay)
+        context.insert(newDay)
+
+        do {
+            try context.save()
+            days = split.days ?? []
+            debugLog("✅ Day added: \(trimmedName) (Day \(newDayNumber))")
+        } catch {
+            debugLog("❌ Failed to add day: \(error)")
         }
     }
 }
