@@ -60,7 +60,6 @@ struct CreateExerciseView: View {
                                 .foregroundStyle(appearanceManager.accentColor.color)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
-                                .background(Color.white.opacity(0.1))
                                 .bold()
                                 .cornerRadius(10)
                         }

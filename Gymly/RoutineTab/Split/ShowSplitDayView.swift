@@ -250,7 +250,7 @@ struct ShowSplitDayView: View {
                         Button {
                             createExercise.toggle()
                         } label: {
-                            Label("Add", systemImage: "plus.circle.fill")
+                            Label("Add", systemImage: "plus.circle")
                         }
 
                         // Secondary actions in a menu

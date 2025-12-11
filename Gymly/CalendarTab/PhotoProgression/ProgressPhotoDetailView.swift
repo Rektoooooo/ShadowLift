@@ -222,6 +222,21 @@ struct ProgressPhotoDetailView: View {
             .task {
                 await loadPhoto()
             }
+            .confirmationDialog(
+                "Delete this photo?",
+                isPresented: $showDeleteConfirmation,
+                titleVisibility: .visible
+            ) {
+                Button("Delete", role: .destructive) {
+                    deletePhoto()
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This action cannot be undone.")
+            }
+            .sheet(isPresented: $showComparisonPicker) {
+                ComparisonPhotoPickerView(currentPhoto: photo)
+            }
         }
     }
 
