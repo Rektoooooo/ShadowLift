@@ -21,6 +21,9 @@ struct ShowSplitDayView: View {
     @State private var isReorderingExercises: Bool = false
     @State private var editModeExercises: EditMode = .inactive
     @State private var reorderingBufferExercises: [Exercise] = []
+    // Edit exercise sheet
+    @State private var editingExercise: Exercise?
+    @State private var showEditExercise: Bool = false
     
     /// Environment and observed objects
     @Environment(\.modelContext) private var context
@@ -97,14 +100,58 @@ struct ShowSplitDayView: View {
                                                 Text(exercise.name)
                                             }
                                         }
-                                        .swipeActions(edge: .trailing) {
+                                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                             Button(role: .destructive) {
+                                                let generator = UIImpactFeedbackGenerator(style: .medium)
+                                                generator.impactOccurred()
                                                 Task {
                                                     viewModel.deleteExercise(exercise)
                                                     day = await viewModel.fetchDay(dayOfSplit: day.dayOfSplit)
                                                 }
                                             } label: {
                                                 Label("Delete", systemImage: "trash")
+                                            }
+                                        }
+                                        .swipeActions(edge: .leading) {
+                                            Button {
+                                                let generator = UIImpactFeedbackGenerator(style: .light)
+                                                generator.impactOccurred()
+                                                editingExercise = exercise
+                                                showEditExercise = true
+                                            } label: {
+                                                Label("Edit", systemImage: "pencil")
+                                            }
+                                            .tint(.blue)
+                                        }
+                                        .contextMenu {
+                                            Button {
+                                                editingExercise = exercise
+                                                showEditExercise = true
+                                            } label: {
+                                                Label("Edit Exercise", systemImage: "pencil")
+                                            }
+
+                                            Button {
+                                                Task {
+                                                    let generator = UINotificationFeedbackGenerator()
+                                                    generator.notificationOccurred(.success)
+                                                    viewModel.duplicateExercise(exercise, inDay: day)
+                                                    day = await viewModel.fetchDay(dayOfSplit: day.dayOfSplit)
+                                                    await refreshMuscleGroups()
+                                                }
+                                            } label: {
+                                                Label("Duplicate Exercise", systemImage: "doc.on.doc")
+                                            }
+
+                                            Divider()
+
+                                            Button(role: .destructive) {
+                                                Task {
+                                                    viewModel.deleteExercise(exercise)
+                                                    day = await viewModel.fetchDay(dayOfSplit: day.dayOfSplit)
+                                                }
+                                            } label: {
+                                                Label("Delete Exercise", systemImage: "trash")
                                             }
                                         }
                                         .scrollContentBackground(.hidden)
@@ -152,6 +199,17 @@ struct ShowSplitDayView: View {
                 CopyWorkoutView(viewModel: viewModel, day: day)
                     .navigationTitle("Create Exercise")
                     .presentationDetents([.medium])
+            }
+            .sheet(isPresented: $showEditExercise, onDismiss: {
+                Task {
+                    day = await viewModel.fetchDay(dayOfSplit: day.dayOfSplit)
+                    await refreshMuscleGroups()
+                }
+            }) {
+                if let exercise = editingExercise {
+                    EditExerciseView(viewModel: viewModel, exercise: exercise)
+                        .presentationDetents([.large])
+                }
             }
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {

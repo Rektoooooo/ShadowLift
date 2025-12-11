@@ -788,8 +788,60 @@ final class WorkoutViewModel: ObservableObject {
             debugPrint(error)
         }
     }
-    
-    
+
+    /// Duplicate exercise in day
+    func duplicateExercise(_ exercise: Exercise, inDay day: Day) {
+        // Create a deep copy of the exercise
+        let duplicatedExercise = Exercise(
+            id: UUID(), // New UUID
+            name: exercise.name + " (Copy)",
+            sets: [], // Start empty, will add sets below
+            repGoal: exercise.repGoal,
+            muscleGroup: exercise.muscleGroup,
+            createdAt: Date(),
+            completedAt: nil,
+            animationId: UUID(),
+            exerciseOrder: (day.exercises?.count ?? 0) + 1, // Place at end
+            done: false, // Not done yet
+            day: day
+        )
+
+        // Deep copy sets with proper initialization
+        if let originalSets = exercise.sets {
+            duplicatedExercise.sets = originalSets.map { set in
+                Exercise.Set(
+                    id: UUID(),
+                    weight: set.weight,
+                    reps: set.reps,
+                    failure: set.failure,
+                    warmUp: set.warmUp,
+                    restPause: set.restPause,
+                    dropSet: set.dropSet,
+                    time: set.time,
+                    note: set.note,
+                    createdAt: Date(),
+                    bodyWeight: set.bodyWeight,
+                    exercise: duplicatedExercise
+                )
+            }
+        }
+
+        // Add to day
+        if day.exercises == nil {
+            day.exercises = []
+        }
+        day.exercises?.append(duplicatedExercise)
+        context.insert(duplicatedExercise)
+
+        do {
+            try context.save()
+            debugLog("✅ Duplicated exercise: \(exercise.name)")
+        } catch {
+            debugLog("❌ Failed to duplicate exercise: \(error)")
+        }
+    }
+
+
     /// Fetch exercise from id
     @MainActor
     func fetchExercise(id: UUID) async -> Exercise {

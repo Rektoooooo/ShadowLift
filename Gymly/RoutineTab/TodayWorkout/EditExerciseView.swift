@@ -17,10 +17,15 @@ struct EditExerciseView: View {
     @State var exercise: Exercise
     @State private var name: String = ""
     @State private var repetitions: String = ""
-    @State private var order: String = ""
     @State private var muscleGroup: String = ""
     @State private var muscleGroups: [String] = []
+    @State private var showValidationError = false
     @Environment(\.colorScheme) var scheme
+
+    private var isValid: Bool {
+        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        !repetitions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
 
     var body: some View {
         NavigationView {
@@ -29,49 +34,83 @@ struct EditExerciseView: View {
                     .ignoresSafeArea()
                 VStack {
             Form {
-                Section("Edit name") {
-                    TextField("Name", text: $name)
+                Section {
+                    TextField("Exercise name", text: $name)
+                } header: {
+                    Text("Exercise Name")
+                } footer: {
+                    if !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        Text("✓ Name looks good")
+                            .foregroundColor(.green)
+                            .font(.caption)
+                    } else if name.isEmpty {
+                        Text("Required field")
+                            .foregroundColor(.secondary)
+                            .font(.caption)
+                    } else {
+                        Text("Name cannot be empty or just spaces")
+                            .foregroundColor(.red)
+                            .font(.caption)
+                    }
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
                 .listRowBackground(Color.black.opacity(0.1))
-                Section("Edit repetitions") {
-                    TextField("Repetitions", text: $repetitions)
+
+                Section {
+                    TextField("e.g., 8-12, 5x5, AMRAP", text: $repetitions)
+                } header: {
+                    Text("Rep Goal")
+                } footer: {
+                    if !repetitions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        Text("✓ Rep goal set")
+                            .foregroundColor(.green)
+                            .font(.caption)
+                    } else {
+                        Text("Examples: 8-12, 5x5, 20, AMRAP")
+                            .foregroundColor(.secondary)
+                            .font(.caption)
+                    }
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
                 .listRowBackground(Color.black.opacity(0.1))
-                Section("Edit order") {
-                    TextField("Order", text: $order)
-                }
-                .scrollContentBackground(.hidden)
-                .background(Color.clear)
-                .listRowBackground(Color.black.opacity(0.1))
-                Section("Edit muslce group") {
+
+                Section {
                     Picker("Muscle Group", selection: $muscleGroup) {
                         ForEach(muscleGroups, id: \.self) { option in
                             Text(option).tag(option)
                         }
                     }
+                    .pickerStyle(.menu)
+                } header: {
+                    Text("Muscle Group")
+                } footer: {
+                    Text("Used for organizing exercises in your workout")
+                        .foregroundColor(.secondary)
+                        .font(.caption)
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
                 .listRowBackground(Color.black.opacity(0.1))
-                Section("") {
-                    Button("Save") {
-                        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
-                        if !trimmedName.isEmpty { exercise.name = trimmedName }
-                        exercise.repGoal = repetitions
-                        exercise.muscleGroup = muscleGroup
-                        exercise.exerciseOrder = Int(order) ?? 0
-                        try? context.save()
-                        dismiss()
+
+                Section {
+                    Button {
+                        saveExercise()
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Text("Save Changes")
+                                .bold()
+                            Spacer()
+                        }
                     }
+                    .disabled(!isValid)
+                    .foregroundStyle(isValid ? appearanceManager.accentColor.color : Color.secondary)
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
                 .listRowBackground(Color.black.opacity(0.1))
-                .foregroundStyle(appearanceManager.accentColor.color)
             }
             .scrollContentBackground(.hidden)
             .background(Color.clear)
@@ -85,7 +124,38 @@ struct EditExerciseView: View {
             self.repetitions = exercise.repGoal
             self.muscleGroups = viewModel.muscleGroupNames
             self.muscleGroup = exercise.muscleGroup
-            self.order = String(exercise.exerciseOrder)
+        }
+    }
+
+    // MARK: - Helper Functions
+
+    private func saveExercise() {
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedReps = repetitions.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !trimmedName.isEmpty, !trimmedReps.isEmpty else {
+            showValidationError = true
+            return
+        }
+
+        // Update exercise properties
+        exercise.name = trimmedName
+        exercise.repGoal = trimmedReps
+        exercise.muscleGroup = muscleGroup
+
+        // Save to context
+        do {
+            try context.save()
+            debugLog("✅ Exercise updated: \(exercise.name)")
+
+            // Haptic feedback
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+
+            dismiss()
+        } catch {
+            debugLog("❌ Failed to save exercise: \(error)")
+            showValidationError = true
         }
     }
 }

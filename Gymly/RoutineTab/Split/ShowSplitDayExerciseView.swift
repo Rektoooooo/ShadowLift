@@ -111,13 +111,6 @@ struct ShowSplitDayExerciseView: View {
             }
         }
         .toolbar {
-            /// Edit exercise button
-            Button {
-                sheetType = .editExercise
-                showSheet = true
-            } label: {
-                Label("Edit exercise", systemImage: "slider.horizontal.3")
-            }
             /// Add set button
             Button {
                 let exerciseID = exercise.id
