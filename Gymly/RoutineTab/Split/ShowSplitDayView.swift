@@ -17,24 +17,26 @@ struct ShowSplitDayView: View {
     @State private var popup: Bool = false
     @State private var days: [Day] = []
     @State var day: Day
+    var split: Split?
     // Reorder mode for exercises across the whole day
     @State private var isReorderingExercises: Bool = false
     @State private var editModeExercises: EditMode = .inactive
     @State private var reorderingBufferExercises: [Exercise] = []
     // Edit exercise sheet
     @State private var editingExercise: Exercise?
-    
+
     /// Environment and observed objects
     @Environment(\.modelContext) private var context
     @EnvironmentObject var config: Config
     @EnvironmentObject var appearanceManager: AppearanceManager
     @ObservedObject var viewModel: WorkoutViewModel
     @Environment(\.colorScheme) var scheme
-    
+
     /// Custom initializer
-    init(viewModel: WorkoutViewModel, day: Day) {
+    init(viewModel: WorkoutViewModel, day: Day, split: Split? = nil) {
         self.viewModel = viewModel
         self.day = day
+        self.split = split
     }
     
     private func orderNumber(for exercise: Exercise) -> Int {
@@ -207,6 +209,19 @@ struct ShowSplitDayView: View {
                     .presentationDetents([.large])
             }
             .toolbar {
+                // Add breadcrumb if split is available
+                if let splitName = split?.name {
+                    ToolbarItem(placement: .principal) {
+                        VStack(spacing: 2) {
+                            Text(splitName)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(day.name)
+                                .font(.headline)
+                        }
+                    }
+                }
+
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     if isReorderingExercises {
                         // Show prominent "Done" button when in reorder mode

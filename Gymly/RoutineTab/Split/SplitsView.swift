@@ -100,47 +100,61 @@ struct SplitsView: View {
                             /// Show all splits
                             ForEach($splits.sorted(by: { $0.wrappedValue.isActive && !$1.wrappedValue.isActive })) { $split in
                             NavigationLink(destination: SplitDetailView(split: split, viewModel: viewModel)) {
-                                VStack {
-                                    HStack {
-                                        HStack {
-                                            Toggle("", isOn: $split.isActive)
-                                                .toggleStyle(CheckToggleStyle())
-                                                .onChange(of: split.isActive) {
-                                                    if split.isActive {
-                                                        viewModel.switchActiveSplit(split: split, context: context)
-                                                    }
-                                                }
-                                            
+                                HStack(spacing: 12) {
+                                    // Active/Inactive Toggle
+                                    Toggle("", isOn: $split.isActive)
+                                        .toggleStyle(CheckToggleStyle())
+                                        .onChange(of: split.isActive) {
+                                            if split.isActive {
+                                                viewModel.switchActiveSplit(split: split, context: context)
+                                            }
                                         }
-                                        VStack {
-                                            /// Display split name
-                                            HStack {
-                                                Text(split.name)
-                                                    .bold()
+
+                                    // Split info
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        // Split name
+                                        Text(split.name)
+                                            .font(.headline)
+                                            .foregroundColor(.primary)
+
+                                        // Split details (days and exercises count)
+                                        HStack(spacing: 8) {
+                                            // Days count
+                                            HStack(spacing: 4) {
+                                                Image(systemName: "calendar")
+                                                    .font(.caption2)
+                                                Text("\(split.days?.count ?? 0) days")
                                             }
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                                            /// Display graphic if split is active or not
-                                            HStack {
-                                                if split.isActive {
-                                                    Circle()
-                                                        .fill(Color.green)
-                                                        .frame(width: 8, height: 8)
-                                                    Text("Active")
-                                                        .foregroundStyle(Color.green)
-                                                        .multilineTextAlignment(.leading)
-                                                } else {
-                                                    Circle()
-                                                        .fill(Color.red)
-                                                        .frame(width: 8, height: 8)
-                                                    Text("Inactive")
-                                                        .foregroundStyle(Color.red)
-                                                        .multilineTextAlignment(.leading)
-                                                }
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+
+                                            Text("•")
+                                                .foregroundColor(.secondary)
+
+                                            // Total exercises count
+                                            HStack(spacing: 4) {
+                                                Image(systemName: "dumbbell.fill")
+                                                    .font(.caption2)
+                                                Text("\(totalExercises(in: split)) exercises")
                                             }
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                        }
+
+                                        // Active/Inactive status
+                                        HStack(spacing: 4) {
+                                            Circle()
+                                                .fill(split.isActive ? Color.green : Color.secondary.opacity(0.5))
+                                                .frame(width: 6, height: 6)
+                                            Text(split.isActive ? "Active" : "Inactive")
+                                                .font(.caption2)
+                                                .foregroundColor(split.isActive ? .green : .secondary)
                                         }
                                     }
+
+                                    Spacer()
                                 }
+                                .padding(.vertical, 4)
                             }
                             .swipeActions(edge: .trailing) {
                                 /// Swipe-to-delete action
@@ -217,6 +231,15 @@ struct SplitsView: View {
                 }
             }
             .buttonStyle(.plain)
+        }
+    }
+
+    // MARK: - Helper Functions
+
+    private func totalExercises(in split: Split) -> Int {
+        guard let days = split.days else { return 0 }
+        return days.reduce(0) { total, day in
+            total + (day.exercises?.count ?? 0)
         }
     }
 }

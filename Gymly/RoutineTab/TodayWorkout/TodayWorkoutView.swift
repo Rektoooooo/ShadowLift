@@ -260,7 +260,8 @@ struct TodayWorkoutView: View {
                         Button {
                             viewModel.editPlan = true
                         } label: {
-                            Label("", systemImage: "line.2.horizontal.decrease.circle")
+                            Label("My Splits", systemImage: "list.bullet.rectangle")
+                                .labelStyle(.iconOnly)
                         }
                     }
                     /// Button for adding exercise
