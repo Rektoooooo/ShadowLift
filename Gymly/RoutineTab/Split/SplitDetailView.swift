@@ -232,24 +232,29 @@ struct SplitDetailView: View {
     
     func presentShareSheet(url: URL) {
         DispatchQueue.main.async {
-            // Ensure the file exists before sharing
-            guard FileManager.default.fileExists(atPath: url.path) else {
-                debugLog("File does not exist at path: \(url.path)")
-                return
-            }
+            // Check if this is a web URL (https) or file URL (file)
+            let isWebURL = url.scheme == "https" || url.scheme == "http"
 
-            // Ensure the file is readable by setting explicit permissions
-            do {
-                try FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path)
-            } catch {
-                debugLog("Failed to set file permissions: \(error)")
-                return
-            }
+            if !isWebURL {
+                // For file URLs, ensure the file exists
+                guard FileManager.default.fileExists(atPath: url.path) else {
+                    debugLog("File does not exist at path: \(url.path)")
+                    return
+                }
 
-            // Verify file is readable
-            guard FileManager.default.isReadableFile(atPath: url.path) else {
-                debugLog("File is not readable at path: \(url.path)")
-                return
+                // Ensure the file is readable by setting explicit permissions
+                do {
+                    try FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path)
+                } catch {
+                    debugLog("Failed to set file permissions: \(error)")
+                    return
+                }
+
+                // Verify file is readable
+                guard FileManager.default.isReadableFile(atPath: url.path) else {
+                    debugLog("File is not readable at path: \(url.path)")
+                    return
+                }
             }
 
             // Ensure the UIActivityViewController isn't already presented
