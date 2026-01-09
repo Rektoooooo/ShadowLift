@@ -84,6 +84,8 @@
 - **Weekly Pattern Charts** – Visualize training consistency
 - **Streak Predictions** – See projected milestones
 
+  <img src="images/Graph.png" width="300" alt="Profile with Muscle Analytics">
+
 ### 🎨 Custom Appearance
 - **5 Accent Colors** – Blue, Green, Purple, Pink, Orange
 - **Matching App Icons** – Themed icons for each color
