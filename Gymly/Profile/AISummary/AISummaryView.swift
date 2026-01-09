@@ -13,6 +13,7 @@ struct AISummaryView: View {
     @Environment(\.modelContext) private var context
     @EnvironmentObject var config: Config
     @EnvironmentObject var userProfileManager: UserProfileManager
+    @EnvironmentObject var storeManager: StoreManager
     @StateObject private var summarizer = WorkoutSummarizer()
     @State private var dataFetcher: WorkoutDataFetcher?
     @State private var selectedTimeframe = 7
@@ -66,8 +67,8 @@ struct AISummaryView: View {
                     if forceMockup {
                         cachedSummaryContent(exampleSummary)
                     } else {
-                        // Show premium banner for free users
-                        if !config.isPremium {
+                        // Show premium banner for users without AI access (free or Pro-only users)
+                        if !storeManager.hasAIAccess {
                             premiumBannerView
                         }
 
@@ -75,8 +76,8 @@ struct AISummaryView: View {
                             loadingView
                         } else if hasStartedGeneration || summarizer.workoutSummary != nil {
                             streamingContent
-                        } else if !config.isPremium {
-                            // Show example for free users
+                        } else if !storeManager.hasAIAccess {
+                            // Show example for users without AI access (free or Pro-only users)
                             cachedSummaryContent(exampleSummary)
                         } else {
                             emptyStateView
@@ -112,7 +113,7 @@ struct AISummaryView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(hasStartedGeneration ? "Regenerate" : "Generate") {
-                    if config.isPremium {
+                    if storeManager.hasAIAccess {
                         generateSummary()
                     } else {
                         showPremiumSheet = true
@@ -572,8 +573,12 @@ struct AISummaryView: View {
 
     private var premiumBannerView: some View {
         HStack(spacing: 12) {
-            Image(systemName: "star.fill")
-                .foregroundStyle(.yellow)
+            Image(systemName: "sparkles")
+                .foregroundStyle(.linearGradient(
+                    colors: [.purple, .blue],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ))
                 .font(.title3)
 
             VStack(alignment: .leading, spacing: 4) {
@@ -581,7 +586,7 @@ struct AISummaryView: View {
                     .font(.subheadline)
                     .fontWeight(.bold)
 
-                Text("Upgrade to Pro to generate personalized summaries from your workout data")
+                Text("Upgrade to Pro+AI to generate personalized AI summaries from your workout data")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -596,7 +601,11 @@ struct AISummaryView: View {
                     .fontWeight(.bold)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
-                    .background(.blue)
+                    .background(.linearGradient(
+                        colors: [.purple, .blue],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ))
                     .foregroundStyle(.white)
                     .cornerRadius(8)
             }
@@ -604,7 +613,7 @@ struct AISummaryView: View {
         .padding()
         .background(
             LinearGradient(
-                colors: [Color.yellow.opacity(0.15), Color.orange.opacity(0.1)],
+                colors: [Color.purple.opacity(0.15), Color.blue.opacity(0.1)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             ),
