@@ -239,6 +239,14 @@ class Config: ObservableObject {
         }
     }
 
+    // MARK: - Tutorial State
+
+    @Published var hasSeenTutorial: Bool {
+        didSet {
+            queueSave("hasSeenTutorial", hasSeenTutorial)
+        }
+    }
+
     // Helper computed property for type-safe access
     var fitnessProfile: FitnessProfile? {
         get {
@@ -317,6 +325,9 @@ class Config: ObservableObject {
         self.equipmentAccess = UserDefaults.standard.object(forKey: "equipmentAccess") as? String ?? ""
         self.experienceLevel = UserDefaults.standard.object(forKey: "experienceLevel") as? String ?? ""
         self.trainingDaysPerWeek = UserDefaults.standard.object(forKey: "trainingDaysPerWeek") as? Int ?? 4
+
+        // Tutorial state initialization
+        self.hasSeenTutorial = UserDefaults.standard.object(forKey: "hasSeenTutorial") as? Bool ?? false
 
     }
 

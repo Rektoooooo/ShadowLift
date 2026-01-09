@@ -26,6 +26,7 @@ struct ToolBar: View {
     @State private var settingsViewModel: WorkoutViewModel?
     @State private var signInViewModel: WorkoutViewModel?
     @State private var showFitnessProfileSetup = false
+    @State private var showTutorial = false
     @State private var hasRequestedNotificationPermission = false
 
     var body: some View {
@@ -56,10 +57,20 @@ struct ToolBar: View {
                     .fullScreenCover(isPresented: $showFitnessProfileSetup) {
                         FitnessProfileSetupView()
                     }
+                    .fullScreenCover(isPresented: $showTutorial) {
+                        TutorialView()
+                            .environmentObject(config)
+                            .environmentObject(appearanceManager)
+                    }
                     .onChange(of: config.hasCompletedFitnessProfile) { _, hasCompleted in
                         // If user hasn't completed profile, show setup
                         if !hasCompleted {
                             showFitnessProfileSetup = true
+                        } else if !config.hasSeenTutorial {
+                            // Show tutorial after fitness profile is completed
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                showTutorial = true
+                            }
                         }
                     }
                     .onChange(of: config.isUserLoggedIn) { _, isLoggedIn in
@@ -76,6 +87,11 @@ struct ToolBar: View {
                         // Check if profile needs to be shown on initial load
                         if !config.hasCompletedFitnessProfile {
                             showFitnessProfileSetup = true
+                        } else if !config.hasSeenTutorial {
+                            // Show tutorial for existing users who haven't seen it yet
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                showTutorial = true
+                            }
                         }
                     }
                 }
