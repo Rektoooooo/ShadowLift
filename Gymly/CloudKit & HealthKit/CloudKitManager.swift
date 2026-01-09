@@ -848,17 +848,14 @@ class CloudKitManager: ObservableObject {
                         debugLog("⏱️ PERFORMFULLSYNC: Split '\(split.name)' timed out - queuing for retry")
                         timeoutCount += 1
 
-                        // Queue for retry - capture split ID for later lookup
-                        let splitId = split.id
+                        // Queue for retry - capture split directly (it's Sendable as a reference)
                         let splitName = split.name
+                        let splitToRetry = split
                         await MainActor.run {
                             self.queueForRetry(description: "Save split '\(splitName)'") { [weak self] in
                                 guard let self = self else { return }
-                                // Re-fetch split from context when retrying
-                                let descriptor = FetchDescriptor<Split>(predicate: #Predicate { $0.id == splitId })
-                                if let refreshedSplit = try? context.fetch(descriptor).first {
-                                    try await self.saveSplit(refreshedSplit)
-                                }
+                                // Save the split directly - no need to re-fetch
+                                try await self.saveSplit(splitToRetry)
                             }
                         }
                     } catch {

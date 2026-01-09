@@ -25,12 +25,13 @@ struct GymlyApp: App {
 
     // Data recovery state
     @State private var showDataRecoveryAlert = false
-    private var isUsingFallbackContainer = false
+    private let isUsingFallbackContainer: Bool
 
     // Single shared ModelContainer - DO NOT create new ones elsewhere!
     let modelContainer: ModelContainer
 
     init() {
+        var usingFallback = false
         do {
             modelContainer = try ModelContainer(for: Split.self, Exercise.self, Day.self, DayStorage.self, WeightPoint.self, UserProfile.self, ExercisePR.self, ProgressPhoto.self)
         } catch {
@@ -42,13 +43,13 @@ struct GymlyApp: App {
             let fallbackConfig = ModelConfiguration(isStoredInMemoryOnly: true)
             do {
                 modelContainer = try ModelContainer(for: Split.self, Exercise.self, Day.self, DayStorage.self, WeightPoint.self, UserProfile.self, ExercisePR.self, ProgressPhoto.self, configurations: fallbackConfig)
-                // Flag that we're using fallback - will show alert in body
-                // Note: Can't set @State in init, but we track via isUsingFallbackContainer
+                usingFallback = true
             } catch let fallbackError {
                 // If even in-memory fails, something is fundamentally broken
                 fatalError("Critical: Cannot create ModelContainer. Original error: \(error). Fallback error: \(fallbackError)")
             }
         }
+        self.isUsingFallbackContainer = usingFallback
     }
 
     var body: some Scene {
@@ -114,6 +115,18 @@ struct GymlyApp: App {
                             .background(Color.black.opacity(0.7))
                             .cornerRadius(20)
                         }
+                    }
+                }
+                // Data Recovery Alert - shown when using fallback container
+                .alert("Data Recovery Mode", isPresented: $showDataRecoveryAlert) {
+                    Button("OK") {}
+                } message: {
+                    Text("There was an issue loading your workout data. Your data is temporarily stored in memory. Please restart the app to attempt recovery. If the issue persists, contact support.")
+                }
+                .onAppear {
+                    // Show alert if using fallback container
+                    if isUsingFallbackContainer {
+                        showDataRecoveryAlert = true
                     }
                 }
         }

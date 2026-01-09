@@ -92,6 +92,7 @@ struct AboutGymlyView: View {
 
         guard let finalUrl = url,
               let text = try? String(contentsOf: finalUrl, encoding: .utf8) else {
+            let currentYear = Calendar.current.component(.year, from: Date())
             content = """
             # About ShadowLift
 
@@ -107,7 +108,7 @@ struct AboutGymlyView: View {
 
             **Support**: sebastian.kucera@icloud.com
 
-            © 2024 ShadowLift. All rights reserved.
+            © \(currentYear) ShadowLift. All rights reserved.
             """
             isLoading = false
             return
