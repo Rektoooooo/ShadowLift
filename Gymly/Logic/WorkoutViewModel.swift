@@ -52,7 +52,8 @@ final class WorkoutViewModel: ObservableObject {
         self.userProfileManager = manager
     }
 
-    // MARK: - TESTING ONLY - Remove before production
+    #if DEBUG
+    // MARK: - TESTING ONLY
     /// Test helper: Simulate workout on a specific date
     @MainActor
     func testSimulateWorkout(daysAgo: Int) {
@@ -63,7 +64,8 @@ final class WorkoutViewModel: ObservableObject {
 
         userProfileManager?.calculateStreak(workoutDate: simulatedDate)
     }
-    
+    #endif
+
     // MARK: Split related funcs
     /// Create new split
     @MainActor

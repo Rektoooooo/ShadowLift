@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 
+#if DEBUG
 /// Developer-only view for testing account deletion safely
 /// This allows testing the deletion flow WITHOUT deleting CloudKit data
 struct DeveloperTestingView: View {
@@ -328,3 +329,4 @@ struct DeveloperTestingView: View {
         .environmentObject(Config())
         .environmentObject(StoreManager())
 }
+#endif

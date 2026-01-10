@@ -168,7 +168,9 @@ struct WeekdayPattern: Identifiable {
 }
 
 #Preview {
-    WeeklyPatternChart(viewModel: WorkoutViewModel(config: Config(), context: ModelContext(try! ModelContainer(for: Split.self))))
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Split.self, configurations: config)
+    return WeeklyPatternChart(viewModel: WorkoutViewModel(config: Config(), context: ModelContext(container)))
         .environmentObject(AppearanceManager())
         .frame(height: 220)
         .padding()

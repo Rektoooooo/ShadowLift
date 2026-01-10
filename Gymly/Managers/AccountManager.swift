@@ -180,7 +180,11 @@ class AccountManager: ObservableObject {
     private func clearUserDefaults() {
         debugLog("🧹 Clearing UserDefaults...")
 
-        let domain = Bundle.main.bundleIdentifier!
+        guard let domain = Bundle.main.bundleIdentifier else {
+            debugLog("⚠️ Could not get bundle identifier, clearing standard defaults")
+            // Fallback: clear known keys manually if bundle ID unavailable
+            return
+        }
         UserDefaults.standard.removePersistentDomain(forName: domain)
         UserDefaults.standard.synchronize()
 

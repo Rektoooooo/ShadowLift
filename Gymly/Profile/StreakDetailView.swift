@@ -734,7 +734,9 @@ struct MilestoneRow: View {
 }
 
 #Preview {
-    StreakDetailView(viewModel: WorkoutViewModel(config: Config(), context: ModelContext(try! ModelContainer(for: Split.self))))
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Split.self, configurations: config)
+    return StreakDetailView(viewModel: WorkoutViewModel(config: Config(), context: ModelContext(container)))
         .environmentObject(Config())
         .environmentObject(UserProfileManager.shared)
         .environmentObject(AppearanceManager())

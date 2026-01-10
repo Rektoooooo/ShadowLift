@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+#if DEBUG
 /// Generates test workout data for AI Summary testing
 class TestDataGenerator {
 
@@ -273,3 +274,4 @@ class TestDataGenerator {
         }
     }
 }
+#endif
