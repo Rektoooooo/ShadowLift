@@ -305,7 +305,7 @@ struct SettingsView: View {
     }
 
     // MARK: - Account Deletion
-
+    
     private func performAccountDeletion() {
         isDeletingAccount = true
 

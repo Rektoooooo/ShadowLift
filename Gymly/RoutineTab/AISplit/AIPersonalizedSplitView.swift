@@ -13,6 +13,7 @@ struct AIPersonalizedSplitView: View {
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject var config: Config
     @EnvironmentObject var appearanceManager: AppearanceManager
+    @EnvironmentObject var storeManager: StoreManager
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
     @Environment(\.colorScheme) var scheme
@@ -50,30 +51,36 @@ struct AIPersonalizedSplitView: View {
                 FloatingClouds(theme: CloudsTheme.appleIntelligence(scheme))
                     .ignoresSafeArea()
 
-                // Main content based on phase
-                VStack(spacing: 16) {
-                    // Show AI unavailability banner if applicable
-                    if let availabilityError = aiAvailabilityError {
-                        aiUnavailableBannerView(reason: availabilityError)
-                            .padding(.horizontal)
-                    }
+                // Check for Pro+AI access
+                if !storeManager.hasAIAccess {
+                    // Premium gate view
+                    proAIRequiredView
+                } else {
+                    // Main content based on phase
+                    VStack(spacing: 16) {
+                        // Show AI unavailability banner if applicable
+                        if let availabilityError = aiAvailabilityError {
+                            aiUnavailableBannerView(reason: availabilityError)
+                                .padding(.horizontal)
+                        }
 
-                    Group {
-                        switch currentPhase {
-                        case .questionnaire:
-                            SplitQuestionnaireView(
-                                preferences: $preferences,
-                                currentStep: $currentStep,
-                                onComplete: startGeneration
-                            )
+                        Group {
+                            switch currentPhase {
+                            case .questionnaire:
+                                SplitQuestionnaireView(
+                                    preferences: $preferences,
+                                    currentStep: $currentStep,
+                                    onComplete: startGeneration
+                                )
 
-                        case .generating, .preview:
-                            GeneratedSplitPreviewView(
-                                generatedSplit: generator.generatedSplit,
-                                isGenerating: generator.isGenerating,
-                                onSave: { showSaveConfirmation = true },
-                                onModify: { showModifySheet = true }
-                            )
+                            case .generating, .preview:
+                                GeneratedSplitPreviewView(
+                                    generatedSplit: generator.generatedSplit,
+                                    isGenerating: generator.isGenerating,
+                                    onSave: { showSaveConfirmation = true },
+                                    onModify: { showModifySheet = true }
+                                )
+                            }
                         }
                     }
                 }
@@ -177,6 +184,120 @@ struct AIPersonalizedSplitView: View {
             ),
             in: RoundedRectangle(cornerRadius: 12)
         )
+    }
+
+    // MARK: - Pro+AI Required View
+
+    private var deviceSupportsAI: Bool {
+        StoreManager.deviceSupportsAI
+    }
+
+    private var proAIRequiredView: some View {
+        VStack(spacing: 24) {
+            Spacer()
+
+            // Icon
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: deviceSupportsAI
+                                ? [.purple.opacity(0.3), .blue.opacity(0.2)]
+                                : [.gray.opacity(0.2), .gray.opacity(0.1)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 100, height: 100)
+
+                Image(systemName: deviceSupportsAI ? "sparkles" : "iphone.slash")
+                    .font(.system(size: 40))
+                    .foregroundStyle(
+                        deviceSupportsAI
+                            ? LinearGradient(
+                                colors: [.purple, .blue],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                            : LinearGradient(
+                                colors: [.gray, .gray],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                    )
+            }
+
+            // Text - different based on device capability
+            VStack(spacing: 8) {
+                if deviceSupportsAI {
+                    Text("Pro+AI Required")
+                        .font(.title2)
+                        .fontWeight(.bold)
+
+                    Text("Upgrade to Pro+AI to generate personalized workout splits using Apple Intelligence.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+                } else {
+                    Text("Device Not Supported")
+                        .font(.title2)
+                        .fontWeight(.bold)
+
+                    Text("AI features require iPhone 15 Pro or newer with Apple Intelligence.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+
+                    // Device info
+                    HStack(spacing: 6) {
+                        Image(systemName: "info.circle")
+                        Text("Your device doesn't support Apple Intelligence")
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .padding(.top, 8)
+                }
+            }
+
+            // Only show upgrade button if device supports AI
+            if deviceSupportsAI {
+                NavigationLink(destination: PremiumSubscriptionView()) {
+                    HStack {
+                        Image(systemName: "crown.fill")
+                        Text("Upgrade to Pro+AI")
+                    }
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 14)
+                    .background(
+                        LinearGradient(
+                            colors: [.purple, appearanceManager.accentColor.color],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .cornerRadius(25)
+                }
+            } else {
+                // Show dismiss button for unsupported devices
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Go Back")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 14)
+                        .background(Color.gray)
+                        .cornerRadius(25)
+                }
+            }
+
+            Spacer()
+        }
     }
 
     // MARK: - Computed Properties

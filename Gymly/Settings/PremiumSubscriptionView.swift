@@ -400,9 +400,30 @@ struct PremiumSubscriptionView: View {
 
                         // Pricing Cards
                         VStack(spacing: 12) {
-                            if storeManager.products.isEmpty {
+                            if storeManager.isLoadingProducts {
+                                // Loading state
                                 ProgressView("Loading prices...")
                                     .padding()
+                            } else if storeManager.products.isEmpty {
+                                // Error/empty state with retry
+                                VStack(spacing: 12) {
+                                    Image(systemName: "exclamationmark.triangle")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(.secondary)
+
+                                    Text(storeManager.errorMessage ?? "Unable to load subscription options")
+                                        .font(.subheadline)
+                                        .foregroundStyle(.secondary)
+                                        .multilineTextAlignment(.center)
+
+                                    Button("Try Again") {
+                                        Task {
+                                            await storeManager.loadProducts()
+                                        }
+                                    }
+                                    .buttonStyle(.bordered)
+                                }
+                                .padding()
                             } else {
                                 // Monthly option
                                 SubscriptionOptionCard(
@@ -457,8 +478,8 @@ struct PremiumSubscriptionView: View {
                             .background(appearanceManager.accentColor.color)
                             .cornerRadius(12)
                         }
-                        .disabled(storeManager.purchaseInProgress || selectedProduct == nil)
-                        .opacity((storeManager.purchaseInProgress || selectedProduct == nil) ? 0.6 : 1.0)
+                        .disabled(storeManager.purchaseInProgress || selectedProduct == nil || storeManager.products.isEmpty)
+                        .opacity((storeManager.purchaseInProgress || selectedProduct == nil || storeManager.products.isEmpty) ? 0.6 : 1.0)
                         .padding(.horizontal, 24)
                         .padding(.top, 8)
 

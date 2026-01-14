@@ -394,103 +394,80 @@ class UserProfileManager: ObservableObject {
         // Calculate days since last workout
         let daysSinceLastWorkout = calendar.dateComponents([.day], from: lastWorkoutDay, to: today).day ?? 0
 
-        debugLog("🔥 STREAK: Days since last workout: \(daysSinceLastWorkout)")
+        debugLog("🔥 STREAK: Days since last workout: \(daysSinceLastWorkout), paused: \(profile.streakPaused)")
+
+        // Edge case: daysSince is 0 but dates are different (rare timezone edge case)
+        guard daysSinceLastWorkout > 0 else {
+            debugLog("🔥 STREAK: Edge case - daysSince=0 but different days, treating as consecutive")
+            let newStreak = profile.currentStreak + 1
+            updateStreak(currentStreak: newStreak, longestStreak: newStreak, lastWorkoutDate: today, paused: false)
+            notifyStreakContinued(newStreak: newStreak)
+            return
+        }
+
+        // If streak was paused, resume it without penalty
+        if profile.streakPaused {
+            let newStreak = profile.currentStreak + 1
+            debugLog("🔥 STREAK: Resuming from pause! Continuing streak at \(newStreak)")
+            updateStreak(currentStreak: newStreak, longestStreak: newStreak, lastWorkoutDate: today, paused: false)
+            notifyStreakContinued(newStreak: newStreak)
+            return
+        }
 
         if daysSinceLastWorkout == 1 {
             // Consecutive day - increment streak
             let newStreak = profile.currentStreak + 1
             debugLog("🔥 STREAK: Consecutive day! Incrementing streak to \(newStreak)")
             updateStreak(currentStreak: newStreak, longestStreak: newStreak, lastWorkoutDate: today, paused: false)
-
-            // Notify streak notification manager
-            StreakNotificationManager.shared.sendStreakSavedNotification(newStreak: newStreak)
-            StreakNotificationManager.shared.sendStreakMilestoneNotification(streak: newStreak)
-
-            // Update workout reminders with new pattern data
-            WorkoutReminderManager.shared.scheduleSmartWorkoutReminders()
-
-            // Cancel today's workout reminder (already worked out)
-            WorkoutReminderManager.shared.cancelTodayReminderIfWorkoutCompleted()
-
-            // Reset inactivity reminder (user is active again)
-            InactivityReminderManager.shared.rescheduleInactivityCheck()
-        } else if daysSinceLastWorkout > 1 {
-            // Check if streak should be reset or just paused based on rest days
+            notifyStreakContinued(newStreak: newStreak)
+        } else {
+            // Gap > 1 day - check if within rest day allowance
             let shouldReset = shouldResetStreak(lastWorkoutDate: lastWorkoutDay, currentDate: today, restDaysPerWeek: profile.restDaysPerWeek)
 
             if shouldReset {
                 debugLog("🔥 STREAK: Exceeded rest days! Resetting streak to 1")
                 updateStreak(currentStreak: 1, lastWorkoutDate: today, paused: false)
+                // Don't send streak notifications when resetting
             } else {
                 // Within allowed rest days - continue streak
                 let newStreak = profile.currentStreak + 1
                 debugLog("🔥 STREAK: Within rest days allowance! Continuing streak at \(newStreak)")
                 updateStreak(currentStreak: newStreak, longestStreak: newStreak, lastWorkoutDate: today, paused: false)
-
-                // Notify streak notification manager (streak was saved!)
-                StreakNotificationManager.shared.sendStreakSavedNotification(newStreak: newStreak)
-                StreakNotificationManager.shared.sendStreakMilestoneNotification(streak: newStreak)
-
-                // Update workout reminders with new pattern data
-                WorkoutReminderManager.shared.scheduleSmartWorkoutReminders()
-
-                // Cancel today's workout reminder (already worked out)
-                WorkoutReminderManager.shared.cancelTodayReminderIfWorkoutCompleted()
-
-                // Reset inactivity reminder (user is active again)
-                InactivityReminderManager.shared.rescheduleInactivityCheck()
+                notifyStreakContinued(newStreak: newStreak)
             }
         }
-
-        // Cancel today's workout reminder (already completed)
-        WorkoutReminderManager.shared.cancelTodayReminderIfWorkoutCompleted()
     }
 
-    /// Check if streak should be reset based on missed days per calendar week
+    /// Helper to send notifications and update reminders when streak continues
+    private func notifyStreakContinued(newStreak: Int) {
+        StreakNotificationManager.shared.sendStreakSavedNotification(newStreak: newStreak)
+        StreakNotificationManager.shared.sendStreakMilestoneNotification(streak: newStreak)
+        WorkoutReminderManager.shared.scheduleSmartWorkoutReminders()
+        WorkoutReminderManager.shared.cancelTodayReminderIfWorkoutCompleted()
+        InactivityReminderManager.shared.rescheduleInactivityCheck()
+    }
+
+    /// Check if streak should be reset based on gap between workouts
+    /// Formula: streak continues if (daysSince - 1) <= restDaysPerWeek
+    /// Example: restDaysPerWeek=2 allows up to 3 day gap (Mon workout -> Thu workout = 2 rest days)
     private func shouldResetStreak(lastWorkoutDate: Date, currentDate: Date, restDaysPerWeek: Int) -> Bool {
         let calendar = Calendar.current
+        let daysSince = calendar.dateComponents([.day], from: lastWorkoutDate, to: currentDate).day ?? 0
 
-        // Get all calendar weeks between last workout and current date
-        var checkDate = lastWorkoutDate
-        var maxMissedInAnyWeek = 0
-
-        while checkDate < currentDate {
-            // Get the week for checkDate - skip if calendar calculation fails
-            guard let weekStart = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: checkDate)),
-                  let weekEnd = calendar.date(byAdding: .day, value: 7, to: weekStart) else {
-                // If calendar calculation fails, skip to next day to prevent infinite loop
-                if let nextDay = calendar.date(byAdding: .day, value: 1, to: checkDate) {
-                    checkDate = nextDay
-                } else {
-                    break // Safety: exit loop if we can't advance
-                }
-                continue
-            }
-
-            // Count missed days in this week
-            var missedInThisWeek = 0
-            var dayInWeek = max(lastWorkoutDate, weekStart)
-
-            while dayInWeek < min(currentDate, weekEnd) {
-                guard let nextDay = calendar.date(byAdding: .day, value: 1, to: dayInWeek) else {
-                    break // Exit inner loop if calendar calculation fails
-                }
-                if !calendar.isDate(dayInWeek, inSameDayAs: lastWorkoutDate) {
-                    missedInThisWeek += 1
-                }
-                dayInWeek = nextDay
-            }
-
-            maxMissedInAnyWeek = max(maxMissedInAnyWeek, missedInThisWeek)
-
-            // Move to next week
-            checkDate = weekEnd
+        // Safety check for invalid dates
+        guard daysSince > 0 else {
+            debugLog("🔥 STREAK: Invalid date range (daysSince=\(daysSince)), not resetting")
+            return false
         }
 
-        debugLog("🔥 STREAK: Max missed days in any week: \(maxMissedInAnyWeek), allowed: \(restDaysPerWeek)")
+        // Rest days = gap minus 1 (the day you're working out doesn't count as rest)
+        // Mon to Thu = 3 days gap = Tue, Wed rest = 2 rest days
+        let restDaysTaken = daysSince - 1
 
-        // Reset if exceeded rest days in any calendar week
-        return maxMissedInAnyWeek > restDaysPerWeek
+        debugLog("🔥 STREAK: Gap: \(daysSince) days, rest days taken: \(restDaysTaken), allowed: \(restDaysPerWeek)")
+
+        // Reset if exceeded allowed rest days
+        return restDaysTaken > restDaysPerWeek
     }
 
     /// Check streak status on app launch (for pausing logic)

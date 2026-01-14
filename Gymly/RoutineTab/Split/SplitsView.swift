@@ -12,6 +12,7 @@ struct SplitsView: View {
     @ObservedObject var viewModel: WorkoutViewModel
     @EnvironmentObject var config: Config
     @EnvironmentObject var appearanceManager: AppearanceManager
+    @EnvironmentObject var storeManager: StoreManager
     @Environment(\.modelContext) var context: ModelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) var scheme
@@ -48,17 +49,12 @@ struct SplitsView: View {
                         .listRowBackground(Color.clear)
                         .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
 
-                        // AI Personalized Split Button (iOS 26+ only)
+                        // AI Personalized Split Button (iOS 26+ only, Pro+AI tier)
                         if #available(iOS 26, *) {
                             Button(action: {
-                                if config.isPremium {
-                                    showAISplitGenerator = true
-                                } else {
-                                    // TODO: Show premium sheet
-                                    showAISplitGenerator = true // For testing
-                                }
+                                showAISplitGenerator = true
                             }) {
-                                AIGeneratorButtonContent()
+                                AIGeneratorButtonContent(isLocked: !storeManager.hasAIAccess)
                             }
                             .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
@@ -331,6 +327,21 @@ private struct TemplatesButtonContent: View {
 @available(iOS 26, *)
 private struct AIGeneratorButtonContent: View {
     @EnvironmentObject var appearanceManager: AppearanceManager
+    var isLocked: Bool = false
+
+    private var deviceSupportsAI: Bool {
+        StoreManager.deviceSupportsAI
+    }
+
+    private var subtitleText: String {
+        if !deviceSupportsAI {
+            return "Requires iPhone 15 Pro or newer"
+        } else if isLocked {
+            return "Upgrade to Pro+AI to unlock"
+        } else {
+            return "Generate a custom workout plan"
+        }
+    }
 
     var body: some View {
         HStack(spacing: 12) {
@@ -339,14 +350,16 @@ private struct AIGeneratorButtonContent: View {
                 Circle()
                     .fill(
                         LinearGradient(
-                            colors: [.purple, appearanceManager.accentColor.color],
+                            colors: deviceSupportsAI
+                                ? [.purple, appearanceManager.accentColor.color]
+                                : [.gray, .gray.opacity(0.7)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
                     .frame(width: 36, height: 36)
 
-                Image(systemName: "sparkles")
+                Image(systemName: deviceSupportsAI ? "sparkles" : "iphone.slash")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.white)
             }
@@ -358,34 +371,57 @@ private struct AIGeneratorButtonContent: View {
                         .font(.system(size: 15, weight: .semibold))
                         .foregroundColor(.white)
 
-                    // "NEW" badge
-                    Text("NEW")
-                        .font(.system(size: 8, weight: .black))
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 5)
-                        .padding(.vertical, 2)
-                        .background(
-                            Capsule()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [.orange, .pink],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
+                    // Badge based on state
+                    if !deviceSupportsAI {
+                        // Device not supported badge
+                        Text("iPHONE 15 PRO+")
+                            .font(.system(size: 7, weight: .black))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 2)
+                            .background(
+                                Capsule()
+                                    .fill(Color.gray)
+                            )
+                    } else if isLocked {
+                        Text("PRO+AI")
+                            .font(.system(size: 8, weight: .black))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 2)
+                            .background(
+                                Capsule()
+                                    .fill(Color.purple)
+                            )
+                    } else {
+                        Text("NEW")
+                            .font(.system(size: 8, weight: .black))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 2)
+                            .background(
+                                Capsule()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [.orange, .pink],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
                                     )
-                                )
-                        )
+                            )
+                    }
                 }
 
-                Text("Generate a custom workout plan")
+                Text(subtitleText)
                     .font(.system(size: 11))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(deviceSupportsAI ? .white.opacity(0.6) : .orange.opacity(0.9))
             }
 
             Spacer()
 
-            Image(systemName: "chevron.right")
+            Image(systemName: !deviceSupportsAI ? "xmark.circle" : (isLocked ? "lock.fill" : "chevron.right"))
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(.white.opacity(0.5))
+                .foregroundColor(!deviceSupportsAI ? .orange : (isLocked ? .yellow : .white.opacity(0.5)))
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)

@@ -13,6 +13,7 @@ struct ProfileView: View {
     @EnvironmentObject var config: Config
     @EnvironmentObject var userProfileManager: UserProfileManager
     @EnvironmentObject var appearanceManager: AppearanceManager
+    @EnvironmentObject var storeManager: StoreManager
     @Environment(\.dismiss) var dismiss
     @StateObject var healthKitManager = HealthKitManager()
     @Environment(\.modelContext) var context: ModelContext
@@ -333,7 +334,7 @@ struct ProfileView: View {
                                             ))
                                         Text("Week AI Summary")
                                         Spacer()
-                                        if !config.isPremium {
+                                        if !storeManager.hasAIAccess {
                                             Image(systemName: "lock.fill")
                                                 .foregroundColor(.yellow)
                                                 .font(.caption)

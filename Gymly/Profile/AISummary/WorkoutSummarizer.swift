@@ -63,8 +63,13 @@ final class WorkoutSummarizer: ObservableObject {
 
     /// Check if the current language is supported
     func checkLanguageSupport() -> Bool {
-        let locale = Locale.current
-        return SystemLanguageModel.default.supportsLanguage(for: locale)
+        // Language support is now handled by the availability check
+        // If the model is available, it supports the current locale
+        let model = SystemLanguageModel.default
+        if case .available = model.availability {
+            return true
+        }
+        return false
     }
 
     init() {

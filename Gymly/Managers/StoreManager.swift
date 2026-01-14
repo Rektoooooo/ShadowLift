@@ -15,6 +15,7 @@ class StoreManager: ObservableObject {
     @Published private(set) var isPremium: Bool = false
     @Published private(set) var subscriptionStatus: SubscriptionStatus?
     @Published private(set) var purchaseInProgress: Bool = false
+    @Published private(set) var isLoadingProducts: Bool = false
     @Published var errorMessage: String?
 
     // MARK: - Product IDs (will match App Store Connect when ready)
@@ -90,20 +91,34 @@ class StoreManager: ObservableObject {
 
     // MARK: - Load Products
     func loadProducts() async {
+        guard !isLoadingProducts else {
+            debugLog("⚠️ StoreManager: Already loading products, skipping...")
+            return
+        }
+
+        isLoadingProducts = true
+        errorMessage = nil
         debugLog("🛒 StoreManager: Loading products...")
 
         do {
             let productIDs = [proMonthlyProductID, proYearlyProductID, proAIMonthlyProductID, proAIYearlyProductID]
             products = try await Product.products(for: productIDs)
 
-            debugLog("✅ StoreManager: Loaded \(products.count) products")
-            for product in products {
-                debugLog("   - \(product.displayName): \(product.displayPrice)")
+            if products.isEmpty {
+                debugLog("⚠️ StoreManager: No products returned from App Store")
+                errorMessage = "No subscription products available. Please try again later."
+            } else {
+                debugLog("✅ StoreManager: Loaded \(products.count) products")
+                for product in products {
+                    debugLog("   - \(product.displayName): \(product.displayPrice)")
+                }
             }
         } catch {
             debugLog("❌ StoreManager: Failed to load products: \(error)")
-            errorMessage = "Failed to load subscription options"
+            errorMessage = "Failed to load subscription options. Please check your connection."
         }
+
+        isLoadingProducts = false
     }
 
     // MARK: - Purchase
