@@ -75,9 +75,10 @@ class StreakNotificationManager: ObservableObject {
         let daysSinceLastWorkout = calendar.dateComponents([.day], from: lastWorkoutDay, to: today).day ?? 0
 
         // Calculate max allowed gap based on rest days per week
-        // User's rest days = how many days they can miss per week
+        // Must match the streak calculation in UserProfileManager: maxAllowedGap = 1 + restDaysPerWeek
+        // This means user can skip up to restDaysPerWeek days, plus 1 day grace period
         let restDaysPerWeek = profile.restDaysPerWeek
-        let maxAllowedGap = restDaysPerWeek
+        let maxAllowedGap = 1 + restDaysPerWeek
 
         #if DEBUG
         debugLog("🔥 STREAK NOTIFICATION: Current streak = \(profile.currentStreak)")

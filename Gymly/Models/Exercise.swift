@@ -47,7 +47,7 @@ class Exercise: Codable, Identifiable {
             muscleGroup: self.muscleGroup,
             createdAt: self.createdAt,
             completedAt: self.completedAt,
-            animationId: self.animationId,
+            animationId: UUID(),  // Generate new animationId to avoid animation conflicts
             exerciseOrder: self.exerciseOrder,
             done: self.done
         )

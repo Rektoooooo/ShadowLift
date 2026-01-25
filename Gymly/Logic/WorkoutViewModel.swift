@@ -498,12 +498,23 @@ final class WorkoutViewModel: ObservableObject {
         debugPrint("🧹 FREE USER CLEANUP: Deleting workouts older than \(cutoffDateString) (1.5 months)")
 
         do {
-            // Fetch all DayStorage entries older than cutoff
-            let oldEntriesPredicate = #Predicate<DayStorage> { storage in
-                storage.date < cutoffDateString
+            // Fetch ALL DayStorage entries - we'll filter by actual date comparison
+            // String comparison doesn't work for "d MMMM yyyy" format (e.g., "5 January" vs "10 January")
+            let descriptor = FetchDescriptor<DayStorage>()
+            let allEntries = try context.fetch(descriptor)
+
+            // Parse dates and filter entries older than cutoff
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "d MMMM yyyy"
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+            let oldEntries = allEntries.filter { storage in
+                guard let storageDate = dateFormatter.date(from: storage.date) else {
+                    // If date can't be parsed, don't delete it
+                    return false
+                }
+                return storageDate < cutoffDate
             }
-            let descriptor = FetchDescriptor<DayStorage>(predicate: oldEntriesPredicate)
-            let oldEntries = try context.fetch(descriptor)
 
             if oldEntries.isEmpty {
                 debugPrint("✅ FREE USER CLEANUP: No old workouts to delete")
@@ -908,7 +919,7 @@ final class WorkoutViewModel: ObservableObject {
     }
     
     // MARK: Functions for sets
-    
+
     /// Delete set for exercise
     func deleteSet(_ set: Exercise.Set, exercise: Exercise) {
         if let sets = exercise.sets,
@@ -918,6 +929,14 @@ final class WorkoutViewModel: ObservableObject {
             }
         }
         context.delete(set)
+
+        // Save the context to persist the deletion
+        do {
+            try context.save()
+            debugLog("✅ Deleted set and saved context")
+        } catch {
+            debugLog("❌ Failed to save after set deletion: \(error)")
+        }
     }
     /// Add set for exercise
     @MainActor

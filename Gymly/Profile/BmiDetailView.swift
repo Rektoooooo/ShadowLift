@@ -227,7 +227,7 @@ struct BmiDetailView: View {
 
     func changeRange() {
         switch bmiText {
-            case "Underweight":
+        case "Underweight":
             bmiRangeLow = 0.0
             bmiRangeHigh = 18.5
         case "Normal weight":
@@ -239,6 +239,10 @@ struct BmiDetailView: View {
         case "Obese":
             bmiRangeLow = 30.0
             bmiRangeHigh = 100.0
+        case "Not calculated":
+            // Show normal weight range as default target
+            bmiRangeLow = 18.5
+            bmiRangeHigh = 24.9
         default:
             bmiRangeLow = 0.0
             bmiRangeHigh = 0.0
@@ -246,6 +250,11 @@ struct BmiDetailView: View {
     }
     
     func getBmiStyle(bmi: Double) -> (Color, String) {
+        // Handle invalid/empty BMI (0 or negative means no data)
+        guard bmi > 0 else {
+            return (.secondary, "Not calculated")
+        }
+
         switch bmi {
         case ..<18.5:
             return (.orange, "Underweight")

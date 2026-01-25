@@ -942,7 +942,21 @@ class CloudKitManager: ObservableObject {
             let localSplits = try context.fetch(localSplitDescriptor)
 
             for cloudSplit in cloudSplits {
-                if !localSplits.contains(where: { $0.id == cloudSplit.id }) {
+                if let localSplit = localSplits.first(where: { $0.id == cloudSplit.id }) {
+                    // Conflict resolution: use "last write wins" based on lastUpdated timestamp
+                    if cloudSplit.lastUpdated > localSplit.lastUpdated {
+                        // Cloud is newer - update local with cloud data
+                        localSplit.name = cloudSplit.name
+                        localSplit.isActive = cloudSplit.isActive
+                        localSplit.startDate = cloudSplit.startDate
+                        localSplit.lastUpdated = cloudSplit.lastUpdated
+                        // Note: days are handled separately via their own sync
+                        debugLog("🔄 MERGED SPLIT (cloud newer): \(cloudSplit.name)")
+                    } else {
+                        debugLog("⏭️ SKIPPED SPLIT (local newer): \(localSplit.name)")
+                    }
+                } else {
+                    // New split from cloud - insert it
                     context.insert(cloudSplit)
                     debugLog("🔥 INSERTED SPLIT: \(cloudSplit.name), isActive: \(cloudSplit.isActive)")
                 }
