@@ -148,6 +148,9 @@ class StoreManager: ObservableObject {
                 // Finish transaction
                 await transaction.finish()
 
+                // Sync with RevenueCat for analytics
+                await RevenueCatManager.shared.syncPurchase()
+
                 debugLog("✅ StoreManager: Purchase complete for \(product.id)")
 
             case .userCancelled:
@@ -181,6 +184,9 @@ class StoreManager: ObservableObject {
         do {
             try await AppStore.sync()
             await updateSubscriptionStatus()
+
+            // Sync with RevenueCat
+            await RevenueCatManager.shared.syncPurchase()
 
             if isPremium {
                 debugLog("✅ StoreManager: Purchases restored successfully")

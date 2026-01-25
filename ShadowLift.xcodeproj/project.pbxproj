@@ -29,6 +29,8 @@
 		EC06F16A2E7CA3DA00E42CCF /* UserProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC06F1682E7CA3DA00E42CCF /* UserProfileManager.swift */; };
 		EC317F392EA2473D000DFB1E /* FitnessProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC317F382EA2473D000DFB1E /* FitnessProfile.swift */; };
 		EC317F4B2EA63235000DFB1E /* AppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC317F4A2EA63235000DFB1E /* AppearanceManager.swift */; };
+		EC4049C82F26448B000AB4F1 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = EC4049C72F26448B000AB4F1 /* RevenueCat */; };
+		EC4049CA2F26450D000AB4F1 /* RevenueCatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4049C92F26450D000AB4F1 /* RevenueCatManager.swift */; };
 		EC4FD1532C4ED88300D1A4A6 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4FD1522C4ED88300D1A4A6 /* Day.swift */; };
 		EC4FD1572C4EE0A600D1A4A6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4FD1552C4EE0A600D1A4A6 /* Color.swift */; };
 		EC4FD1582C4EE0A600D1A4A6 /* onFirstAppear.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4FD1542C4EE0A600D1A4A6 /* onFirstAppear.swift */; };
@@ -120,6 +122,7 @@
 		EC06F1682E7CA3DA00E42CCF /* UserProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileManager.swift; sourceTree = "<group>"; };
 		EC317F382EA2473D000DFB1E /* FitnessProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessProfile.swift; sourceTree = "<group>"; };
 		EC317F4A2EA63235000DFB1E /* AppearanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceManager.swift; sourceTree = "<group>"; };
+		EC4049C92F26450D000AB4F1 /* RevenueCatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatManager.swift; sourceTree = "<group>"; };
 		EC4FD1522C4ED88300D1A4A6 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		EC4FD1542C4EE0A600D1A4A6 /* onFirstAppear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onFirstAppear.swift; sourceTree = "<group>"; };
 		EC4FD1552C4EE0A600D1A4A6 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -188,6 +191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC4049C82F26448B000AB4F1 /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +254,7 @@
 		EC06F1692E7CA3DA00E42CCF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				EC4049C92F26450D000AB4F1 /* RevenueCatManager.swift */,
 				EC06F1682E7CA3DA00E42CCF /* UserProfileManager.swift */,
 				EC317F4A2EA63235000DFB1E /* AppearanceManager.swift */,
 				EC9BE9AC2EAF868000EBEA0B /* PhotoManager.swift */,
@@ -495,6 +500,9 @@
 				Base,
 			);
 			mainGroup = ECA5D1372BF20CF100DCC9F8;
+			packageReferences = (
+				EC4049C62F26448B000AB4F1 /* XCRemoteSwiftPackageReference "purchases-ios" */,
+			);
 			productRefGroup = ECA5D1412BF20CF100DCC9F8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -551,6 +559,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC4049CA2F26450D000AB4F1 /* RevenueCatManager.swift in Sources */,
 				ECA5D16E2BF20D0F00DCC9F8 /* ToolBar.swift in Sources */,
 				EC022DC32ED6F58F0051ED1B /* WorkoutReminderManager.swift in Sources */,
 				EC06F1622E7BCCC900E42CCF /* ExerciseExtensions.swift in Sources */,
@@ -768,7 +777,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Gymly/Gymly.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Gymly/Preview Content\"";
 				DEVELOPMENT_TEAM = PH3V9JYRDW;
 				ENABLE_PREVIEWS = YES;
@@ -811,7 +820,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Gymly/Gymly.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Gymly/Preview Content\"";
 				DEVELOPMENT_TEAM = PH3V9JYRDW;
 				ENABLE_PREVIEWS = YES;
@@ -957,6 +966,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EC4049C62F26448B000AB4F1 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.55.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EC4049C72F26448B000AB4F1 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC4049C62F26448B000AB4F1 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ECA5D1382BF20CF100DCC9F8 /* Project object */;
 }

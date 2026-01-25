@@ -14,6 +14,7 @@ struct GymlyApp: App {
     @StateObject private var storeManager = StoreManager()
     @StateObject private var crashReporter = CrashReporter.shared
     @ObservedObject private var appearanceManager = AppearanceManager.shared
+    @ObservedObject private var revenueCatManager = RevenueCatManager.shared
     @State private var importError: ImportError?
     @State private var showImportError = false
     @State private var showImportSuccess = false
@@ -126,6 +127,9 @@ struct GymlyApp: App {
                     Text("There was an issue loading your workout data. Your data is temporarily stored in memory. Please restart the app to attempt recovery. If the issue persists, contact support.")
                 }
                 .onAppear {
+                    // Initialize RevenueCat for analytics
+                    revenueCatManager.configure()
+
                     // Show alert if using fallback container
                     if isUsingFallbackContainer {
                         showDataRecoveryAlert = true
