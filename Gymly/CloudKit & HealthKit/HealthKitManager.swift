@@ -136,8 +136,13 @@ class HealthKitManager: ObservableObject {
     func fetchAge(completion: @escaping (Int?) -> Void) {
         do {
             let birthDate = try healthStore.dateOfBirthComponents()
+            guard let birthDateValue = birthDate.date else {
+                debugLog("⚠️ Birth date not set in HealthKit")
+                completion(nil)
+                return
+            }
             let calendar = Calendar.current
-            let age = calendar.dateComponents([.year], from: birthDate.date!, to: Date()).year
+            let age = calendar.dateComponents([.year], from: birthDateValue, to: Date()).year
             completion(age)
         } catch {
             debugLog("Error retrieving age: \(error.localizedDescription)")
@@ -153,7 +158,11 @@ class HealthKitManager: ObservableObject {
         }
 
         let endDate = Date()
-        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: endDate)!
+        guard let startDate = Calendar.current.date(byAdding: .day, value: -30, to: endDate) else {
+            debugLog("⚠️ Failed to calculate start date for weight query")
+            completion([])
+            return
+        }
 
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
         let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)

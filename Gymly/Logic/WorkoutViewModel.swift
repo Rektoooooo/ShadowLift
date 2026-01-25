@@ -264,9 +264,14 @@ final class WorkoutViewModel: ObservableObject {
             debugPrint("No existing day found, creating new one.")
 
             let newDay = Day(name: "", dayOfSplit: 0, exercises: [], date: "")
-            
+
             context.insert(newDay)
-            try? context.save()
+            do {
+                try context.save()
+                debugLog("✅ Created new day successfully")
+            } catch {
+                debugLog("❌ Failed to save new day: \(error)")
+            }
 
             return newDay
         }
@@ -400,15 +405,28 @@ final class WorkoutViewModel: ObservableObject {
             for storage in existingStorages {
                 debugPrint("🗑️ SAVE: Deleting DayStorage id: \(storage.id), dayId: \(storage.dayId), date: '\(storage.date)'")
 
-                // Also delete the associated Day object to prevent orphans
+                // Also delete the associated Day object AND its exercises to prevent orphans
                 let dayIdToDelete = storage.dayId
                 let dayToDeletePredicate = #Predicate<Day> { day in
                     day.id == dayIdToDelete
                 }
                 let dayToDeleteDescriptor = FetchDescriptor<Day>(predicate: dayToDeletePredicate)
                 if let dayToDelete = try context.fetch(dayToDeleteDescriptor).first {
+                    // Delete all exercises in the day first to prevent orphans
+                    let exerciseCount = dayToDelete.exercises?.count ?? 0
+                    if let exercises = dayToDelete.exercises {
+                        for exercise in exercises {
+                            // Delete all sets in the exercise
+                            if let sets = exercise.sets {
+                                for set in sets {
+                                    context.delete(set)
+                                }
+                            }
+                            context.delete(exercise)
+                        }
+                    }
                     context.delete(dayToDelete)
-                    debugPrint("🗑️ SAVE: Also deleted associated Day object id: \(dayToDelete.id)")
+                    debugPrint("🗑️ SAVE: Deleted Day id: \(dayToDelete.id) and \(exerciseCount) exercises")
                 }
 
                 context.delete(storage)
@@ -554,6 +572,10 @@ final class WorkoutViewModel: ObservableObject {
 
     @MainActor
     func copyWorkout(from: Day, to: Day) {
+        // Initialize exercises array if nil to prevent potential issues
+        if to.exercises == nil {
+            to.exercises = []
+        }
         to.exercises?.removeAll()
         to.exercises = (from.exercises ?? []).map { $0.copy() }
     }
@@ -790,7 +812,12 @@ final class WorkoutViewModel: ObservableObject {
                         to.exercises = []
                     }
                     to.exercises?.append(newExercise)
-                    try? context.save()
+                    do {
+                        try context.save()
+                        debugLog("✅ Exercise '\(name)' saved successfully")
+                    } catch {
+                        debugLog("❌ CRITICAL: Failed to save exercise '\(name)': \(error)")
+                    }
                 }
 
                 debugPrint("Successfully added exercise \(name) to \(today.name)")
@@ -890,11 +917,11 @@ final class WorkoutViewModel: ObservableObject {
                 debugPrint("Error fetching data: \(error.localizedDescription)")
                 return Exercise(id: UUID(), name: "", sets: [], repGoal: "", muscleGroup: "", exerciseOrder: 0)
             }
-            guard !fetchedData.isEmpty else {
+            guard let firstExercise = fetchedData.first else {
                 return Exercise(id: UUID(), name: "", sets: [], repGoal: "", muscleGroup: "", exerciseOrder: 0)
             }
-            
-            return fetchedData.first!
+
+            return firstExercise
         }
     }
     
@@ -964,7 +991,12 @@ final class WorkoutViewModel: ObservableObject {
     
     /// Get url for image
     func getDocumentsDirectory() -> URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            // Fallback to temporary directory if Documents is unavailable (extremely rare)
+            debugLog("⚠️ Documents directory unavailable, using temp directory")
+            return FileManager.default.temporaryDirectory
+        }
+        return documentsURL
     }
     
     /// Load image from path (legacy local files) or CloudKit
@@ -983,7 +1015,11 @@ final class WorkoutViewModel: ObservableObject {
             fileURL = URL(fileURLWithPath: path)
         } else {
             // Just filename provided, construct path in Documents directory
-            fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(path)
+            guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+                debugLog("⚠️ Documents directory unavailable for loading image")
+                return nil
+            }
+            fileURL = documentsURL.appendingPathComponent(path)
         }
 
         guard FileManager.default.fileExists(atPath: fileURL.path),
@@ -1251,7 +1287,10 @@ final class WorkoutViewModel: ObservableObject {
 
             // Save to the Documents directory
             let fileManager = FileManager.default
-            let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+            guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+                debugLog("❌ Documents directory unavailable for exporting split")
+                return nil
+            }
             let fileURL = documentsURL.appendingPathComponent("\(split.name).shadowliftsplit")
 
             try data.write(to: fileURL, options: .atomic) // Ensure file is properly saved

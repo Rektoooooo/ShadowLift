@@ -19,6 +19,8 @@ struct SplitTemplatesView: View {
     @State private var selectedTemplate: SplitTemplate?
     @State private var showTemplateDetail = false
     @State private var showPremiumSheet = false
+    @State private var showSaveError = false
+    @State private var saveErrorMessage = ""
 
     var body: some View {
         NavigationView {
@@ -83,6 +85,11 @@ struct SplitTemplatesView: View {
             }
             .sheet(isPresented: $showPremiumSheet) {
                 PremiumSubscriptionView()
+            }
+            .alert("Failed to Add Template", isPresented: $showSaveError) {
+                Button("OK") {}
+            } message: {
+                Text(saveErrorMessage)
             }
         }
     }
@@ -150,8 +157,11 @@ struct SplitTemplatesView: View {
         do {
             try context.save()
             debugLog("✅ Template '\(template.name)' added to splits")
+            dismiss()
         } catch {
             debugLog("❌ Error saving template: \(error)")
+            saveErrorMessage = "Could not save '\(template.name)'. Please try again."
+            showSaveError = true
         }
     }
 }
