@@ -943,13 +943,13 @@ class CloudKitManager: ObservableObject {
 
             for cloudSplit in cloudSplits {
                 if let localSplit = localSplits.first(where: { $0.id == cloudSplit.id }) {
-                    // Conflict resolution: use "last write wins" based on lastUpdated timestamp
-                    if cloudSplit.lastUpdated > localSplit.lastUpdated {
+                    // Conflict resolution: use "last write wins" based on startDate timestamp
+                    // (startDate is updated when split is modified)
+                    if cloudSplit.startDate > localSplit.startDate {
                         // Cloud is newer - update local with cloud data
                         localSplit.name = cloudSplit.name
                         localSplit.isActive = cloudSplit.isActive
                         localSplit.startDate = cloudSplit.startDate
-                        localSplit.lastUpdated = cloudSplit.lastUpdated
                         // Note: days are handled separately via their own sync
                         debugLog("🔄 MERGED SPLIT (cloud newer): \(cloudSplit.name)")
                     } else {

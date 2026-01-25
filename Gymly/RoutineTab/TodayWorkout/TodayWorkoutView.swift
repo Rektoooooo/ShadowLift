@@ -92,28 +92,67 @@ struct TodayWorkoutView: View {
     private var exercisesList: some View {
         List {
             // OPTIMIZATION: Use cached grouped exercises instead of recalculating
-            ForEach(cachedGroupedExercises, id: \.0) { name, exercises in
-                if !exercises.isEmpty {
-                    Section(header: Text(name)) {
-                        ForEach(exercises, id: \.id) { exercise in
-                            NavigationLink(destination: ExerciseDetailView(viewModel: viewModel, exercise: exercise)) {
-                                HStack {
-                                    Text("\(cachedGlobalOrderMap[exercise.id] ?? 0)")
-                                        .foregroundStyle(exercise.done ? Color.green.opacity(0.8) : appearanceManager.accentColor.color.opacity(0.8))
-                                    Text(exercise.name)
-                                }
+            if cachedGroupedExercises.isEmpty {
+                // Empty exercises state
+                Section {
+                    VStack(spacing: 16) {
+                        Image(systemName: "figure.strengthtraining.traditional")
+                            .font(.system(size: 40))
+                            .foregroundColor(appearanceManager.accentColor.color.opacity(0.6))
+
+                        Text("No Exercises Yet")
+                            .font(.headline)
+
+                        Text("Tap the + button to add your first exercise to this day.")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+
+                        Button(action: {
+                            viewModel.addExercise = true
+                        }) {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("Add Exercise")
                             }
-                            .accessibilityLabel("\(exercise.name), \(exercise.done ? "completed" : "not completed")")
-                            .accessibilityHint("Double tap to view and log sets")
+                            .bold()
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 12)
+                            .background(appearanceManager.accentColor.color)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                        }
+                        .padding(.top, 8)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 32)
+                }
+                .listRowBackground(Color.listRowBackground(for: scheme))
+            } else {
+                ForEach(cachedGroupedExercises, id: \.0) { name, exercises in
+                    if !exercises.isEmpty {
+                        Section(header: Text(name)) {
+                            ForEach(exercises, id: \.id) { exercise in
+                                NavigationLink(destination: ExerciseDetailView(viewModel: viewModel, exercise: exercise)) {
+                                    HStack {
+                                        Text("\(cachedGlobalOrderMap[exercise.id] ?? 0)")
+                                            .foregroundStyle(exercise.done ? Color.green.opacity(0.8) : appearanceManager.accentColor.color.opacity(0.8))
+                                        Text(exercise.name)
+                                    }
+                                }
+                                .accessibilityLabel("\(exercise.name), \(exercise.done ? "completed" : "not completed")")
+                                .accessibilityHint("Double tap to view and log sets")
+                            }
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color.clear)
+                .listRowBackground(Color.listRowBackground(for: scheme))
             }
-            .scrollContentBackground(.hidden)
-            .background(Color.clear)
-            .listRowBackground(Color.listRowBackground(for: scheme))
 
-            /// Save workout to the calendar button
+            /// Save workout to the calendar button - only show if there are exercises
+            if !cachedGroupedExercises.isEmpty {
             Section("") {
                 Button {
                     // Calculate workout summary before clearing exercises
@@ -166,6 +205,7 @@ struct TodayWorkoutView: View {
                 .listRowBackground(Color.listRowBackground(for: scheme))
                 .foregroundStyle(appearanceManager.accentColor.color)
             }
+            } // End of if !cachedGroupedExercises.isEmpty
         }
         .scrollContentBackground(.hidden)
         .background(Color.clear)

@@ -73,6 +73,7 @@ struct AddProgressPhotoView: View {
                         image: image,
                         photoType: selectedPhotoType,
                         notes: $notes,
+                        isSaving: $isSaving,
                         onSave: {
                             savePhoto(image: image)
                         },
@@ -326,14 +327,16 @@ struct ReviewPhotoView: View {
     let image: UIImage
     let photoType: PhotoType
     @Binding var notes: String
+    @Binding var isSaving: Bool
     let onSave: () -> Void
     let onCancel: () -> Void
-    
+
     @EnvironmentObject var userProfileManager: UserProfileManager
     @EnvironmentObject var appearanceManager: AppearanceManager
-    
+
     var body: some View {
         NavigationView {
+            ZStack {
             VStack(spacing: 20) {
                 // Photo Preview
                 Image(uiImage: image)
@@ -391,16 +394,32 @@ struct ReviewPhotoView: View {
                 
                 // Save Button
                 Button(action: onSave) {
-                    Text("Save Progress Photo")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(appearanceManager.accentColor.color)
-                        .foregroundColor(.black)
-                        .cornerRadius(12)
+                    HStack {
+                        if isSaving {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .black))
+                                .padding(.trailing, 8)
+                        }
+                        Text(isSaving ? "Saving..." : "Save Progress Photo")
+                            .bold()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(isSaving ? appearanceManager.accentColor.color.opacity(0.6) : appearanceManager.accentColor.color)
+                    .foregroundColor(.black)
+                    .cornerRadius(12)
                 }
+                .disabled(isSaving)
                 .padding(.horizontal)
                 .padding(.bottom)
+            }
+
+                // Loading Overlay
+                if isSaving {
+                    Color.black.opacity(0.3)
+                        .ignoresSafeArea()
+                        .allowsHitTesting(true)
+                }
             }
             .navigationTitle("Review Photo")
             .navigationBarTitleDisplayMode(.inline)
@@ -409,6 +428,7 @@ struct ReviewPhotoView: View {
                     Button("Retake") {
                         onCancel()
                     }
+                    .disabled(isSaving)
                 }
             }
         }

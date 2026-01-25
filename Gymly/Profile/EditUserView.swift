@@ -24,6 +24,7 @@ struct EditUserView: View {
     @State private var showCropEditor = false
     @State private var selectedImageForCrop: UIImage?
     @State private var isImagePressed = false
+    @State private var isLoadingImage = false
 
     var body: some View {
         NavigationView {
@@ -176,7 +177,11 @@ struct EditUserView: View {
     /// Load profile image from UserProfile
     private func loadProfileImage() async {
         await MainActor.run {
+            isLoadingImage = true
+        }
+        await MainActor.run {
             profileImage = userProfileManager.currentProfile?.profileImage
+            isLoadingImage = false
         }
     }
 
@@ -188,6 +193,7 @@ struct EditUserView: View {
         let currentAvatarImage = avatarImage
         let currentProfileImage = profileImage
         let pressed = isImagePressed
+        let loading = isLoadingImage
 
         PhotosPicker(selection: $avatarItem, matching: .images) {
             ZStack {
@@ -208,8 +214,16 @@ struct EditUserView: View {
                         )
                         .frame(width: 130, height: 130)
 
-                    // Profile image
-                    if let avatarImage = currentAvatarImage {
+                    // Profile image or loading indicator
+                    if loading {
+                        Circle()
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(width: 120, height: 120)
+                            .overlay(
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                            )
+                    } else if let avatarImage = currentAvatarImage {
                         Image(uiImage: avatarImage)
                             .resizable()
                             .scaledToFill()

@@ -137,15 +137,15 @@ class UserProfileManager: ObservableObject {
         // Cancel existing sync task if running
         syncTask?.cancel()
 
-        // Create new debounced sync task
-        syncTask = Task {
+        // Create new debounced sync task with weak self to prevent memory leak
+        syncTask = Task { [weak self] in
             // Wait 2 seconds before syncing to batch multiple changes
             try? await Task.sleep(nanoseconds: 2_000_000_000)
 
-            // Check if task was cancelled
-            guard !Task.isCancelled else { return }
+            // Check if task was cancelled or self was deallocated
+            guard !Task.isCancelled, let self = self else { return }
 
-            await syncToCloudKit()
+            await self.syncToCloudKit()
         }
     }
     
@@ -227,16 +227,18 @@ class UserProfileManager: ObservableObject {
 
     /// Sync profile image to CloudKit with retry logic
     private func syncProfileImageToCloudKit(_ image: UIImage, profile: UserProfile) {
-        Task {
+        Task { [weak self] in
             var retryCount = 0
             let maxRetries = 3
+            let profileId = profile.id  // Capture profile ID to avoid strong reference
 
             while retryCount < maxRetries {
                 do {
                     let cloudKitID = try await CloudKitManager.shared.saveProfileImage(image)
-                    await MainActor.run {
+                    await MainActor.run { [weak self] in
+                        guard let self = self else { return }
                         // Only update if this is still the current profile
-                        if self.currentProfile?.id == profile.id {
+                        if self.currentProfile?.id == profileId {
                             profile.profileImageCloudKitID = cloudKitID
                             try? self.modelContext?.save()
                             debugLog("✅ Profile image synced to CloudKit (attempt \(retryCount + 1))")

@@ -26,6 +26,8 @@ struct AIPersonalizedSplitView: View {
     @State private var showSaveConfirmation = false
     @State private var isSaving = false
     @State private var aiAvailabilityError: String?
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
 
     enum GenerationPhase {
         case questionnaire
@@ -127,6 +129,16 @@ struct AIPersonalizedSplitView: View {
             } else {
                 Text("This will add the generated split to your collection.")
             }
+        }
+        .alert("Generation Error", isPresented: $showErrorAlert) {
+            Button("Try Again") {
+                regenerateSplit()
+            }
+            Button("Cancel", role: .cancel) {
+                currentPhase = .questionnaire
+            }
+        } message: {
+            Text(errorMessage)
         }
         .onAppear {
             // Check AI availability
@@ -321,11 +333,16 @@ struct AIPersonalizedSplitView: View {
         Task {
             do {
                 try await generator.generateSplit(preferences: preferences)
-                currentPhase = .preview
+                await MainActor.run {
+                    currentPhase = .preview
+                }
             } catch {
-                debugLog("Error generating split: \(error)")
-                // Stay on preview phase to show error state
-                currentPhase = .preview
+                debugLog("❌ Error generating split: \(error)")
+                await MainActor.run {
+                    errorMessage = "Failed to generate workout split. Please check your internet connection and try again."
+                    showErrorAlert = true
+                    currentPhase = .preview
+                }
             }
         }
     }
@@ -337,10 +354,16 @@ struct AIPersonalizedSplitView: View {
         Task {
             do {
                 try await generator.generateSplit(preferences: preferences)
-                currentPhase = .preview
+                await MainActor.run {
+                    currentPhase = .preview
+                }
             } catch {
-                debugLog("Error regenerating split: \(error)")
-                currentPhase = .preview
+                debugLog("❌ Error regenerating split: \(error)")
+                await MainActor.run {
+                    errorMessage = "Failed to regenerate workout split. Please try again."
+                    showErrorAlert = true
+                    currentPhase = .preview
+                }
             }
         }
     }
@@ -426,7 +449,7 @@ struct AIPersonalizedSplitView: View {
         // Save to SwiftData
         do {
             try context.save()
-            debugLog("AI Generated split saved: \(name)")
+            debugLog("✅ AI Generated split saved: \(name)")
 
             // Update config
             config.splitStarted = true
@@ -436,7 +459,9 @@ struct AIPersonalizedSplitView: View {
             // Dismiss the view
             dismiss()
         } catch {
-            debugLog("Error saving AI split: \(error)")
+            debugLog("❌ Error saving AI split: \(error)")
+            errorMessage = "Failed to save workout split. Please try again."
+            showErrorAlert = true
             isSaving = false
         }
     }
