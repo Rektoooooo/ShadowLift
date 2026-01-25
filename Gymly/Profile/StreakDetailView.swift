@@ -385,7 +385,7 @@ struct StreakDetailView: View {
                     // MARK: - Milestones
                     Section("Milestones") {
                         ForEach(getMilestones(), id: \.id) { milestone in
-                            MilestoneRow(milestone: milestone, currentStreak: currentStreak)
+                            MilestoneRow(milestone: milestone, currentStreak: currentStreak, longestStreak: longestStreak)
                         }
                     }
                     .listRowBackground(Color.listRowBackground(for: scheme))
@@ -669,9 +669,11 @@ struct StreakStatCard: View {
 struct MilestoneRow: View {
     let milestone: StreakMilestone
     let currentStreak: Int
+    let longestStreak: Int  // Used to determine if badge was ever earned
 
+    // Badge stays unlocked once earned (based on longest streak ever)
     private var isAchieved: Bool {
-        currentStreak >= milestone.requiredDays
+        longestStreak >= milestone.requiredDays
     }
 
     private var progress: Double {
